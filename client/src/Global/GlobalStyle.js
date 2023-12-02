@@ -91,6 +91,7 @@ background-color: ${({$bg})=>$bg};
 border: ${({$border})=>$border};
 border-radius: ${({$br})=>$br};
 border-start-start-radius: ${({$bssr})=>$bssr};
+gap: ${({$gap})=>$gap};
 transition: all ease-in-out 0.3s;
 cursor: pointer;
 &:hover{
@@ -187,13 +188,17 @@ text-align: ${({$ta})=>$ta};
 font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
-text-decoration: none;
+text-decoration: ${({$td})=>$td};
+text-underline-offset: 8px;
+padding: ${({$padding})=>$padding};
+margin: ${({$margin})=>$margin};
 transition: all ease-in-out 0.3s;
+border-bottom: ${({$borderB})=>$borderB};
 &:hover{
-    text-decoration: ${({$td})=>$td};
+    text-decoration: ${({$tdh})=>$tdh};
     text-underline-offset: 8px;
 }
-&:active{
+&:active{ 
     color :${({$active})=>$active} ;
 }
 `

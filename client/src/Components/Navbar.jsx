@@ -17,8 +17,7 @@ top: 50%;
 transform: translateY(-50%);
 right: ${({$right})=>$right};
 right: ${({$left})=>$left};
-`
-const SearchIcon2 = styled(AiOutlineSearch)`
+cursor: pointer;
 `
 
 const WriteIcon = styled(FaRegEdit)`
@@ -29,12 +28,13 @@ const Navbar = () => {
      
   return (
     <Nav>
+
       <Div $width='90%' $height='80px' $display='flex' $jc='space-between' $ai='center' $margin='auto'>
 
             <Div $display='flex' $ai='center'>
 
-                 <Navlink>
-                         <Image  $width='40px' $height='40px' src='/public/logo.png' />    
+                 <Navlink to='/'>
+                         <Image  $width='40px' $height='40px' src='logo.png' />    
                  </Navlink>
 
                  <Div $Md='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 
@@ -51,12 +51,16 @@ const Navbar = () => {
                     <Text>Write</Text>
                  </Div>
                  <Div $Lg='none' $width='auto%' $position='relative'>
-                    <Button $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none'>
+                    <Button $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'>
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                  </Div>
-                <Button $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' >Sign In</Button>
-                <Button $Md='none' $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' >Sign UP</Button>
+                <Navlink to='/signin'>
+                   <Button $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9'>Sign In</Button>
+                </Navlink> 
+                <Navlink to='/signup'>
+                   <Button $Md='none' $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' $opacity='0.9' >Sign UP</Button>
+                </Navlink>
             </Div>
      </Div>
 
