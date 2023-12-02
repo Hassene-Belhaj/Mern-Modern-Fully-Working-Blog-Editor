@@ -1,8 +1,14 @@
 import React from 'react'
+import { GlobalStyleApp } from './Global/GlobalStyle'
+import Navbar from './Components/Navbar'
+import { BrowserRouter as Router , Routes , Route } from 'react-router-dom'
 
 const App = () => {
   return (
-    <div>App</div>
+    <Router>
+     <GlobalStyleApp/>
+      <Navbar />
+    </Router>
   )
 }
 

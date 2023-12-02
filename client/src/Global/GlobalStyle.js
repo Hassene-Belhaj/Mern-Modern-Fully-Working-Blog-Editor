@@ -1,14 +1,14 @@
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import { createGlobalStyle,styled } from 'styled-components'
 
 
 
-const GlobalStyleComponent =  createGlobalStyle`
-
+export const GlobalStyleApp=createGlobalStyle`
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body{
@@ -32,6 +32,7 @@ margin: ${({$margin})=>$margin};
 color: ${({$color})=>$color};
 background-color: ${({$bg})=>$bg};
 border: ${({$border})=>$border};
+border-radius: ${({$br})=>$br};
 border-top: ${({$borderT})=>$borderT};
 border-bottom: ${({$borderB})=>$borderB};
 border-right: ${({$borderR})=>$borderR};
@@ -64,8 +65,17 @@ border-top: ${({$borderT})=>$borderT};
 border-bottom: ${({$borderB})=>$borderB};
 border-right: ${({$borderR})=>$borderR};
 border-left: ${({$borderL})=>$borderL};
+border-radius: ${({$br})=>$br};
 gap: ${({$gap})=>$gap};
+@media screen and (min-width : 768px) {
+    display: ${({$Lg})=>$Lg};
+}
+@media screen and (max-width : 768px) {
+    display: ${({$Md})=>$Md};
+}
 `
+
+
 
 export const Button = styled.button`
 display: ${({$display})=>$display};
@@ -79,12 +89,20 @@ margin: ${({$margin})=>$margin};
 color: ${({$color})=>$color};
 background-color: ${({$bg})=>$bg};
 border: ${({$border})=>$border};
+border-radius: ${({$br})=>$br};
+border-start-start-radius: ${({$bssr})=>$bssr};
 transition: all ease-in-out 0.3s;
 cursor: pointer;
 &:hover{
     opacity: ${({$opacity})=>$opacity};
     color: ${({$colorH})=>$colorH};
     background-color: ${({$backgorundH})=>$backgorundH};
+}
+@media screen and (min-width : 768px) {
+    display: ${({$Lg})=>$Lg};
+}
+@media screen and (max-width : 768px) {
+    display: ${({$Md})=>$Md};
 }
 `
 
@@ -116,6 +134,10 @@ padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
 outline: ${({$outline})=>$outline};
 border: ${({$border})=>$border};
+border-radius: ${({$br})=>$br};
+border-start-start-radius: ${({$bssr})=>$bssr};
+background-color: ${({$bg})=>$bg};
+transition: all ease-in-out 0.5s;
 &:focus{  
     border: ${({$borderF})=>$borderF};
 }
@@ -141,9 +163,12 @@ border: ${({$border})=>$border};
 `
 
 export const Image = styled.img`
-width: 100%;
-height: 100%;
+width: ${({$width})=>$width};
+height: ${({$height})=>$height};
+padding: ${({$padding})=>$padding};
+margin: ${({$margin})=>$margin};
 object-fit: cover;
+border-radius: ${({$br})=>$br};
 `
 export const Span = styled.span`
 width: ${({$width})=>$width};
@@ -155,8 +180,9 @@ font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
 border: ${({$border})=>$border};
+border-radius: ${({$br})=>$br};
 `
-export const Link = styled(Link)`
+export const Navlink = styled(Link)`
 text-align: ${({$ta})=>$ta};
 font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
@@ -167,6 +193,8 @@ transition: all ease-in-out 0.3s;
     text-decoration: ${({$td})=>$td};
     text-underline-offset: 8px;
 }
+&:active{
+    color :${({$active})=>$active} ;
+}
 `
 
-export default GlobalStyleComponent ;
