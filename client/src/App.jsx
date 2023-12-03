@@ -12,7 +12,6 @@ const App = () => {
       <Routes>
           <Route path='/signin' element={<UserAuthForm type={"sign-in"} />} />
           <Route path='/signup' element={<UserAuthForm type={"sign-up"} />} />
-
       </Routes>
     </Router>
   )

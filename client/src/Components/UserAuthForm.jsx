@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Button, Container, Div, Form, Image, Input, Navlink, Span, Text, Title } from '../Global/GlobalStyle'
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoKey } from "react-icons/go";
 import {  AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { IconBase } from 'react-icons/lib';
 import AnimationWrapper from '../Utils/AnimationWrapper';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { Url } from '../Utils/Url';
 
 
 
@@ -51,85 +54,146 @@ right: 1rem;
 cursor: pointer;
 `
 
+
+
 const UserAuthForm = ({type}) => {
+
      const [EyeToggle , setEyeToggle] = useState(false)
+     const [error , setError] = useState('')
+     const authForm = useRef()
+     
+    const location =  useLocation()
+    
+  
+    // useEffect(()=> {
+    // setError('') 
+    // },[location.pathname])
+
+
+    const userAuthApiServer = (serverRoute,formData) => {
+      axios.post(Url+serverRoute,formData)
+      .then(({data})=> {
+        console.log(data);
+      })
+      .catch(({response})=> {
+        console.log(response.error);
+      })
+
+    } 
+
+
+
+
+     const handleSubmit =(e) => {
+       e.preventDefault()
+       // serverRoute to pass
+       let serverRoute = type === 'sign-in' ? '/sign-in' : '/sign-up'
+
+      let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+      let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
+
+      let form = new FormData(authForm.current)
+      let formData = {}
+
+    for(let[key , value] of form.entries()){
+      formData[key] = value ;
+    }
+     console.log(formData);
+    let {fullname , email , password} = formData
+    if(fullname) {
+      if(fullname.length < 3 ) return setError('Fullname must be at least 3 letters long')
+    }
+    if(!email.length ) return  setError('Enter email')
+    if(!emailRegex.test(email)) return  setError('Invalid Email')
+    if(!passwordRegex.test(password)) return setError('password shoud be 6 to 9 characters long with a numeric , 1 lowercase and 1 uppercase letters')
+
+    userAuthApiServer(serverRoute,formData)
+
+   }
+
 
   return (
     
-    <Container $padding='7rem 0' $display='flex' $jc='center' $ai='center'>
-      <AnimationWrapper initial={{opacity : 0.5 }} animate={{opacity : 1 , x: 0}} transition={{duration : 0.8}} exit={{opacity : 0}} key={type}>
-        <Form $display='flex' $width='400px' $fd='column' $gap='2rem' $margin='auto'>
+    <Container $padding='5rem 0' $display='flex' $jc='center' $ai='center'>
+      <AnimationWrapper initial={{opacity : 0.5 }} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={type}>
+
+        <Form ref={authForm} onSubmit={handleSubmit} onSelect={()=>setError('')} $display='flex' $width='400px' $fd='column' $gap='2rem' $margin='auto'>
+      
           <Title $ta='center' $fw='200'>{type === 'sign-up' ? 'Join Us Today' : 'Welcome Back'}</Title>
 
-          {type === 'sign-up' ? 
+        {type === 'sign-up' ? 
 
-           <>
-             <Div $position='relative'>
-                <Input $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Full Name'/>
+            <>
+              <Div $position='relative'>
+                <Input name='fullname' $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Full Name'/>
                 <UserIcon />
-             </Div>
-             <Div $position='relative'>
-                 <Input $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
+              </Div>
+              <Div $position='relative'>
+                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
                 <EmailIcon />
-             </Div>
-             <Div $position='relative'>
-               <Input $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
+              </Div>
+              <Div $position='relative'>
+                <Input  name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
                 <PwdIcon />
                 {EyeToggle ? <EyeInvisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20} /> : <EyeVisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20}/>}
-             </Div>
-             <Button $width='100%' $margin='auto' $height='3rem' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9' > Sign Up</Button>
+              </Div>
+               
+               {error ? <Text $fs='.9rem' $color='red' $ta='center'>{error}</Text> : null}
+              <Button $width='100%' $margin='auto' $height='3rem' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9' > Sign Up</Button>
+
               <Div $width='100%' $display='flex' $jc='space-between' $ai='center'>
                 <Hr />
-                 <Text $color='lightgrey'>or</Text>
+                  <Text $color='lightgrey'>or</Text>
                 <Hr />
               </Div>
               <Div>
-              <Button $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
+              <Button  $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
                     <Image $width='20px' $height='20px'  src='google.png' />
                     Continue With Google
-                 </Button>
+                  </Button>
               </Div>
             <Div>
               <Text $ta='center'>
                   Already Member ?
                   <Navlink to='/signin' $padding='0 0 0 8px' $color='#000'>Sign In</Navlink> 
               </Text>
-           </Div>
-           </>
-        
-        
-        : 
+            </Div>
+            </>
+            
+            
+            : 
 
-        <>
+            <>
 
-          <Div $position='relative'>
-              <Input $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
-             <EmailIcon />
-          </Div>
-          <Div $position='relative'>
-               <Input $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
-                <PwdIcon />
-                {EyeToggle ? <EyeInvisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20} /> : <EyeVisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20}/>}
-             </Div>
-          <Button $width='100%' $margin='auto' $height='3rem' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9' > Sign In</Button>
-           <Div $width='100%' $display='flex' $jc='space-between' $ai='center'>
-             <Hr />
-              <Text $color='lightgrey'>or</Text>
-             <Hr />
-           </Div>
-           <Div>
-           <Button $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
-                    <Image $width='20px' $height='20px'  src='google.png' />
-                    Continue With Google
-              </Button>
-           </Div>
-           <Div>
-            <Text $ta='center' >
-                Don't have an account ?
-                <Navlink to='/signup' $td='underline' $padding='0 0 8px 8px' $color='#000'>Join Us Today </Navlink> 
-            </Text>
-           </Div>
-        </>
+              <Div $position='relative'>
+                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
+                <EmailIcon />
+              </Div>
+              <Div $position='relative'>
+                  <Input name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
+                    <PwdIcon />
+                    {EyeToggle ? <EyeInvisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20} /> : <EyeVisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20}/>}
+                </Div>
+              {error ? <Text $fs='.9rem' $color='red' $ta='center'>{error}</Text> : null}
+              <Button  $width='100%' $margin='auto' $height='3rem' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9' > Sign In</Button>
+              <Div $width='100%' $display='flex' $jc='space-between' $ai='center'>
+                <Hr />
+                  <Text $color='lightgrey'>or</Text>
+                <Hr />
+              </Div>
+              <Div>
+              <Button  $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
+                        <Image $width='20px' $height='20px'  src='google.png' />
+                        Continue With Google
+                  </Button>
+              </Div>
+              <Div>
+                <Text $ta='center' >
+                    Don't have an account ?
+                    <Navlink to='/signup' $td='underline' $padding='0 0 8px 8px' $color='#000'>Join Us Today </Navlink> 
+                </Text>
+              </Div>
+            </>
         }
         </Form>
         </AnimationWrapper>
@@ -138,3 +202,6 @@ const UserAuthForm = ({type}) => {
 }
 
 export default UserAuthForm
+
+
+//3:11

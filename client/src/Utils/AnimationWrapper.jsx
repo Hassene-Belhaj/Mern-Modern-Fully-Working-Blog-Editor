@@ -1,7 +1,7 @@
 import React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const AnimationWrapper = ({children,initial,animate,transition,exit,key}) => {
+const AnimationWrapper = ({children,initial,animate,transition,exit}) => {
   return (
     <AnimatePresence>
        <motion.div 
@@ -9,7 +9,6 @@ const AnimationWrapper = ({children,initial,animate,transition,exit,key}) => {
        animate={animate}
        transition={transition}
        exit={exit}     
-       key={key} 
        >   
             {children}
      
