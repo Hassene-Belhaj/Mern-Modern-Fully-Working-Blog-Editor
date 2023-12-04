@@ -2,7 +2,7 @@ const express = require('express');
 const app = express()
 const cors = require('cors')
 require('dotenv').config();
-const cookieµParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const { connectDb } = require('./config/connectToDb');
 const AuthRouter = require('./router/auth');
 const { errorHandler } = require('./Middleware/ErrorHandler');
@@ -10,15 +10,13 @@ const { NotFound } = require('./Middleware/NotFound');
 
 
 app.use(express())
-app.use(cors(
-   // {
-   //    origin : "http://localhost:5173",
-   //    credentials : true
-   // }
-))
+app.use(cors({
+   origin : "http://localhost:5173" ,
+   credentials : true
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
-app.use(cookieµParser())
+app.use(cookieParser())
 
 
 

@@ -5,13 +5,14 @@ import { AiOutlineMail } from "react-icons/ai";
 import { GoKey } from "react-icons/go";
 import {  AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import styled from 'styled-components';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { IconBase } from 'react-icons/lib';
 import AnimationWrapper from '../Utils/AnimationWrapper';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
+import { useAuthContext } from '../Context/AuthContext';
 
 
 
@@ -58,28 +59,38 @@ cursor: pointer;
 
 const UserAuthForm = ({type}) => {
 
+
      const [EyeToggle , setEyeToggle] = useState(false)
      const [error , setError] = useState('')
      const authForm = useRef()
      
     const location =  useLocation()
+    const navigate = useNavigate()
     
   
-    // useEffect(()=> {
-    // setError('') 
-    // },[location.pathname])
+    useEffect(()=> {
+    setError('') 
+    },[location.pathname])
 
+    // console.log(Url);
 
-    const userAuthApiServer = (serverRoute,formData) => {
-      axios.post(Url+serverRoute,formData)
-      .then(({data})=> {
-        console.log(data);
-      })
-      .catch(({response})=> {
-        console.log(response.error);
-      })
+    const userAuthApiServer = async(serverRoute,formData) => {
+      setError('')
+      try {
+        const resp = await axios.post(Url+serverRoute,formData,{withCredentials :true})
+        console.log(resp);
+        if(resp.status === 200) navigate('/')
+      } catch (error) {
+        // console.log(error);
+        // setError(error.message);
+       if(error.response.status.toString().startsWith(4)) {
+         setError(error.response.data.msg)
+        }
+        
+      }
+    }
 
-    } 
+    
 
 
 
@@ -98,7 +109,7 @@ const UserAuthForm = ({type}) => {
     for(let[key , value] of form.entries()){
       formData[key] = value ;
     }
-     console.log(formData);
+    //  console.log(formData);
     let {fullname , email , password} = formData
     if(fullname) {
       if(fullname.length < 3 ) return setError('Fullname must be at least 3 letters long')
@@ -108,7 +119,7 @@ const UserAuthForm = ({type}) => {
     if(!passwordRegex.test(password)) return setError('password shoud be 6 to 9 characters long with a numeric , 1 lowercase and 1 uppercase letters')
 
     userAuthApiServer(serverRoute,formData)
-
+    
    }
 
 

@@ -11,18 +11,13 @@ let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for pass
 
 
 const userFormatData = (user) => {
-     const access_token = jwt.sign({id : user._id} , process.env.SECRETJWT , {expiresIn : '3d'})
     return {
-            access_token ,
             profile_img : user.personal_info.profile_img ,
             username : user.personal_info.username ,
             fullname : user.personal_info.fullname 
         }
     
 }
-
-
-
 
 const register =AsyncWrapper(async(req,res,next) => {
     const {fullname,email,password} = req.body
@@ -63,12 +58,44 @@ const login = AsyncWrapper(async(req,res,next) => {
     if(!isValidPwd) {
         return next(createCustomError('Invalid Credentials' , 403))
     }
-    res.status(200).json({success : true , data : userFormatData(user)})
 
+    const token = jwt.sign({id : user._id,role : user.role} , process.env.SECRETJWT , {expiresIn : '3d'})
+
+     const update_user = await userModel.findByIdAndUpdate({_id : user._id} ,
+     {
+        access_token : token
+     },
+     {
+        new : true ,
+     })
+     const {password , ...others} = update_user._doc ;
+     console.log(others);
+     res.cookie('access_token' ,token, {httpOnly : 'true' , secure:'true', sameSite:'none' , maxAge : 70*60*60*1000})
+     res.status(200).json({success : true , msg :'sign in successfully'})
+})
+
+
+const singleUser = AsyncWrapper(async(req,res,next) => {
+    const {id} = req.params
+    const user = await userModel.findById({_id :id})
+    if(!user) return next(createCustomError('user not found' , 404))
+     const {password , ...others} = user._doc
+    res.status(200).json({success : true , data : {...others} })
+    
 })
 
 
 
+const logOut = AsyncWrapper(async(req,res) => {
+    res.clearCookies('access_token ' , {sameSite : 'none', secure:'true'})
+    res.status(200).json({success : true , msg : 'user logged out'})
+})
+
+
+
+
+
+
 module.exports = {
-    register , login
+    register , login , logOut ,singleUser
 };

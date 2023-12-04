@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
     let profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral", "fun-emoji"];
     
     const userSchema = mongoose.Schema({
-
+        access_token : {
+            type : String ,
+          },
         personal_info: {
             fullname: {
                 type: String,
@@ -35,6 +37,10 @@ const mongoose = require('mongoose');
                     return `https://api.dicebear.com/6.x/${profile_imgs_collections_list[Math.floor(Math.random() * profile_imgs_collections_list.length)]}/svg?seed=${profile_imgs_name_list[Math.floor(Math.random() * profile_imgs_name_list.length)]}`
                 } 
             },
+            role : {
+                type : String,
+                default : 'user',
+            }
         },
         social_links: {
             youtube: {
