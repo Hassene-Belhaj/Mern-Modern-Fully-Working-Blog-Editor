@@ -79,10 +79,12 @@ const UserAuthForm = ({type}) => {
       try {
         const resp = await axios.post(Url+serverRoute,formData,{withCredentials :true})
         console.log(resp);
-        if(resp.status === 200) navigate('/')
+        if(resp.status === 200) {
+          navigate('/')
+        }
+        // else if (serverRoute ==='/sign-in' && resp.status === 200) {
+        // }
       } catch (error) {
-        // console.log(error);
-        // setError(error.message);
        if(error.response.status.toString().startsWith(4)) {
          setError(error.response.data.msg)
         }
@@ -90,7 +92,6 @@ const UserAuthForm = ({type}) => {
       }
     }
 
-    
 
 
 

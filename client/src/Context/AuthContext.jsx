@@ -14,15 +14,15 @@ const Auth = createContext()
 
 
 const AuthContext = ({children}) => {
-     const [cookiePrescence , setCookiePrescence] = useState(false)
+     const [isLoggedIn , setIsLoggedIn] = useState(undefined)
 
-     
+    const location =  useLocation()
 
 const CheckUserApi = async() => {
     try {
         const resp = await axios.get(Url+'/checkuser',{withCredentials:true})
         console.log(resp);
-        setCookiePrescence(true)
+        setIsLoggedIn(resp)
     } catch (error) {
         console.log(error);
     }
@@ -30,10 +30,10 @@ const CheckUserApi = async() => {
      
 useEffect(()=>{
 CheckUserApi()
-},[cookiePrescence])
+},[location])
 
   return (
-    <Auth.Provider value={{cookiePrescence , setCookiePrescence}}> 
+    <Auth.Provider value={{isLoggedIn , CheckUserApi}}> 
         {children}
     </Auth.Provider>
   )

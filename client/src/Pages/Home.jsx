@@ -4,8 +4,7 @@ import { useAuthContext } from '../Context/AuthContext'
 
 const Home = () => {
 
-  const {cookiePrescence} = useAuthContext()
-  console.log(cookiePrescence);
+  const {isLoggedIn} = useAuthContext()
 
 
 

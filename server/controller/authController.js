@@ -59,7 +59,7 @@ const login = AsyncWrapper(async(req,res,next) => {
         return next(createCustomError('Invalid Credentials' , 403))
     }
 
-    const token = jwt.sign({id : user._id,role : user.role} , process.env.SECRETJWT , {expiresIn : '3d'})
+    const token = jwt.sign({id : user._id,role : user.role} , process.env.SECRETJWT , {expiresIn :'3d'})
 
      const update_user = await userModel.findByIdAndUpdate({_id : user._id} ,
      {
@@ -70,16 +70,18 @@ const login = AsyncWrapper(async(req,res,next) => {
      })
      const {password , ...others} = update_user._doc ;
      console.log(others);
-     res.cookie('access_token' ,token, {httpOnly : 'true' , secure:'true', sameSite:'none' , maxAge : 70*60*60*1000})
-     res.status(200).json({success : true , msg :'sign in successfully'})
+      res.cookie('access_token' , token ,{httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
+      res.status(200).json({success : true , msg :'sign in successfully'})
 })
+
+
 
 
 const singleUser = AsyncWrapper(async(req,res,next) => {
     const {id} = req.params
     const user = await userModel.findById({_id :id})
     if(!user) return next(createCustomError('user not found' , 404))
-     const {password , ...others} = user._doc
+     const {password  , ...others} = user._doc.personal_info
     res.status(200).json({success : true , data : {...others} })
     
 })
@@ -87,11 +89,10 @@ const singleUser = AsyncWrapper(async(req,res,next) => {
 
 
 const logOut = AsyncWrapper(async(req,res) => {
-    res.clearCookies('access_token ' , {sameSite : 'none', secure:'true'})
-    res.status(200).json({success : true , msg : 'user logged out'})
+    res.clearCookie('access_token' , {sameSite :'none' , secure: 'true'})
+    res.status(200).json({success: true , msg:'loug out succesfully'})
+
 })
-
-
 
 
 

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { Button, Container, Div, Image, Input, Navlink, Span, Text} from '../Global/GlobalStyle'
 import { AiOutlineEdit, AiOutlineSearch } from "react-icons/ai";
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit , FaRegBell } from "react-icons/fa";
 import styled from 'styled-components';
 import { useAuthContext } from '../Context/AuthContext';
-import { useEffect } from 'react';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
+import { Navigate } from 'react-router';
 
 const Nav = styled.nav`
 width: 100%;
@@ -22,6 +23,9 @@ right: ${({$right})=>$right};
 right: ${({$left})=>$left};
 cursor: pointer;
 `
+const BellIcon = styled(FaRegBell)`
+
+`
 
 const WriteIcon = styled(FaRegEdit)`
 `
@@ -29,31 +33,41 @@ const WriteIcon = styled(FaRegEdit)`
 const Navbar = () => {
 
      const [show , setShow] = useState(false)
-     const [toggle, setToggle] = useState(false)
+     const {isLoggedIn , CheckUserApi} = useAuthContext()
+
+     const [userInfo , setUserInfo] = useState(null)
+
+      console.log(isLoggedIn?.data?.user.id);
+
+     const handleLogoutApi = async(e) => {
+       e.preventDefault()
+        try {
+           const resp = await axios.post(Url+'/logout' ,{
+           },{withCredentials : true})
+           CheckUserApi()
+           window.location.reload()
+         } catch (error) {
+            console.log(error);
+         }
+      }
+     
+     const UserInfoApi = async() => {
+      try {
+         const resp = await axios.get(Url+'/user/'+isLoggedIn?.data?.user.id,{withCredentials : true})
+         console.log(resp.data.data.personal_info);
+         console.log(resp.data.data);
+         setUserInfo(resp?.data?.data);
+      } catch (error) {
+         console.log(error);
+      }
+     } 
    
-     const {cookiePrescence} = useAuthContext()
-
- useEffect(()=>{
-  if(cookiePrescence){
-   setToggle(true)
-  } else {
-   setToggle(false)
-  }
-},[cookiePrescence])    
-
-const handleLogoutApi = async (e) => {
-    e.preventDefault()
-   try {
-      const resp = await axios.post(Url+'/logout' ,{withCredentials :true})
-      setToggle(false)
-      console.log(resp);
-   } catch (error) {
-      console.log(error);
-   }
-}
+    useEffect(()=>{
+      UserInfoApi()
+    },[isLoggedIn])
 
 
- 
+
   return (
     <Nav>
 
@@ -78,21 +92,28 @@ const handleLogoutApi = async (e) => {
                     <WriteIcon />
                     <Text>Write</Text>
                  </Div>
-                 <Div $Lg='none' $width='auto%' $position='relative'>
+                 <Div $Lg='none' $width='auto' $position='relative'>
                     <Button $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'>
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                      </Div>
-                     {toggle ? <Button onClick={handleLogoutApi}>logout</Button> :    
-                      <>
+                      {isLoggedIn !== undefined ?
+                      <Div $display='flex'>
+                        <Button  $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
+                        <BellIcon size={20} />
+                        </Button> 
+                        <Image src={userInfo?.profile_img} $br='25px' $margin='0 0 0 14px' />
+                      </Div>
+                      :  
+                       <>
                      <Navlink to='/signin'>
                         <Button $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9'>Sign In</Button>
                      </Navlink> 
                      <Navlink to='/signup'>
                         <Button $Md='none' $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' $opacity='0.9' >Sign UP</Button>
                      </Navlink>
-                     </> }
-                 
+                     </>
+                     }
 
                   </Div>
      </Div>

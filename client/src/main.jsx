@@ -1,9 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import AuthContext from './Context/AuthContext.jsx'
+import { BrowserRouter as Router } from 'react-router-dom'
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <Router>
+  <AuthContext>
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  </AuthContext>
+  </Router>
 )

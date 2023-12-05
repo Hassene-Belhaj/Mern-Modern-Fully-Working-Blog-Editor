@@ -8,8 +8,8 @@ router.route('/sign-in').post(login)
 router.route('/logout').post(logOut)
 router.route('/user/:id').get(verifytoken,singleUser)
 
-router.route('/checkuser').get(verifytoken,(_req,res)=> {
-    res.status(200).json({success : true , msg : 'you are authenticated'})
+router.route('/checkuser').get(verifytoken,(req,res)=> {
+    res.status(200).json({success : true , msg : 'you are authenticated' , user : req.user} , )
 })
 
 
