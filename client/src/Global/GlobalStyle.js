@@ -51,6 +51,7 @@ flex-wrap: ${({$fr})=>$fr};
 width: ${({$width})=>$width};
 height: ${({$height})=>$height};
 position: ${({$position})=>$position};
+z-index: ${({$z})=>$z};
 top: ${({$top})=>$top};
 left: ${({$left})=>$left};
 right: ${({$right})=>$right};
@@ -67,11 +68,17 @@ border-right: ${({$borderR})=>$borderR};
 border-left: ${({$borderL})=>$borderL};
 border-radius: ${({$br})=>$br};
 gap: ${({$gap})=>$gap};
+box-shadow: ${({$boxShadow})=>$boxShadow};
+transition: ${({$transition})=>$transition};
 @media screen and (min-width : 768px) {
     display: ${({$Lg})=>$Lg};
 }
 @media screen and (max-width : 768px) {
     display: ${({$Md})=>$Md};
+}
+&:hover {
+    background-color: ${({$bgh})=>$bgh};
+    cursor: ${({$cursor})=>$cursor};
 }
 `
 
@@ -153,6 +160,7 @@ font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
 border: ${({$border})=>$border};
+
 `
 
 export const Text = styled.p`
@@ -160,7 +168,13 @@ text-align: ${({$ta})=>$ta};
 font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
+padding: ${({$padding})=>$padding};
+margin: ${({$margin})=>$margin};
 border: ${({$border})=>$border};
+transition: ${({$transition})=>$transition};
+&:hover {
+    background-color: ${({$bgh})=>$bgh};
+}
 `
 
 export const Image = styled.img`
@@ -170,6 +184,7 @@ padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
 object-fit: cover;
 border-radius: ${({$br})=>$br};
+cursor: pointer;
 `
 export const Span = styled.span`
 width: ${({$width})=>$width};

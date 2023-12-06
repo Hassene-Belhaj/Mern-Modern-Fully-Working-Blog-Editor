@@ -8,11 +8,13 @@ import { useAuthContext } from '../Context/AuthContext';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
 import { Navigate } from 'react-router';
+import DropDownPanel from './DropDownPanel';
 
 const Nav = styled.nav`
 width: 100%;
 height: 80px;
-padding-top:4px ;
+border-bottom: .5px solid rgba(0,0,0,0.1);
+position: relative;
 `
 
 const SearchIcon = styled(AiOutlineSearch)`
@@ -27,17 +29,22 @@ const BellIcon = styled(FaRegBell)`
 
 `
 
-const WriteIcon = styled(FaRegEdit)`
-`
 
 const Navbar = () => {
 
      const [show , setShow] = useState(false)
      const {isLoggedIn , CheckUserApi} = useAuthContext()
+     const [showPannel , setShowPannel] = useState(false)
+
 
      const [userInfo , setUserInfo] = useState(null)
 
-      console.log(isLoggedIn?.data?.user.id);
+      // console.log(isLoggedIn?.data?.user.id);
+
+    const handleBlur = () => {
+      setTimeout(() => { setShowPannel(false) }, 300)
+    }
+
 
      const handleLogoutApi = async(e) => {
        e.preventDefault()
@@ -70,10 +77,11 @@ const Navbar = () => {
 
   return (
     <Nav>
+      <DropDownPanel showPannel={showPannel} userInfo={userInfo} handleLogoutApi={handleLogoutApi} />
+      
+      <Div $width='100%' $height='100%'  $display='flex' $ai='center' $jc='space-between' $padding='0 3rem' $bg='#fff'  $position='absolute' $z='4'>
 
-      <Div $width='90%' $height='80px' $display='flex' $jc='space-between' $ai='center' $margin='auto'>
-
-            <Div $display='flex' $ai='center'>
+            <Div $display='flex'  $ai='center'>
 
                  <Navlink to='/'>
                          <Image  $width='40px' $height='40px' src='logo.png' />    
@@ -88,22 +96,21 @@ const Navbar = () => {
          </Div>
 
             <Div $display='flex' $jc='center' $ai='center' $gap='1rem' >
-                 <Div $Md='none' $display='flex' $jc='center' $ai='center' $gap='10px'  $width='5rem'> 
-                    <WriteIcon />
-                    <Text>Write</Text>
-                 </Div>
+                
                  <Div $Lg='none' $width='auto' $position='relative'>
                     <Button $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'>
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                      </Div>
                       {isLoggedIn !== undefined ?
-                      <Div $display='flex'>
+                      <>
                         <Button  $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
                         <BellIcon size={20} />
                         </Button> 
-                        <Image src={userInfo?.profile_img} $br='25px' $margin='0 0 0 14px' />
-                      </Div>
+                        <Button onClick={()=>setShowPannel(!showPannel)} onBlur={handleBlur}  $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
+                        <Image  $width='2rem' $br='25px' src={userInfo?.profile_img}/>
+                        </Button> 
+                      </>
                       :  
                        <>
                      <Navlink to='/signin'>
@@ -118,7 +125,7 @@ const Navbar = () => {
                   </Div>
      </Div>
 
-            <Div $Lg='none' $width='90%' $display={show ? 'flex' : 'none'} $jc='center' $margin='auto' $padding='2rem 0' $position='relative'> 
+            <Div $Lg='none'  $width='90%' $hight='auto' $display={show ? 'flex' : 'none'} $jc='center' $margin='auto' $padding='7rem 0' $position='relative' > 
                <Input  $width='100%' $height='3rem' $br='25px' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'$bg='#f3f4f6' $outline='none' $padding='0 0 0 25px' $colorPH='#000' placeholder='Search' />
                <SearchIcon $right='1rem' size={30}  />  
             </Div> 

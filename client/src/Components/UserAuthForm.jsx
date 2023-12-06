@@ -1,18 +1,17 @@
 import React, { useRef } from 'react'
-import { Button, Container, Div, Form, Image, Input, Navlink, Span, Text, Title } from '../Global/GlobalStyle'
+import { Button, Container, Div, Form, Image, Input, Navlink, Text, Title } from '../Global/GlobalStyle'
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoKey } from "react-icons/go";
 import {  AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import styled from 'styled-components';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { IconBase } from 'react-icons/lib';
 import AnimationWrapper from '../Utils/AnimationWrapper';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
-import { useAuthContext } from '../Context/AuthContext';
+import { FirebaseAuth } from '../firebase/firebase';
 
 
 
@@ -82,17 +81,25 @@ const UserAuthForm = ({type}) => {
         if(resp.status === 200) {
           navigate('/')
         }
-        // else if (serverRoute ==='/sign-in' && resp.status === 200) {
-        // }
+    
       } catch (error) {
-       if(error.response.status.toString().startsWith(4)) {
+       if(error?.response?.status.toString().startsWith(4)) {
          setError(error.response.data.msg)
         }
         
       }
     }
 
-
+     const handleFireBaseSignIn = async (e) => {
+       e.preventDefault()
+      try {
+        const resp = await FirebaseAuth()
+        console.log(resp);
+        setError('')
+      } catch (error) {
+        setError('Trouble Login Through Google')     
+      }
+     }
 
 
 
@@ -194,7 +201,8 @@ const UserAuthForm = ({type}) => {
                 <Hr />
               </Div>
               <Div>
-              <Button  $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
+                {/* firebase Auth */}
+              <Button  onClick={handleFireBaseSignIn} $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
                         <Image $width='20px' $height='20px'  src='google.png' />
                         Continue With Google
                   </Button>
@@ -216,4 +224,3 @@ const UserAuthForm = ({type}) => {
 export default UserAuthForm
 
 
-//3:11

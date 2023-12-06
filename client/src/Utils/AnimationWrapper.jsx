@@ -8,7 +8,7 @@ const AnimationWrapper = ({children,initial,animate,transition,exit}) => {
        initial={initial}
        animate={animate}
        transition={transition}
-       exit={exit}     
+       exit={exit}  
        >   
             {children}
      
