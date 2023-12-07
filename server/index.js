@@ -2,6 +2,7 @@ const express = require('express');
 const app = express()
 const cors = require('cors')
 require('dotenv').config();
+const User = require('./models/user');
 const cookieParser = require('cookie-parser');
 const { connectDb } = require('./config/connectToDb');
 const AuthRouter = require('./router/auth');
@@ -9,8 +10,10 @@ const { errorHandler } = require('./Middleware/ErrorHandler');
 const { NotFound } = require('./Middleware/NotFound');
 // firebase auth
 const admin = require('firebase-admin');
-const serviceAccountGoogleKey = require('./mern-fully-working-blog-editor-firebase-adminsdk-9l6wi-6762a3623c.json');
-
+const serviceAccountGoogleKey = require('./ServiceAccountGoogle/serviceAccount.json');
+const {getAuth} = require('firebase-admin/auth');
+const { userFormatData } = require('./controller/authController');
+const jwt = require('jsonwebtoken');
 app.use(express())
 app.use(cors({
    origin : ["http://localhost:5173"] ,
@@ -45,6 +48,3 @@ app.use(errorHandler)
 app.use(NotFound)
 
 
-app.post('/google_auth' , async(req,res) => {
-   let {access_token} = req.body
-})

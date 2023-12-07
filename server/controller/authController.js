@@ -10,7 +10,7 @@ let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for pass
 
 
 
-const userFormatData = (user) => {
+ const userFormatData = (user) => {
     return {
             profile_img : user.personal_info.profile_img ,
             username : user.personal_info.username ,
@@ -98,5 +98,5 @@ const logOut = AsyncWrapper(async(req,res) => {
 
 
 module.exports = {
-    register , login , logOut ,singleUser
+    register , login , logOut ,singleUser , userFormatData
 };

@@ -89,12 +89,21 @@ const UserAuthForm = ({type}) => {
         
       }
     }
-
+     // firebase
      const handleFireBaseSignIn = async (e) => {
+    
        e.preventDefault()
-      try {
-        const resp = await FirebaseAuth()
-        console.log(resp);
+       
+       try {
+         const resp = await FirebaseAuth()
+
+         let serverRoute = '/google-auth'
+         let formData = {
+          access_token : resp.accessToken
+        }
+
+       userAuthApiServer(serverRoute ,formData)
+        
         setError('')
       } catch (error) {
         setError('Trouble Login Through Google')     
