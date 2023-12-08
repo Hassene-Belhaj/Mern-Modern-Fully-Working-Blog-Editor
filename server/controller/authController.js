@@ -54,24 +54,30 @@ const login = AsyncWrapper(async(req,res,next) => {
     if(!user) {
         return next(createCustomError('user does not exist' , 404))
     }
-    const isValidPwd = await bcrypt.compare(req.body.password , user.personal_info.password )
-    if(!isValidPwd) {
-        return next(createCustomError('Invalid Credentials' , 403))
+    if(!user.google_auth) {
+        
+        const isValidPwd = await bcrypt.compare(req.body.password , user.personal_info.password )
+        if(!isValidPwd) {
+            return next(createCustomError('Invalid Credentials' , 403))
+        }
+    
+        const token = jwt.sign({id : user._id,role : user.role} , process.env.SECRETJWT , {expiresIn :'3d'})
+    
+         const update_user = await userModel.findByIdAndUpdate({_id : user._id} ,
+         {
+            access_token : token
+         },
+         {
+            new : true ,
+         })
+        //  const {password , ...others} = update_user._doc ;
+        //  console.log(others);
+          res.cookie('access_token' , token ,{httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
+          res.status(200).json({success : true , msg :'sign in successfully'})
+
+    } else {
+        return next(createCustomError('Account was creating using Google , Try logging in with Google ',403))
     }
-
-    const token = jwt.sign({id : user._id,role : user.role} , process.env.SECRETJWT , {expiresIn :'3d'})
-
-     const update_user = await userModel.findByIdAndUpdate({_id : user._id} ,
-     {
-        access_token : token
-     },
-     {
-        new : true ,
-     })
-     const {password , ...others} = update_user._doc ;
-     console.log(others);
-      res.cookie('access_token' , token ,{httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
-      res.status(200).json({success : true , msg :'sign in successfully'})
 })
 
 

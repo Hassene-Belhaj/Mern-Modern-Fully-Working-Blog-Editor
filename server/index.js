@@ -12,7 +12,6 @@ const { NotFound } = require('./Middleware/NotFound');
 const admin = require('firebase-admin');
 const serviceAccountGoogleKey = require('./ServiceAccountGoogle/serviceAccount.json');
 const {getAuth} = require('firebase-admin/auth');
-const { userFormatData } = require('./controller/authController');
 const jwt = require('jsonwebtoken');
 app.use(express())
 app.use(cors({

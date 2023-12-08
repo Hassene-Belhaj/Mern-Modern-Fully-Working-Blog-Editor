@@ -61,6 +61,7 @@ const UserAuthForm = ({type}) => {
 
      const [EyeToggle , setEyeToggle] = useState(false)
      const [error , setError] = useState('')
+
      const authForm = useRef()
      
     const location =  useLocation()
@@ -91,38 +92,33 @@ const UserAuthForm = ({type}) => {
     }
      // firebase
      const handleFireBaseSignIn = async (e) => {
+       setError('')
     
-       e.preventDefault()
-       
+       e.preventDefault()   
        try {
          const resp = await FirebaseAuth()
-
          let serverRoute = '/google-auth'
-         let formData = {
-          access_token : resp.accessToken
-        }
 
-       userAuthApiServer(serverRoute ,formData)
-        
-        setError('')
+         let formData = {
+            access_token : resp.accessToken
+        }
+          await userAuthApiServer(serverRoute ,formData)
       } catch (error) {
-        setError('Trouble Login Through Google')     
+          setError('Trouble Login Through Google')     
       }
      }
 
-
-
-     const handleSubmit =(e) => {
+    const handleSubmit =(e) => {
        e.preventDefault()
        // serverRoute to pass
-       let serverRoute = type === 'sign-in' ? '/sign-in' : '/sign-up'
+    let serverRoute = type === 'sign-in' ? '/signin' : '/signup'
 
-      let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
-      let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
-      let form = new FormData(authForm.current)
-      let formData = {}
 
+    let form = new FormData(authForm.current)
+    let formData = {}
     for(let[key , value] of form.entries()){
       formData[key] = value ;
     }
@@ -142,7 +138,7 @@ const UserAuthForm = ({type}) => {
 
   return (
     
-    <Container $padding='5rem 0' $display='flex' $jc='center' $ai='center'>
+    <Container $padding='8rem 0 0 0' $display='flex' $jc='center' $ai='center'>
       <AnimationWrapper initial={{opacity : 0.5 }} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={type}>
 
         <Form ref={authForm} onSubmit={handleSubmit} onSelect={()=>setError('')} $display='flex' $width='400px' $fd='column' $gap='2rem' $margin='auto'>
@@ -175,7 +171,7 @@ const UserAuthForm = ({type}) => {
                 <Hr />
               </Div>
               <Div>
-              <Button  $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
+              <Button onClick={handleFireBaseSignIn}  $width='100%' $height='3rem' $display='flex' $jc='center' $ai='center' $margin='auto'  $br='25px' $bg='#000' $color='#fff' $border='none' $gap='1rem' $opacity='0.9' >
                     <Image $width='20px' $height='20px'  src='google.png' />
                     Continue With Google
                   </Button>

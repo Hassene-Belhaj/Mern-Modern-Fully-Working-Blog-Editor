@@ -12,7 +12,6 @@ cursor: pointer;
 
 
 const DropDownPanel = ({showPannel,userInfo , handleLogoutApi}) => {
-    console.log(userInfo);
      
     return (
 
@@ -25,10 +24,10 @@ const DropDownPanel = ({showPannel,userInfo , handleLogoutApi}) => {
                    <Text $fs='.9rem' $fw='600'>@{userInfo?.fullname}</Text>
                  </Div>
 
-                 <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $gap='.5rem' $cursor='pointer' $bgh='#f3f5f9' $transition='all ease-in-out 0.3s'> 
+                 {/* <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $gap='.5rem' $cursor='pointer' $bgh='#f3f5f9' $transition='all ease-in-out 0.3s'> 
                     <WriteIcon />
                     <Text>Write</Text>
-                 </Div>
+                 </Div> */}
 
                  <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem'  $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 
                  <Text $ta='center'>Profile</Text>

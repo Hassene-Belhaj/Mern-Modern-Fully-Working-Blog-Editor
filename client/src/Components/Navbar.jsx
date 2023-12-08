@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { useAuthContext } from '../Context/AuthContext';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
-import { Navigate } from 'react-router';
 import DropDownPanel from './DropDownPanel';
 
 const Nav = styled.nav`
@@ -25,6 +24,11 @@ right: ${({$right})=>$right};
 right: ${({$left})=>$left};
 cursor: pointer;
 `
+
+const WriteIcon = styled(FaRegEdit)`
+cursor: pointer;
+`  
+
 const BellIcon = styled(FaRegBell)`
 
 `
@@ -102,6 +106,12 @@ const Navbar = () => {
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                      </Div>
+                       <Navlink $color='#000' $td='none'  to='/editor' >
+                        <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $gap='.5rem' $cursor='pointer' $bgh='#f3f5f9' $transition='all ease-in-out 0.3s'> 
+                           <WriteIcon />
+                           <Text>Write</Text>
+                        </Div>
+                       </Navlink>
                       {isLoggedIn !== undefined ?
                       <>
                         <Button  $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
