@@ -49,6 +49,7 @@ flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
 flex-wrap: ${({$fr})=>$fr};
 width: ${({$width})=>$width};
+max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
 position: ${({$position})=>$position};
 z-index: ${({$z})=>$z};
@@ -81,7 +82,47 @@ transition: ${({$transition})=>$transition};
     cursor: ${({$cursor})=>$cursor};
 }
 `
-
+export const Section = styled.section`
+display: ${({$display})=>$display};
+justify-content: ${({$jc})=>$jc};
+align-items: ${({$ai})=>$ai};
+flex-direction: ${({$fd})=>$fd};
+flex: ${({$flex})=>$flex};
+flex-wrap: ${({$fr})=>$fr};
+width: ${({$width})=>$width};
+max-width: ${({$maxwidth})=>$maxwidth};
+height: ${({$height})=>$height};
+position: ${({$position})=>$position};
+z-index: ${({$z})=>$z};
+top: ${({$top})=>$top};
+left: ${({$left})=>$left};
+right: ${({$right})=>$right};
+bottom: ${({$bottom})=>$bottom};
+transform:${({$transform})=>$transform} ;
+padding: ${({$padding})=>$padding};
+margin: ${({$margin})=>$margin};
+color: ${({$color})=>$color};
+background-color: ${({$bg})=>$bg};
+border: ${({$border})=>$border};
+border-top: ${({$borderT})=>$borderT};
+border-bottom: ${({$borderB})=>$borderB};
+border-right: ${({$borderR})=>$borderR};
+border-left: ${({$borderL})=>$borderL};
+border-radius: ${({$br})=>$br};
+gap: ${({$gap})=>$gap};
+box-shadow: ${({$boxShadow})=>$boxShadow};
+transition: ${({$transition})=>$transition};
+@media screen and (min-width : 768px) {
+    display: ${({$Lg})=>$Lg};
+}
+@media screen and (max-width : 768px) {
+    display: ${({$Md})=>$Md};
+}
+&:hover {
+    background-color: ${({$bgh})=>$bgh};
+    cursor: ${({$cursor})=>$cursor};
+}
+`
 
 
 export const Button = styled.button`
@@ -121,6 +162,7 @@ align-items: ${({$ai})=>$ai};
 flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
 flex-wrap: ${({$fr})=>$fr};
+max-width: ${({$maxwidth})=>$maxwidth};
 width: ${({$width})=>$width};
 height: ${({$height})=>$height};
 position: ${({$position})=>$position};
@@ -146,6 +188,7 @@ border-radius: ${({$br})=>$br};
 border-start-start-radius: ${({$bssr})=>$bssr};
 background-color: ${({$bg})=>$bg};
 transition: all ease-in-out 0.5s;
+position: ${({$position})=>$position};  
 &:focus{  
     border: ${({$borderF})=>$borderF};
 }
@@ -184,6 +227,8 @@ padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
 object-fit: cover;
 border-radius: ${({$br})=>$br};
+position: ${({$position})=>$position};
+z-index: ${({$z})=>$z};
 cursor: pointer;
 `
 export const Span = styled.span`

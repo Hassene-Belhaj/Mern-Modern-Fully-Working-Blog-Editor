@@ -13,6 +13,7 @@ const admin = require('firebase-admin');
 const serviceAccountGoogleKey = require('./ServiceAccountGoogle/serviceAccount.json');
 const {getAuth} = require('firebase-admin/auth');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 app.use(express())
 app.use(cors({
    origin : ["http://localhost:5173"] ,
@@ -26,6 +27,8 @@ admin.initializeApp({
  credential : admin.credential.cert(serviceAccountGoogleKey)
 })
 
+// multer
+app.use("/images",express.static(path.join(__dirname,"/images")))
 
 const Start = async() => {
  try {

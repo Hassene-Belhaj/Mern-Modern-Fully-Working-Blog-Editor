@@ -1,74 +1,86 @@
-import React from 'react'
-import { Button, Div, Input, Navlink } from '../Global/GlobalStyle'
+import React, { useRef } from 'react'
+import { Button, Div, Form, Image, Input, Navlink, Section, Text } from '../Global/GlobalStyle'
 import styled from 'styled-components'
-import { AiOutlineSearch } from 'react-icons/ai'
-import { FaRegBell, FaRegEdit } from 'react-icons/fa'
+import Blog_Editor_Nav from './Blog_Editor_Nav'
+import { MdCloudUpload } from "react-icons/md";
+import { useState } from 'react';
+import LoadingSpinner from '../Utils/LoadingSpinner';
+import { useNavigate } from 'react-router';
+import { useEditorContext } from '../Context/EditorContext';
 
 
+const CloudUpload = styled(MdCloudUpload)`
+`
 
-const Nav = styled.nav`
+const TextArea = styled.textarea`
 width: 100%;
-height: 80px;
-border-bottom: .5px solid rgba(0,0,0,0.1);
-position: relative;
+height: 100%;
+/* outline: none;
+border: none ; */
+&::placeholder{
+    font-size:1.5rem ;
+}
 `
 
-const SearchIcon = styled(AiOutlineSearch)`
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-right: ${({$right})=>$right};
-right: ${({$left})=>$left};
-cursor: pointer;
-`
-
-const WriteIcon = styled(FaRegEdit)`
-cursor: pointer;
-`  
-
-const BellIcon = styled(FaRegBell)`
-
-`
 
 const Blog_Editor = () => {
+    const [image , setImage] = useState("")
+    const [loading , setLoading] = useState(false)
+    
+    const {blog , blog :{title , banner , content, tags , desc}, setBlog , editorState , setEditorState} = useEditorContext()
+    
+
+    
+    const navigate = useNavigate()
+
+
+    const inputRef = useRef()
+    
+    const handleBannerUpload = () => {
+        inputRef.current.click()
+    }
+
+    const handleImageUpload = (e) => {
+        setTimeout(() => { 
+        setImage(e.target.files[0]) 
+        setLoading(false)
+        }, 2000)
+        setLoading(true)
+
+    } 
+    
+    const handleTitleKeyDown =(e) => {
+      if(e.key === "Enter"){
+          navigate('/')
+      }
+    }
+
+
+
   return (
-    <Nav>
+    <>
+    <Blog_Editor_Nav />
+  
+        <Form $maxwidth='900px' $margin='5rem auto' >
+           <Div $margin='4rem'  $display='flex' $jc='center'  $ai='center'   $border='4px dashed lightblue' onClick={handleBannerUpload} >
+                <Input ref={inputRef} onChange={handleImageUpload} $width='100%' $outline='none' type="file" accept='.png , .jpg , .jpeg' $z='1' hidden />
+                {loading ? <LoadingSpinner/> :  <> 
+                {image ? 
+                <Image src={URL.createObjectURL(image)} $width="100%" $height='100%' /> 
+                : 
+                <CloudUpload  size={100} color='lightblue'/>
+                 } 
+                 </>}
+           </Div>
 
-    <Div $width='100%' $height='100%'  $display='flex' $ai='center' $jc='space-between' $padding='0 3rem' $bg='#fff'  $position='absolute' $z='4'>
+          <Div $padding='2rem 0' $width='100%' $height='500px' >
+                <TextArea onKeyDown={handleTitleKeyDown} placeholder='Blog Title' onChange={e=>setBlog({...blog , title : e.target.value})} >
+                </TextArea> 
+          </Div>
 
-          <Div $display='flex'  $ai='center'>
-
-               <Navlink to='/'>
-                       <Image  $width='40px' $height='40px' src='logo.png' />    
-               </Navlink>
-
-               <Div $Md='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 
-                     <Input $width='100%' $height='100%' $br='25px'  $bg='#f3f4f6' $outline='none' $padding='0 0 0 16px' $colorPH='#000' placeholder='Search' 
-                      $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'/>
-                     <SearchIcon $right='1rem' size={20}  />  
-              </Div>
-        
-       </Div>
-
-          <Div $display='flex' $jc='center' $ai='center' $gap='1rem' >
-              
-              
-                   <Navlink to='/signin'>
-                      <Button $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.9'>Sign In</Button>
-                   </Navlink> 
-                   <Navlink to='/signup'>
-                      <Button $Md='none' $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' $opacity='0.9' >Sign UP</Button>
-                   </Navlink>
-                
-
-                </Div>
-   </Div>
-
-          <Div $Lg='none'  $width='90%' $hight='auto' $jc='center' $margin='auto' $padding='7rem 0' $position='relative' > 
-             <Input  $width='100%' $height='3rem' $br='25px' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'$bg='#f3f4f6' $outline='none' $padding='0 0 0 25px' $colorPH='#000' placeholder='Search' />
-             <SearchIcon $right='1rem' size={30}  />  
-          </Div> 
-  </Nav>
+        </Form>
+    </>
+      
   )
 }
 

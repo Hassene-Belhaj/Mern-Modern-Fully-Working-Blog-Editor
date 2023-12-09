@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Container } from '../Global/GlobalStyle';
 import Blog_Editor from '../Components/Blog_Editor';
 import { useState } from 'react';
+import EditorContext from '../Context/EditorContext';
 
 const Editor = () => {
   const [editorState , setEditorState] = useState('editor')
@@ -19,12 +20,13 @@ if(isLoggedIn === undefined){
 
 
 return (
-  <>
+  <EditorContext>
    <Container>
+  
       {editorState === 'editor' ? <Blog_Editor /> : < PublicKeyCredential/>}
 
    </Container>
-  </>
+  </EditorContext>
   )
 }
 
