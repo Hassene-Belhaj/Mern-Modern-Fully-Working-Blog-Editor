@@ -6,12 +6,14 @@ const User = require('./models/user');
 const cookieParser = require('cookie-parser');
 const { connectDb } = require('./config/connectToDb');
 const AuthRouter = require('./router/auth');
+const uploadRouter = require('./router/upload');
 const { errorHandler } = require('./Middleware/ErrorHandler');
 const { NotFound } = require('./Middleware/NotFound');
 // firebase auth
 const admin = require('firebase-admin');
 const serviceAccountGoogleKey = require('./ServiceAccountGoogle/serviceAccount.json');
 const {getAuth} = require('firebase-admin/auth');
+
 const jwt = require('jsonwebtoken');
 const path = require('path');
 app.use(express())
@@ -24,11 +26,11 @@ app.use(express.urlencoded({extended : true}))
 app.use(cookieParser())
 
 admin.initializeApp({
- credential : admin.credential.cert(serviceAccountGoogleKey)
+ credential : admin.credential.cert(serviceAccountGoogleKey)   
 })
 
-// multer
-app.use("/images",express.static(path.join(__dirname,"/images")))
+// multer storage
+app.use("/public",express.static(path.join(__dirname,"/public")))
 
 const Start = async() => {
  try {
@@ -46,6 +48,7 @@ const Start = async() => {
 Start()
 
 app.use('/api/blog/auth',AuthRouter)
+app.use('/api/blog/',uploadRouter)
 app.use(errorHandler)
 app.use(NotFound)
 

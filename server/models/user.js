@@ -40,6 +40,10 @@ const mongoose = require('mongoose');
                     role : {
                         type : String,
                         default : 'user',
+                    },
+
+                    photo : {
+                        type : String ,
                     }
         },
         social_links: {
