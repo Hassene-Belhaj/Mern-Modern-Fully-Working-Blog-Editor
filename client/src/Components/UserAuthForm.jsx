@@ -79,8 +79,10 @@ const UserAuthForm = ({type}) => {
       try {
         const resp = await axios.post(Url+serverRoute,formData,{withCredentials :true})
         console.log(resp);
-        if(resp.status === 200) {
+        if(resp.status === 200 ) {
           navigate('/')
+        } else if (resp.status === 201 ) {
+          navigate('/signin')
         }
     
       } catch (error) {
@@ -111,7 +113,7 @@ const UserAuthForm = ({type}) => {
     const handleSubmit =(e) => {
        e.preventDefault()
        // serverRoute to pass
-    let serverRoute = type === 'sign-in' ? '/signin' : '/signup'
+    let serverRoute = type === 'sign-in' ? '/sign-in' : '/sign-up'
 
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
     let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password

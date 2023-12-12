@@ -10,19 +10,15 @@ import EditorContext from '../Context/EditorContext';
 const Editor = () => {
   const [editorState , setEditorState] = useState('editor')
   const {isLoggedIn} =  useAuthContext()
-  const navigate =useNavigate()
+  // const navigate =useNavigate()
 
-useEffect(()=>{
-if(isLoggedIn === undefined){
-  navigate('/signin')
-}
-},[])
+
 
 
 return (
   <EditorContext>
    <Container>
-  
+
       {editorState === 'editor' ? <Blog_Editor /> : < PublicKeyCredential/>}
 
    </Container>

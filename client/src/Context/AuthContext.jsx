@@ -17,12 +17,13 @@ const AuthContext = ({children}) => {
      const [isLoggedIn , setIsLoggedIn] = useState(undefined)
 
     const location =  useLocation()
+    // console.log(location)
 
 const CheckUserApi = async() => {
     try {
         const resp = await axios.get(Url+'/checkuser',{withCredentials:true})
-        console.log(resp);
         setIsLoggedIn(resp)
+        console.log(resp);
     } catch (error) {
         console.log(error);
     }

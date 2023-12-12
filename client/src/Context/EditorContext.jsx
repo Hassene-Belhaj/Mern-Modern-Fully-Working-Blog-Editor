@@ -6,6 +6,8 @@ import { createContext } from 'react'
 
 const EditorContextG = createContext()
 
+
+
 const blogStructure = {
     title : '' ,
     banner : '' ,
@@ -19,7 +21,7 @@ const blogStructure = {
 const EditorContext = ({children}) => {
 
 
-    const [blog , setBlog ] = useState(blogStructure)
+    const [blog , setBlog] = useState(blogStructure)
     const [editorState , setEditorState] = useState("editor")
 
 

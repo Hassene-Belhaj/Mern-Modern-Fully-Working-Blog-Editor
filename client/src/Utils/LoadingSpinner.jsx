@@ -12,33 +12,37 @@ const Container = styled.div`
 const Text = styled.p`
 `
 const rotate360 = keyframes`
-from {
+from  {
   transform  : rotate(0deg) ;
 } 
 to {
- transform:  rotate(360deg);
+  transform:  rotate(360deg);
 }
 `
 
 const Spinner = styled.div`
-animation: ${rotate360} 1s linear infinite;
+animation:${rotate360} 1s linear infinite;
+transform: translateZ(0);
 width: 35px;
 height: 35px;
-border-top: solid 4px rgba(0,0,0,0.2) ;
-border-right:solid 4px rgba(0,0,0,0.2) ;
-border-left:solid 4px rgba(0,0,0,0.2) ;
+border-top: solid 4px rgba(0,0,0,0.1) ;
+border-right:solid 4px rgba(0,0,0,0.1) ;
+border-left:solid 4px rgba(0,0,0,0.1) ;
 border-bottom : solid 4px rgba(0,0,0,1);
 border-radius: 50%;
 background-color: transparent;
 `
 
 
-const LoadingSpinner = () => {
+const LoadingSpinner = ({type}) => {
+  
 
   return ( 
     <Container>
          <Spinner />
-         <Text>Loading</Text>
+         {type === true ? <Text>Uploading</Text> :  <Text>Loading</Text>}
+
+        
     </Container>
   );
 

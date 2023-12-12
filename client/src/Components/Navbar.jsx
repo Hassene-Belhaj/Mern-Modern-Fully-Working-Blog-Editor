@@ -8,6 +8,7 @@ import { useAuthContext } from '../Context/AuthContext';
 import axios from 'axios';
 import { Url } from '../Utils/Url';
 import DropDownPanel from './DropDownPanel';
+import { useNavigate } from 'react-router';
 
 const Nav = styled.nav`
 width: 100%;
@@ -35,11 +36,10 @@ const BellIcon = styled(FaRegBell)`
 
 
 const Navbar = () => {
+   const {isLoggedIn , CheckUserApi} = useAuthContext()
 
      const [show , setShow] = useState(false)
-     const {isLoggedIn , CheckUserApi} = useAuthContext()
      const [showPannel , setShowPannel] = useState(false)
-
 
      const [userInfo , setUserInfo] = useState(null)
 
@@ -65,8 +65,7 @@ const Navbar = () => {
      const UserInfoApi = async() => {
       try {
          const resp = await axios.get(Url+'/user/'+isLoggedIn?.data?.user.id,{withCredentials : true})
-         console.log(resp.data.data.personal_info);
-         console.log(resp.data.data);
+         // console.log(resp.data.data);
          setUserInfo(resp?.data?.data);
       } catch (error) {
          console.log(error);
@@ -106,11 +105,11 @@ const Navbar = () => {
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                      </Div>
-                       <Navlink $color='#000' $td='none'  to='/editor' >
-                        <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $gap='.5rem' $cursor='pointer' $bgh='#f3f5f9' $transition='all ease-in-out 0.3s'> 
+                       <Navlink $color='#000' $td='none'  to={isLoggedIn !== undefined ? '/editor' : '/signin'} >
+                         <Div  $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $gap='.5rem' $cursor='pointer' $bgh='#f3f5f9' $transition='all ease-in-out 0.3s'> 
                            <WriteIcon />
                            <Text>Write</Text>
-                        </Div>
+                         </Div>
                        </Navlink>
                       {isLoggedIn !== undefined ?
                       <>
@@ -118,7 +117,7 @@ const Navbar = () => {
                         <BellIcon size={20} />
                         </Button> 
                         <Button onClick={()=>setShowPannel(!showPannel)} onBlur={handleBlur}  $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
-                        <Image  $width='2rem' $br='25px' src={userInfo?.profile_img}/>
+                        <Image  $width='2rem' $br='25px' src={userInfo?.profile_img} referrerPolicy='no-referrer' alt='image profile'/>
                         </Button> 
                       </>
                       :  

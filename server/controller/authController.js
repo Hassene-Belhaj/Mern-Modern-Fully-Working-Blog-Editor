@@ -95,7 +95,7 @@ const singleUser = AsyncWrapper(async(req,res,next) => {
 
 
 const logOut = AsyncWrapper(async(req,res) => {
-    res.clearCookie('access_token' , {sameSite :'none' , secure: 'true'})
+    res.clearCookie('access_token' , {httpOnly : true , sameSite :'none' , secure: 'true'})
     res.status(200).json({success: true , msg:'loug out succesfully'})
 
 })

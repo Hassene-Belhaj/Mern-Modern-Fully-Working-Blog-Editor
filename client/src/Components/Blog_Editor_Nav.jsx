@@ -24,7 +24,7 @@ const Blog_Editor_Nav = () => {
                         <Image  $width='40px' $height='40px' src='logo.png' />    
                 </Navlink>
 
-                    <Text $margin='0 0 0 2rem' style={{textTransform:'capitalize'}}>{title.length > 5 ? title : 'New Blog'}</Text>
+                    <Text $margin='0 0 0 2rem' style={{textTransform:'capitalize'}}>{title.length ? title : 'New Blog'}</Text>
             </Div>
 
             <Div $display='flex' $gap='2rem'>
