@@ -40,7 +40,7 @@ const LoadingSpinner = ({type}) => {
   return ( 
     <Container>
          <Spinner />
-         {type === true ? <Text>Uploading</Text> :  <Text>Loading</Text>}
+         {/* {type === true ? <Text>Uploading</Text> :  <Text>Loading</Text>} */}
 
         
     </Container>

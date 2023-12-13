@@ -19,7 +19,7 @@ const App = () => {
    <GlobalStyleApp/>
      {location.pathname === '/editor' ? null : <Navbar />}
  
-     <Routes>
+     <Routes> 
         {isLoggedIn !== undefined ? null 
         :
         <>
