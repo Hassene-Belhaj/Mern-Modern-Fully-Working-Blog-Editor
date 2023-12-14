@@ -4,6 +4,7 @@ const multer =require('multer');
 const path = require('path');
 const sharp =require('sharp');
 const fs = require('fs');
+const {uploadWithCloudinary, cloudinaryDestroy} = require('../cloudinary/cloudinay');
 
 
 const storage = multer.diskStorage({
@@ -45,7 +46,21 @@ const resize =  async (req,res,next) => {
 }
 
 
-router.post('/upload_image', upload.single('image'),resize, (req,res) => {
+
+const CloudinaryUpload = async(req,res,next)=>{
+        // console.log(req.file.filename);
+        const resp = await uploadWithCloudinary(`./public/images/${req.file.filename}`)
+        if(!resp) {
+            return res.status(500).json({msg : 'upload error'})
+        }
+        fs.unlinkSync(`./public/images/${req.file.filename}`) 
+       return res.status(200).json({sucess : true , msg : 'image uploader successfully' , data : resp})
+
+}
+
+
+
+router.post('/upload_image', upload.single('image'),resize, CloudinaryUpload, async (req,res) => {
     const image = req.file
     if(!image) {
        return res.status(500).json({msg : "please select image"})
@@ -53,10 +68,13 @@ router.post('/upload_image', upload.single('image'),resize, (req,res) => {
    return res.status(200).json({msg : 'image uploaded successfully',image})
 })
 
-router.post('/delete_image' , (req,res) => {
+router.post('/delete_image' , async (req,res) => {
     const {image} = req.body
-    fs.unlinkSync(`./public/images/${image}`)// delete image
-   return res.status(200).json({msg : 'image deleted'})
+   const resp =  await cloudinaryDestroy(image) 
+    if(!resp) {
+        return res.status(500).json({msg : 'something went wrong'})
+    }
+   return res.json({msg : 'image deleted' , resp})
 
 
 })
@@ -65,9 +83,6 @@ router.post('/delete_image' , (req,res) => {
 
 module.exports = router
     
-
-
-
 
 
 

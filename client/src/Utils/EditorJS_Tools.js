@@ -16,8 +16,22 @@ export const Tools = {
         class : List ,
         inlineToolbar : true
     } ,
-    image : Image ,
-    header : Header ,
+    image : {
+        class : Image ,
+        config : {
+            uploader : {
+                uploadByUrl : ,
+            }
+        }
+    } ,
+    header: {
+        class: Header,
+        config: {
+          placeholder: 'Enter a header',
+          levels: [2, 3, 4  ],
+          defaultLevel: 3
+        }
+    },
     quote : Quote ,
     marker : Marker ,
     inlineCode : InlineCode ,

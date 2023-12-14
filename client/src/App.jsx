@@ -6,7 +6,6 @@ import { useAuthContext } from './Context/AuthContext'
 import UserAuthForm from './Components/UserAuthForm'
 import Editor from './Pages/Editor'
 import Home from './Pages/Home'
-import Test from './Components/Test'
 
 const App = () => {
   const {isLoggedIn} = useAuthContext()
@@ -30,7 +29,6 @@ const App = () => {
         <Route path='/' element={< Home />} />  
         <Route path='/editor' element={< Editor/>} />
      </Routes>
-     {/* <Test /> */}
   </>
     )
   }

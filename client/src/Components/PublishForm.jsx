@@ -1,11 +1,11 @@
 import React from 'react'
 import { Container, Div, Form, Image, Input, Text, Title } from '../Global/GlobalStyle'
 import LoadingSpinner from '../Utils/LoadingSpinner'
-import { useRef } from 'react'
 import { useEditorContext } from '../Context/EditorContext'
 import { PUBLIC_IMAGES } from '../Utils/Url'
 import { AiOutlineClose } from 'react-icons/ai'
 import styled from 'styled-components'
+import { useState } from 'react'
 
 
 
@@ -20,13 +20,15 @@ height: 10rem;
 resize: none;
 border: .5px solid rgba(0,0,0,0.2 );
 outline: none;
-max
+background-color: #f3f4f6;
 `
 
 const PublishForm = () => {
 
   const {blog , blog :{title , banner , content, tags , desc}, setBlog , editorState , setEditorState} = useEditorContext()
-  const [textLength , setTextLength] = useState(200)
+
+  let textLength = 200
+
 
 const handleClose = () => {
   setEditorState('editor')
@@ -44,20 +46,26 @@ const handleClose = () => {
             <Input  $width='100%' $outline='none' type="file" accept='.png , .jpg , .jpeg'  hidden />
         
          
-            {banner ? <Image src={PUBLIC_IMAGES+banner} $width="100%" $height='100%'/> : <Text>upload image</Text> }
+            {banner?.url ? <Image src={banner?.url} $width="100%" $height='100%'/> : <Text>upload image</Text> }
             
       
        </Div>
          
          <Title $fs='1rem' $fw='500' >Blog Title</Title>
 
-      <Div $margin='2rem auto' $width='100%' $height='3rem' $border='.5px solid rgba(0,0,0,0.2)' >
-        <Input $width='100%' $height='100%' placeholder='Title' $padding='0 0 0 1rem' $outline='none' $border='none' $bg='#f3f4f6' value={title} onChange={e=>setBlog({title : e.target.value})} />
-            {/* <hr style={{border:'solid .5px rgba(0,0,0,0.1)'}} /> */}
+      <Div $margin='1rem 0 0 0' $width='100%' $height='3rem' $border='.5px solid rgba(0,0,0,0.2)' >
+        <Input $width='100%' $height='100%' placeholder='Title' $padding='0 0 0 1rem' $outline='none' $border='none' $bg='#f3f4f6' />  
       </Div>
-      <TextArea maxLength={textLength} >
-      </TextArea>
-      <Text>max length {textLength}</Text>
+
+
+        <Title $margin='1rem 0' $fs='1rem' $fw='500' >Short Description About Your Blog</Title>
+      <Div >
+        <TextArea  value={desc || ''} textLength={textLength} onChange={e=>setBlog({desc : e.target.value})} > </TextArea>
+      </Div> 
+
+      <Div $display='flex' $jc='end'>
+         <Text $fs='0.8rem' > {textLength - desc?.length } characters left </Text>
+      </Div>
      
 
     </Form>

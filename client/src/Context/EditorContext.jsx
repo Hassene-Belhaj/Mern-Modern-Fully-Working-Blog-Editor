@@ -34,5 +34,6 @@ const EditorContext = ({children}) => {
   )
 }
 
-export default EditorContext ;
+
 export const useEditorContext = () => useContext(EditorContextG)
+export default EditorContext ;
