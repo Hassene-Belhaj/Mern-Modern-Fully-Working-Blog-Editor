@@ -8,32 +8,36 @@ const EditorContextG = createContext()
 
 
 
-const blogStructure = {
-    title : '' ,
-    banner : '' ,
-    content : '' ,
-    tags : [] ,
-    desc : '' ,
-    author : {personnel_info : {} }
-}
-
 
 
 const EditorContext = ({children}) => {
 
 
-    const [blog , setBlog] = useState(blogStructure)
     const [editorState , setEditorState] = useState("editor")
+    const [title , setTitle] = useState('')
+    const [banner , setBanner] = useState('')
+    const [content , setContent] = useState('')
+    const [desc , setDesc] = useState('')
+    const [tags , setTags] = useState([])
+    const [author , setAuthor] = useState({personnel_info : {}})
+    const [error , setError] = useState('')
+
+  
+    const  value = {
+      editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
+      setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError
+    }
+
 
 
 
   return (
-    <EditorContextG.Provider value={{blog , setBlog , editorState , setEditorState}}>
+    <EditorContextG.Provider value={value}>
         {children}
     </EditorContextG.Provider>
   )
 }
 
 
-export const useEditorContext = () => useContext(EditorContextG)
 export default EditorContext ;
+export const useEditorContext = () => useContext(EditorContextG)

@@ -1,73 +1,112 @@
-import React from 'react'
-import { Container, Div, Form, Image, Input, Text, Title } from '../Global/GlobalStyle'
+import React, { useState } from 'react'
+import { Container, Div, Form, Image, Input, Span, Text, TextArea, Title } from '../Global/GlobalStyle'
 import LoadingSpinner from '../Utils/LoadingSpinner'
 import { useEditorContext } from '../Context/EditorContext'
-import { PUBLIC_IMAGES } from '../Utils/Url'
 import { AiOutlineClose } from 'react-icons/ai'
 import styled from 'styled-components'
-import { useState } from 'react'
+import Tags from './Tags'
 
 
 
 const IconClose = styled(AiOutlineClose)`
-position: absolute;
-top: 3rem;
-right: 3rem;
-`
-const TextArea = styled.textarea`
-width: 100%;
-height: 10rem;
-resize: none;
-border: .5px solid rgba(0,0,0,0.2 );
-outline: none;
-background-color: #f3f4f6;
 `
 
 const PublishForm = () => {
 
-  const {blog , blog :{title , banner , content, tags , desc}, setBlog , editorState , setEditorState} = useEditorContext()
+  const {beditorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
+    setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError } = useEditorContext()
+  const [tag , setTag] = useState('')
+
 
   let textLength = 200
+  let DescLength = 200
 
 
 const handleClose = () => {
   setEditorState('editor')
 }
 
+
+const handleKeyDown =(e)=> {
+  if(e.keyCode === 13 || e.keyCode === 188 ) {
+    e.preventDefault()
+    setTags([...tags , tag])
+    setTag('')
+  }
+  if(tags.length >= 10) {
+    e.preventDefault()
+    setError('You can add max 10 tags')
+    setTags([...tags])
+  }
+}
+
+
+
+
   return (
     <Container $padding='2rem' $position='relative' >
-
-
-       <IconClose  onClick={handleClose} />
+       <IconClose  onClick={handleClose} style={{position:'absolute' , top:'3rem' , right:'3rem'}} />
 
     <Form $maxwidth='900px' $margin='5rem auto' $position='relative' >
 
       <Div $margin='2rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'   $border='4px solid rgba(0,0,0,0.05)' >
             <Input  $width='100%' $outline='none' type="file" accept='.png , .jpg , .jpeg'  hidden />
         
-         
             {banner?.url ? <Image src={banner?.url} $width="100%" $height='100%'/> : <Text>upload image</Text> }
             
-      
        </Div>
          
-         <Title $fs='1rem' $fw='500' >Blog Title</Title>
+         {/* <Title $fs='1rem' $fw='500'>Blog Title</Title> */}
 
-      <Div $margin='1rem 0 0 0' $width='100%' $height='3rem' $border='.5px solid rgba(0,0,0,0.2)' >
-        <Input $width='100%' $height='100%' placeholder='Title' $padding='0 0 0 1rem' $outline='none' $border='none' $bg='#f3f4f6' />  
-      </Div>
+         <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center'  >
+              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $padding='1rem' $br='7px' value={title} onChange={e=>setTitle(e.target.value)} ></TextArea>
+          </Div> 
 
+          <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />
 
-        <Title $margin='1rem 0' $fs='1rem' $fw='500' >Short Description About Your Blog</Title>
-      <Div >
-        <TextArea  value={desc || ''} textLength={textLength} onChange={e=>setBlog({desc : e.target.value})} > </TextArea>
+          <Div $display='flex' $jc='end'>
+           {textLength - title?.length ? <Text $fs='0.8rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length} characters left </Text>
+           : 
+           null 
+          } 
+          
+          </Div>
+
+        <Title $margin='1rem 0' $fs='.9rem' $fw='500'>Short Description About Your Blog</Title>
+
+      <Div>
+          <TextArea  $width='100%' $height='10rem' $resize='none' $padding='1rem' $outline='none'  $br='7px' value={desc}  $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'
+          textLength={DescLength} onChange={e=>setDesc(e.target.value)} $bg='#f3f5f9' > </TextArea>
       </Div> 
 
       <Div $display='flex' $jc='end'>
-         <Text $fs='0.8rem' > {textLength - desc?.length } characters left </Text>
+      {DescLength - desc?.length ? <Text $fs='0.8rem'  $color={DescLength - desc?.length >= 0 ? '#000' : 'red'}> {DescLength - desc?.length } characters left </Text> : null } 
+         
       </Div>
-     
 
+      <Div>
+        <Title $margin='2rem 0' $fs='.9rem' $fw='500' > Topics - (Help is searching and ranking your Blog Post) </Title>
+
+        <Div $margin='2rem 0 0 0' $height='100%'  $bg='#f3f5f9'  $border='none'  $padding='1.5rem' $br='7px'  >
+
+            <Input onSelect={()=>setError('')}  $width='100%' $height='3rem'  $outline='none' $bg='#fff' $br='7px' $padding='8px' $margin='1rem 0'
+             $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Add Tag' onKeyDown={handleKeyDown} 
+             value={tag} onChange={e=>setTag(e.target.value)} />
+
+                <Div $width='100%' $display='flex'$gap='1rem' $fw='wrap'>
+                    {tags.map((item,index)=>{
+                      return (
+                        <Div key={index} $display='flex'>
+                          <Tags tag={item} index={index} setTag={setTag} />
+                        </Div>
+                        )
+                      })}
+                </Div> 
+                    <Text  $fs='0.9rem' $color='red' $margin='2rem 0' $ta='center'>{error? error : null}</Text>
+
+       </Div>
+                    <Text $fs='0.8rem' $color='#000' $margin='.5rem 0' $ta='right'>{10 - tags.length} Tags left</Text>
+      </Div>
     </Form>
 </Container>
   )

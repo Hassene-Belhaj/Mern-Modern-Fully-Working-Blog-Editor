@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const { connectDb } = require('./config/connectToDb');
 const AuthRouter = require('./router/auth');
 const uploadRouter = require('./router/upload');
+const blogsRouter = require('./router/blogs');
 const { errorHandler } = require('./Middleware/ErrorHandler');
 const { NotFound } = require('./Middleware/NotFound');
 // firebase auth
@@ -48,7 +49,8 @@ const Start = async() => {
 Start()
 
 app.use('/api/blog/auth',AuthRouter)
-app.use('/api/blog/',uploadRouter)
+app.use('/api/blog',uploadRouter)
+app.use('/api/blog',blogsRouter)
 app.use(errorHandler)
 app.use(NotFound)
 

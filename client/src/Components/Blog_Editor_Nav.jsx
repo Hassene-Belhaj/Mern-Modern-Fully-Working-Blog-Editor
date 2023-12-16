@@ -14,7 +14,7 @@ border-bottom: .5px solid rgba(0,0,0,0.1);
 
 
 const Blog_Editor_Nav = ({handlePublishEvent}) => {
-  const {blog , blog :{title , banner , content, tags , desc}, setBlog , editorState , setEditorState} = useEditorContext()
+
 
   return (
     <Nav>
@@ -25,7 +25,7 @@ const Blog_Editor_Nav = ({handlePublishEvent}) => {
                         <Image  $width='40px' $height='40px' src='logo.png' />    
                 </Navlink>
 
-                    <Text $margin='0 0 0 2rem' style={{textTransform:'capitalize'}}>{title ? title : 'New Blog'}</Text>
+                    <Text $margin='0 0 0 2rem' style={{textTransform:'capitalize'}}>New Blog</Text>
             </Div>
 
             <Div $display='flex' $gap='2rem'>

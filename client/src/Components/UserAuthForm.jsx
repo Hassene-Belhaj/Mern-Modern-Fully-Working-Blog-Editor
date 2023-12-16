@@ -151,7 +151,7 @@ const UserAuthForm = ({type}) => {
 
             <>
               <Div $position='relative'>
-                <Input name='fullname' $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Full Name'/>
+              <Input name='fullname' $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Full Name'/>
                 <UserIcon />
               </Div>
               <Div $position='relative'>

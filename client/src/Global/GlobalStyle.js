@@ -12,7 +12,7 @@ export const GlobalStyleApp=createGlobalStyle`
 }
 
 body{
-   scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 `
@@ -38,7 +38,7 @@ border-bottom: ${({$borderB})=>$borderB};
 border-right: ${({$borderR})=>$borderR};
 border-left: ${({$borderL})=>$borderL};
 gap: ${({$gap})=>$gap};
-
+overflow: hidden;
 `
 
 export const Div = styled.div`
@@ -47,7 +47,7 @@ justify-content: ${({$jc})=>$jc};
 align-items: ${({$ai})=>$ai};
 flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
-flex-wrap: ${({$fr})=>$fr};
+flex-wrap: ${({$fw})=>$fw};
 width: ${({$width})=>$width};
 max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
@@ -177,8 +177,16 @@ border-right: ${({$borderR})=>$borderR};
 border-left: ${({$borderL})=>$borderL};
 gap: ${({$gap})=>$gap};
 `
+
 export const Input = styled.input`
+display: ${({$display})=>$display};
+justify-content: ${({$jc})=>$jc};
+align-items: ${({$ai})=>$ai};
+flex-direction: ${({$fd})=>$fd};
+flex: ${({$flex})=>$flex};
+flex-wrap: ${({$fr})=>$fr};
 width: ${({$width})=>$width};
+max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
 padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
@@ -198,6 +206,29 @@ position: ${({$position})=>$position};
 }
 `
 
+export const TextArea = styled.textarea`
+width: ${({$width})=>$width};
+height: ${({$height})=>$height};
+padding: ${({$padding})=>$padding};
+margin: ${({$margin})=>$margin};
+outline: ${({$outline})=>$outline};
+border: ${({$border})=>$border};
+font-size: ${({$fs})=>$fs};
+border-radius: ${({$br})=>$br};
+border-start-start-radius: ${({$bssr})=>$bssr};
+background-color: ${({$bg})=>$bg};
+transition: all ease-in-out 0.5s;
+position: ${({$position})=>$position};  
+resize: ${({$resize})=>$resize};
+text-transform: ${({$tt})=>$tt};
+&:focus{  
+    border: ${({$borderF})=>$borderF};
+}
+&::placeholder{
+    color: ${({$colorPH})=>$colorPH};
+}
+`
+
 export const Title = styled.h2`
 text-align: ${({$ta})=>$ta};
 font-size: ${({$fs})=>$fs};
@@ -206,7 +237,6 @@ margin: ${({$margin})=>$margin};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
 border: ${({$border})=>$border};
-
 `
 
 export const Text = styled.p`
@@ -218,8 +248,12 @@ padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
 border: ${({$border})=>$border};
 transition: ${({$transition})=>$transition};
+outline: ${({$outline})=>$outline};
 &:hover {
     background-color: ${({$bgh})=>$bgh};
+}
+&:focus {
+    background-color: ${({$bgf})=>$bgf};
 }
 `
 
