@@ -13,7 +13,7 @@ const blogSchema = mongoose.Schema({
     },
     banner: {
         type: String,
-        // required: true,
+        required: true,
     },
     desc: {
         type: String,

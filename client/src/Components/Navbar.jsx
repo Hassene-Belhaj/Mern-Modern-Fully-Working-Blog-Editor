@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Url } from '../Utils/Url';
 import DropDownPanel from './DropDownPanel';
 import { useNavigate } from 'react-router';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Nav = styled.nav`
 width: 100%;
@@ -56,7 +57,10 @@ const Navbar = () => {
            const resp = await axios.post(Url+'/logout' ,{
            },{withCredentials : true})
            CheckUserApi()
-           window.location.reload()
+           toast.success('log out successfully')
+           setTimeout(() => { 
+             window.location.reload()
+            }, 1200)
          } catch (error) {
             console.log(error);
          }
@@ -80,6 +84,7 @@ const Navbar = () => {
 
   return (
     <Nav>
+       <Toaster />
       <DropDownPanel showPannel={showPannel} userInfo={userInfo} handleLogoutApi={handleLogoutApi} />
       
       <Div $width='100%' $height='100%'  $display='flex' $ai='center' $jc='space-between' $padding='0 3rem' $bg='#fff'  $position='absolute' $z='4'>

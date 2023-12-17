@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { Container, Div, Form, Image, Input, Span, Text, TextArea, Title } from '../Global/GlobalStyle'
+import { Button, Container, Div, Form, Image, Input, Span, Text, TextArea, Title } from '../Global/GlobalStyle'
 import LoadingSpinner from '../Utils/LoadingSpinner'
 import { useEditorContext } from '../Context/EditorContext'
 import { AiOutlineClose } from 'react-icons/ai'
 import styled from 'styled-components'
 import Tags from './Tags'
+import toast, { Toaster } from 'react-hot-toast'
+import { Url, UrlBlog } from '../Utils/Url'
+import axios from 'axios'
+import { useAuthContext } from '../Context/AuthContext'
+import { useNavigate } from 'react-router'
 
 
 
@@ -12,6 +17,12 @@ const IconClose = styled(AiOutlineClose)`
 `
 
 const PublishForm = () => {
+
+  const navigate = useNavigate()
+
+  const {isLoggedIn , CheckUserApi} = useAuthContext()
+   
+  console.log(isLoggedIn.data.user.id);
 
   const {beditorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
     setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError } = useEditorContext()
@@ -22,6 +33,39 @@ const PublishForm = () => {
   let DescLength = 200
 
 
+  const handleCreateBlogPostApi = async (e) => {
+    e.preventDefault()
+   if(!title.length) return toast.error('you must provide a Title to publish this Post')
+   if(!banner.length) return toast.error('you must provide blog banner to publish the blog')
+   if(!desc.length || desc.length > DescLength) return toast.error('you must provide blog description under 200 characters')
+  //  if(!content.blocks.length) return toast.error('there must be some blog content to publish it')
+   if(!tags.length) return toast.error('Enter at least 1 tag to help us rank your blog')
+   if(tags.length >= 10) return toast.error('provide tags to publish the blog , maximum 10')
+    
+   const Data = {
+    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id,
+   }
+  
+   const ToastLoading = toast.loading('Loading')
+  try {
+    const resp = await axios.post(UrlBlog+ '/create_blog' , Data , {withCredentials : true} )
+    console.log(resp);
+    if(resp.status === 200) {
+      setTimeout(() => { navigate('/') }, 1000)
+    }
+
+  } catch (error) {
+    console.log(error);
+    toast.error(error)
+  }
+  toast.dismiss(ToastLoading)
+  toast.success('Published')
+
+  }
+
+
+
+
 const handleClose = () => {
   setEditorState('editor')
 }
@@ -30,10 +74,13 @@ const handleClose = () => {
 const handleKeyDown =(e)=> {
   if(e.keyCode === 13 || e.keyCode === 188 ) {
     e.preventDefault()
-    setTags([...tags , tag])
-    setTag('')
+    if(tag.length > 1) {
+      setTags([...tags , tag])
+      setTag('')
+
+    }
   }
-  if(tags.length >= 10) {
+  if(tags.length >= 11) {
     e.preventDefault()
     setError('You can add max 10 tags')
     setTags([...tags])
@@ -47,12 +94,13 @@ const handleKeyDown =(e)=> {
     <Container $padding='2rem' $position='relative' >
        <IconClose  onClick={handleClose} style={{position:'absolute' , top:'3rem' , right:'3rem'}} />
 
-    <Form $maxwidth='900px' $margin='5rem auto' $position='relative' >
+    <Form $maxwidth='900px' $margin='5rem auto' $position='relative' onSubmit={(e)=>e.preventDefault()} >
+       <Toaster />
 
       <Div $margin='2rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'   $border='4px solid rgba(0,0,0,0.05)' >
             <Input  $width='100%' $outline='none' type="file" accept='.png , .jpg , .jpeg'  hidden />
         
-            {banner?.url ? <Image src={banner?.url} $width="100%" $height='100%'/> : <Text>upload image</Text> }
+            {banner? <Image src={banner} $width="100%" $height='100%'/> : <Text>upload image</Text> }
             
        </Div>
          
@@ -107,6 +155,8 @@ const handleKeyDown =(e)=> {
        </Div>
                     <Text $fs='0.8rem' $color='#000' $margin='.5rem 0' $ta='right'>{10 - tags.length} Tags left</Text>
       </Div>
+        <Button onClick={handleCreateBlogPostApi} $width='100%' $height='40px' $margin='2rem 0' $br='7px' $bg='#000' $color='#fff' $border='none' $opacity='0.8'>Post</Button>
+
     </Form>
 </Container>
   )

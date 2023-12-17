@@ -54,8 +54,7 @@ const login = AsyncWrapper(async(req,res,next) => {
     if(!user) {
         return next(createCustomError('user does not exist' , 404))
     }
-    if(!user.google_auth) {
-        
+    if(!user.google_auth) { 
         const isValidPwd = await bcrypt.compare(req.body.password , user.personal_info.password )
         if(!isValidPwd) {
             return next(createCustomError('Invalid Credentials' , 403))
@@ -71,7 +70,6 @@ const login = AsyncWrapper(async(req,res,next) => {
             new : true ,
          })
   
-
           res.cookie('access_token' , token ,{httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
           res.status(200).json({success : true , msg :'sign in successfully'})
 
