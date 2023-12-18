@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 export const FirebaseAuth = async () => {
        let user = null
     try {
-        const resp = await signInWithPopup(Auth , Provider)
+        const resp = await signInWithPopup(Auth , Provider )
         user = resp.user
     } catch (error) {
         console.log(resp);

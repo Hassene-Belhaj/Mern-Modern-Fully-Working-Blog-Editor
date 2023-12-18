@@ -74,11 +74,13 @@ const UserAuthForm = ({type}) => {
     const userAuthApiServer = async(serverRoute,formData) => {
       try {
           const resp = await axios.post(Url+serverRoute,formData,{withCredentials :true})
+          console.log(resp);
         if(resp.status === 200 ) {
           toast.success('login successfully')
           setTimeout(() => { 
             navigate('/')
           }, 1000)
+
         } else if (resp.status === 200 || 201 ) {
           navigate('/signin')
         }
@@ -104,6 +106,8 @@ const UserAuthForm = ({type}) => {
          let formData = {
             access_token : resp.accessToken
           }
+
+        
           
           await userAuthApiServer(serverRoute ,formData)
         

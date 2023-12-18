@@ -12,14 +12,17 @@
 
     const {title , banner , desc , content ,tags ,draft, author} = req.body
     if(!title.length) return next(createCustomError('you must provide a Title to publish this Post',403))
-    if(!banner.length) return next(createCustomError('you must provide blog banner to publish the blog',403))
-    if(!desc.length) return next(createCustomError('you must provide blog description',403))
-    // if(!content.blocks.length) return next(createCustomError('there must be some blog content to publish it',403))
-    if(!tags.length || tags.lenght > 10) return next(createCustomError('provide tags to publish the blog , maximum 10',403))
+
+    if(!draft) {
+        if(!banner.length) return next(createCustomError('you must provide blog banner to publish the blog',403))
+        if(!desc.length) return next(createCustomError('you must provide blog description',403))
+        // if(!content.blocks.length) return next(createCustomError('there must be some blog content to publish it',403))
+        if(!tags.length || tags.lenght > 10) return next(createCustomError('provide tags to publish the blog , maximum 10',403))
+}
 
     //  tags = tags.map((tag)=>tag.toLowerCase())
 
-    const blog_id = `${title.toLowerCase().replace(' ' , '_')}_${Date.now()}`
+    const blog_id = title.replace(/[^a-zA-Z0-9]/g,' ').replace(/\s+/g,"-").trim()+`${Date.now()}` ;
     
     const postBlog = await blogModel.create({
         blog_id,

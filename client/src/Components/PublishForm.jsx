@@ -38,12 +38,12 @@ const PublishForm = () => {
    if(!title.length) return toast.error('you must provide a Title to publish this Post')
    if(!banner.length) return toast.error('you must provide blog banner to publish the blog')
    if(!desc.length || desc.length > DescLength) return toast.error('you must provide blog description under 200 characters')
-  //  if(!content.blocks.length) return toast.error('there must be some blog content to publish it')
+   if(!content.length) return toast.error('there must be some blog content to publish it')
    if(!tags.length) return toast.error('Enter at least 1 tag to help us rank your blog')
    if(tags.length >= 10) return toast.error('provide tags to publish the blog , maximum 10')
     
    const Data = {
-    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id,
+    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : false,
    }
   
    const ToastLoading = toast.loading('Loading')

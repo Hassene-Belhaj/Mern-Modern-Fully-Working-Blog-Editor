@@ -13,8 +13,7 @@ border-bottom: .5px solid rgba(0,0,0,0.1);
 
 
 
-const Blog_Editor_Nav = ({handlePublishEvent}) => {
-
+const Blog_Editor_Nav = ({handlePublishEvent,handleCreateBlogDraft}) => {
 
   return (
     <Nav>
@@ -33,7 +32,7 @@ const Blog_Editor_Nav = ({handlePublishEvent}) => {
                     Publish
                 </Button>
 
-                <Button  $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' $opacity='0.9' >
+                <Button onClick={handleCreateBlogDraft} $width='8rem' $height='40px' $br='25px' $bg='#e5e7eb' $color='#000' $border='none' $opacity='0.9' >
                     Save Draft
                 </Button>
             </Div>

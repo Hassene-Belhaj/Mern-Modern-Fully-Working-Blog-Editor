@@ -69,13 +69,14 @@ const Navbar = () => {
      const UserInfoApi = async() => {
       try {
          const resp = await axios.get(Url+'/user/'+isLoggedIn?.data?.user.id,{withCredentials : true})
-         // console.log(resp.data.data);
+         // console.log(resp.data.data)
          setUserInfo(resp?.data?.data);
       } catch (error) {
-         console.log(error);
+         return error
       }
      } 
    
+
     useEffect(()=>{
       UserInfoApi()
     },[isLoggedIn])

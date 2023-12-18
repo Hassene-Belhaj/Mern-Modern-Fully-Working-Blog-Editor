@@ -25,7 +25,7 @@ const CheckUserApi = async() => {
         setIsLoggedIn(resp)
         console.log(resp);
     } catch (error) {
-        console.log(error);
+        return error
     }
 }
      

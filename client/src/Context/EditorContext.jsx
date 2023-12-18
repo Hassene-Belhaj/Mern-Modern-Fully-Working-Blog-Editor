@@ -22,10 +22,13 @@ const EditorContext = ({children}) => {
     const [author , setAuthor] = useState({personnel_info : {}})
     const [error , setError] = useState('')
 
+    const [textEditor , setTextEditor] = useState({isReady : false})
+
   
     const  value = {
       editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
-      setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError
+      setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError ,
+      textEditor , setTextEditor
     }
 
 

@@ -9,13 +9,12 @@ import LoadingSpinner from '../Utils/LoadingSpinner';
 import { useLocation, useNavigate } from 'react-router';
 import { useEditorContext } from '../Context/EditorContext';
 import axios from 'axios';
-import { PUBLIC_IMAGES, UploadImageUrl, Url } from '../Utils/Url';
+import { PUBLIC_IMAGES, UploadImageUrl, Url, UrlBlog } from '../Utils/Url';
 import { useAuthContext } from '../Context/AuthContext';
 import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from 'react-hot-toast';
 import AnimationWrapper from '../Utils/AnimationWrapper';
-
 
 
 const CloudUpload = styled(MdCloudUpload)`
@@ -26,11 +25,13 @@ cursor: pointer;
 `
 
 const Blog_Editor = () => {
- 
+  
+  const {isLoggedIn , CheckUserApi} = useAuthContext()
 
-    const {editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
-      setContent , desc , setDesc , tags , setTags , author , setAuthor} = useEditorContext()
-
+  
+  const {editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
+    setContent , desc , setDesc , tags , setTags , author , setAuthor} = useEditorContext()
+    
     let textLength = 150
     
 
@@ -59,14 +60,13 @@ const Blog_Editor = () => {
 
     const [loading , setLoading] = useState(false)
     const [image , setImage] = useState('')
-    const [value, setValue] = useState('');
      
     const [error , setError] = useState({banner : '' , title :'' , content : '' , tags : ''})
 
     
     const inputRef = useRef()
     
-    
+    const navigate = useNavigate()
 
     // hidden input & event click
     const handleBannerUpload = (e) => {
@@ -97,6 +97,7 @@ const Blog_Editor = () => {
         console.log(resp?.data?.data.url);
         setBanner(resp?.data?.data.url)
     } catch (error) {
+    toast.error(error)
     console.log(error);
     }
     setLoading(false)
@@ -116,10 +117,42 @@ const Blog_Editor = () => {
      }
   }
 
+
+  const handleCreateBlogDraft = async (e) => {
+    e.preventDefault()
+    
+   if(!title.length) return toast.error('you must provide a Title to saving this Post')
+   if(!banner.length) return toast.error('you must provide blog banner to saving the blog')
+  //  if(!desc.length || desc.length > DescLength) return toast.error('you must provide blog description under 200 characters')
+   if(!content.length) return toast.error('there must be some blog content to save it')
+  //  if(!tags.length) return toast.error('Enter at least 1 tag to help us rank your blog')
+    //  if(tags.length >= 10) return toast.error('provide tags to publish the blog , maximum 10')
+    
+   const Data = {
+    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : true,
+   }
+  
+   const ToastLoading = toast.loading('Loading')
+  try {
+    const resp = await axios.post(UrlBlog+ '/create_blog' , Data , {withCredentials : true} )
+    console.log(resp);
+    if(resp.status === 200) {
+      setTimeout(() => { navigate('/') }, 1000)
+    }
+
+  } catch (error) {
+    console.log(error);
+    toast.error(error)
+  }
+  toast.dismiss(ToastLoading)
+  toast.success('Saved')
+
+  }
+
   
   return (
     <>
-    <Blog_Editor_Nav  handlePublishEvent={handlePublishEvent}/>
+    <Blog_Editor_Nav  handlePublishEvent={handlePublishEvent}  handleCreateBlogDraft={handleCreateBlogDraft}/>
     <Container $padding='2rem' >
         <Form $maxwidth='900px' $margin='2rem auto' $position='relative'  >
               <Toaster />
@@ -161,13 +194,10 @@ const Blog_Editor = () => {
         
             
            <Div $margin='3rem 0'>
-             <ReactQuill theme='snow' placeholder='Compose an epic' modules={modules}  value={value} onChange={setValue} />
+             <ReactQuill theme='snow' placeholder='Compose an epic' modules={modules}  value={content} onChange={setContent} />
           </Div> 
                  
-        
-
-            <Button $width='100%' $height='40px' $br='7px' $bg='#000' $color='#fff' $border='none' $opacity='0.8'>Post</Button>
-            
+                    
         </Form>
     </Container>
     </>
@@ -175,3 +205,5 @@ const Blog_Editor = () => {
 }
 
 export default Blog_Editor
+
+
