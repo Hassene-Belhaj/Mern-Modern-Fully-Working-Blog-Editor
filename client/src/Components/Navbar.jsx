@@ -39,12 +39,14 @@ const BellIcon = styled(FaRegBell)`
 const Navbar = () => {
    const {isLoggedIn , CheckUserApi} = useAuthContext()
 
+
      const [show , setShow] = useState(false)
      const [showPannel , setShowPannel] = useState(false)
 
      const [userInfo , setUserInfo] = useState(null)
 
       // console.log(isLoggedIn?.data?.user.id);
+
 
     const handleBlur = () => {
       setTimeout(() => { setShowPannel(false) }, 300)
@@ -64,6 +66,7 @@ const Navbar = () => {
          } catch (error) {
             console.log(error);
          }
+         
       }
      
      const UserInfoApi = async() => {

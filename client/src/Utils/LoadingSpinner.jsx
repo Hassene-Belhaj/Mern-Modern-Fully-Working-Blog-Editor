@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 
 
 const Container = styled.div`
-  padding: 8rem 0;
+  padding: ${({$padding})=>$padding};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,11 +34,11 @@ background-color: transparent;
 `
 
 
-const LoadingSpinner = ({type}) => {
+const LoadingSpinner = ({$padding}) => {
   
 
   return ( 
-    <Container>
+    <Container $padding={$padding}>
          <Spinner />
          {/* {type === true ? <Text>Uploading</Text> :  <Text>Loading</Text>} */}
 

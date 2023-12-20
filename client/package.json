@@ -20,7 +20,8 @@
     "react-quill": "^2.0.0",
     "react-router": "^6.20.0",
     "react-router-dom": "^6.20.0",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "use-local-storage": "^3.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

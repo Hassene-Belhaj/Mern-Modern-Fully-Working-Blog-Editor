@@ -1,8 +1,14 @@
 import {Link} from 'react-router-dom'
 import { createGlobalStyle,styled } from 'styled-components'
+import { MdOutlineLightMode } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
 
 
 
+export const DarkModeIcon = styled(MdDarkMode)`
+`
+export const LightModeIcon = styled(MdOutlineLightMode)`
+`
 export const GlobalStyleApp=createGlobalStyle`
 *{
     padding: 0;
@@ -25,6 +31,7 @@ flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
 flex-wrap: ${({$fr})=>$fr};
 width: ${({$width})=>$width};
+max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
 position: ${({$position})=>$position};
 padding: ${({$padding})=>$padding};
@@ -73,6 +80,7 @@ box-shadow: ${({$boxShadow})=>$boxShadow};
 transition: ${({$transition})=>$transition};
 @media screen and (min-width : 768px) {
     display: ${({$Lg})=>$Lg};
+    justify-content: ${({$jcLg})=>$jcLg};
 }
 @media screen and (max-width : 768px) {
     display: ${({$Md})=>$Md};
@@ -244,6 +252,7 @@ text-align: ${({$ta})=>$ta};
 font-size: ${({$fs})=>$fs};
 font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
+text-transform: ${({$tt})=>$tt};
 padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
 border: ${({$border})=>$border};
@@ -262,7 +271,7 @@ width: ${({$width})=>$width};
 height: ${({$height})=>$height};
 padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
-object-fit: cover;
+object-fit: ${({$of})=>$of};
 border-radius: ${({$br})=>$br};
 position: ${({$position})=>$position};
 z-index: ${({$z})=>$z};

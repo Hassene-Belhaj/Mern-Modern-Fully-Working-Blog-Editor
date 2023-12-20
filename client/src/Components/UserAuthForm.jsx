@@ -242,7 +242,7 @@ const UserAuthForm = ({type}) => {
               <Div>
                 <Text $ta='center' >
                     Don't have an account ?
-                    <Navlink to='/signup' $td='underline' $padding='0 0 8px 8px' $color='#000'>Join Us Today </Navlink> 
+                    <Navlink to='/signup' $td='underline' $padding='0 0 8px 8px'>Join Us Today </Navlink> 
                 </Text>
               </Div>
             </>

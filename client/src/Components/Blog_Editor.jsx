@@ -29,8 +29,9 @@ const Blog_Editor = () => {
   const {isLoggedIn , CheckUserApi} = useAuthContext()
 
   
-  const {editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
+    const {editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
     setContent , desc , setDesc , tags , setTags , author , setAuthor} = useEditorContext()
+
     
     let textLength = 150
     
@@ -56,12 +57,7 @@ const Blog_Editor = () => {
       toolbar : toolbarOptions
     }
       
-    
-
-    const [loading , setLoading] = useState(false)
-    const [image , setImage] = useState('')
-     
-    const [error , setError] = useState({banner : '' , title :'' , content : '' , tags : ''})
+       
 
     
     const inputRef = useRef()
@@ -70,7 +66,7 @@ const Blog_Editor = () => {
 
     // hidden input & event click
     const handleBannerUpload = (e) => {
-       if(banner?.url) {
+       if(banner) {
         e.preventDefault()
        } else {
          inputRef.current.click()
@@ -100,7 +96,6 @@ const Blog_Editor = () => {
     toast.error(error)
     console.log(error);
     }
-    setLoading(false)
     toast.dismiss(ToasterId)
     toast.success('image uploaded successfully')
     }
@@ -118,26 +113,28 @@ const Blog_Editor = () => {
   }
 
 
+  // draft
+
   const handleCreateBlogDraft = async (e) => {
+
     e.preventDefault()
     
-   if(!title.length) return toast.error('you must provide a Title to saving this Post')
-   if(!banner.length) return toast.error('you must provide blog banner to saving the blog')
-  //  if(!desc.length || desc.length > DescLength) return toast.error('you must provide blog description under 200 characters')
-   if(!content.length) return toast.error('there must be some blog content to save it')
-  //  if(!tags.length) return toast.error('Enter at least 1 tag to help us rank your blog')
-    //  if(tags.length >= 10) return toast.error('provide tags to publish the blog , maximum 10')
+    if(!title.length) return toast.error('you must provide a Title to saving this Post')
     
    const Data = {
-    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : true,
+    title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : true ,
    }
   
    const ToastLoading = toast.loading('Loading')
   try {
-    const resp = await axios.post(UrlBlog+ '/create_blog' , Data , {withCredentials : true} )
+    const resp = await axios.post(UrlBlog+'/create_blog' , Data , {withCredentials : true} )
     console.log(resp);
     if(resp.status === 200) {
-      setTimeout(() => { navigate('/') }, 1000)
+      setTimeout(() => { 
+        navigate('/') 
+        setTitle('')
+        setBanner('')
+      }, 1000)
     }
 
   } catch (error) {
@@ -146,7 +143,6 @@ const Blog_Editor = () => {
   }
   toast.dismiss(ToastLoading)
   toast.success('Saved')
-
   }
 
   
@@ -156,28 +152,29 @@ const Blog_Editor = () => {
     <Container $padding='2rem' >
         <Form $maxwidth='900px' $margin='2rem auto' $position='relative'  >
               <Toaster />
-           {banner?.url ? 
+           {banner? 
            <Div $position='absolute' $top='1rem' $right='1rem'>
              <CloseIcon onClick={handleClickDeleteImage} color='#f3f5f9' size={20}/> 
             </Div> 
             : null}
 
-          <Div $margin='1rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'   $border='2px solid rgba(0,0,0,0.05)' onClick={handleBannerUpload} >
+          <Div $margin='1rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'    onClick={handleBannerUpload} $border='.5px solid rgba(0,0,0,0.1)' >
                 <Input ref={inputRef}  onChange={UploadImageApi} $width='100%' $outline='none' type="file" name='file' accept='.png , .jpg , .jpeg'  hidden />
             
               
                 {banner ? 
-                <Image src={banner} $width="100%" $height='100%'/> 
+                <Image src={banner} $width="100%" $height='100%' $of='cover'/> 
                 : 
-                <CloudUpload size={70} color='#818cf8' />
+                <>
+                 <Div $display='flex' $jc='center' $ai='center' $gap='1rem' > 
+                  <CloudUpload size={70} color='#818cf8' />
+                  <Text $color='#818cf8'>upload banner</Text>
+                 </Div>
+                </>
+                // <Image src='blog_banner.png'  $width="100%" $height='100%' $of='center'/> 
                 } 
 
            </Div>
-
-            <Div>
-               <Text $ta='center' $fs='0.8rem' $color='red' >{error?.banner}</Text>
-
-            </Div>
 
              
            <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center' >
@@ -188,7 +185,7 @@ const Blog_Editor = () => {
           <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />
 
           <Div $display='flex' $jc='end'>
-             <Text $fs='0.8rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length || 0 } characters left </Text>
+             <Text $fs='0.9rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length || 0 } characters left </Text>
            </Div>
            
         

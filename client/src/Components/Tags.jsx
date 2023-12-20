@@ -39,12 +39,15 @@ const Tags = ({tag,index}) => {
   }
 
   return (
-       <Button $fw='600' $width='auto' $padding='6px' $br='25px' $display='flex' $jc='center' $ai='center'  $bg='#fff' $border='none' $opacity='0.9'  
+       <Button $fw='700' $width='auto' $padding='4px' $br='25px' $display='flex' $jc='center' $ai='center'  $bg='#fff' $border='none' $opacity='0.9'  
        onClick={addEditable} onKeyDown={handleTagEdit}>
-           <Text $bgf='#d5d5d5' $outline='none' $margin='0 0 0 8px'>{tag}</Text>
-          <IconClose color='#000' onClick={()=>handleClose(index)}   />
+           <Text $bgf='#d5d5d5' $tt='capitalize' $outline='none' $margin='0 0 0 8px'>{tag}</Text>
+           <IconClose color='#000' onClick={()=>handleClose(index)}   />
        </Button>      
   )
 }
 
 export default Tags
+
+
+

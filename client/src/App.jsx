@@ -1,23 +1,35 @@
 import React from 'react'
-import {GlobalStyleApp } from './Global/GlobalStyle'
+import {DarkModeIcon, GlobalStyleApp, LightModeIcon } from './Global/GlobalStyle'
 import Navbar from './Components/Navbar'
 import { Routes , Route, Outlet, useLocation } from 'react-router-dom'
 import { useAuthContext } from './Context/AuthContext'
 import UserAuthForm from './Components/UserAuthForm'
 import Editor from './Pages/Editor'
-import Home from './Pages/Home'
 import Test from './Components/Test'
+import Home from './Pages/home'
+import BlogPage from './Pages/BlogPage'
 
 const App = () => {
+  const location = useLocation()
   const {isLoggedIn} = useAuthContext()
+   
+  const dark = {
+    background : '#000' ,
+    // color : '#fff'
+  }
 
-   const location = useLocation()
+  const light = {
+    background : '#fff',
+    // color : '#000'
+  }
+   
+
+
 
   return (
- 
   <>
-   <GlobalStyleApp/>
-     {location.pathname === '/editor' ? null : <Navbar />}
+    <GlobalStyleApp/>
+        {location.pathname === '/editor' ? null : <Navbar />}
  
      <Routes> 
         {isLoggedIn !== undefined ? null 
@@ -28,8 +40,9 @@ const App = () => {
         </>
         }      
         <Route path='/' element={< Home />} />  
+        <Route path='/blog/:id' element={< BlogPage />} />  
         <Route path='/editor' element={< Editor/>} />
-     </Routes>
+     </Routes> 
   </>
     )
   }

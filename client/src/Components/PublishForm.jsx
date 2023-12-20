@@ -33,8 +33,11 @@ const PublishForm = () => {
   let DescLength = 200
 
 
+
+
   const handleCreateBlogPostApi = async (e) => {
     e.preventDefault()
+    
    if(!title.length) return toast.error('you must provide a Title to publish this Post')
    if(!banner.length) return toast.error('you must provide blog banner to publish the blog')
    if(!desc.length || desc.length > DescLength) return toast.error('you must provide blog description under 200 characters')
@@ -51,7 +54,14 @@ const PublishForm = () => {
     const resp = await axios.post(UrlBlog+ '/create_blog' , Data , {withCredentials : true} )
     console.log(resp);
     if(resp.status === 200) {
-      setTimeout(() => { navigate('/') }, 1000)
+      setTimeout(() => {
+         navigate('/')
+         setTitle('')
+         setBanner('') 
+         setContent('')
+         setDesc('')
+         setTags([])
+        }, 1000)
     }
 
   } catch (error) {
@@ -100,7 +110,7 @@ const handleKeyDown =(e)=> {
       <Div $margin='2rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'   $border='4px solid rgba(0,0,0,0.05)' >
             <Input  $width='100%' $outline='none' type="file" accept='.png , .jpg , .jpeg'  hidden />
         
-            {banner? <Image src={banner} $width="100%" $height='100%'/> : <Text>upload image</Text> }
+            {banner? <Image src={banner} $width="100%" $height='100%' $of='cover'/> : <Text>upload image</Text> }
             
        </Div>
          
@@ -142,7 +152,7 @@ const handleKeyDown =(e)=> {
              value={tag} onChange={e=>setTag(e.target.value)} />
 
                 <Div $width='100%' $display='flex'$gap='1rem' $fw='wrap'>
-                    {tags.map((item,index)=>{
+                    {tags?.map((item,index)=>{
                       return (
                         <Div key={index} $display='flex'>
                           <Tags tag={item} index={index} setTag={setTag} />

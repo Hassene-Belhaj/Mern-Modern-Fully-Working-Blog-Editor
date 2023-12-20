@@ -15,7 +15,7 @@ const EditorContext = ({children}) => {
 
     const [editorState , setEditorState] = useState("editor")
     const [title , setTitle] = useState('')
-    const [banner , setBanner] = useState('')
+    const [banner , setBanner] = useState(null)
     const [content , setContent] = useState('')
     const [desc , setDesc] = useState('')
     const [tags , setTags] = useState([])
