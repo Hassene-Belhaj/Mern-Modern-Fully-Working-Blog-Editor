@@ -73,6 +73,11 @@
    })
 
 
+   const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) =>{
+
+    const resp = await blogModel.find()
+   })
+
     module.exports = {  
         createBlogPost , latestBlog , trendingBlogs
     };

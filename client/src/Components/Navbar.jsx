@@ -126,7 +126,7 @@ const Navbar = () => {
                         <BellIcon size={20} />
                         </Button> 
                         <Button onClick={()=>setShowPannel(!showPannel)} onBlur={handleBlur}  $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'> 
-                        <Image  $width='2rem' $br='25px' src={userInfo?.profile_img} referrerPolicy='no-referrer' alt='image profile'/>
+                        <Image  $width='2rem' $br='25px' src={userInfo?.profile_img}  alt='image profile'/>
                         </Button> 
                       </>
                       :  

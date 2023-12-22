@@ -1,54 +1,34 @@
 import {Link} from 'react-router-dom'
-import { createGlobalStyle,styled } from 'styled-components'
+import { createGlobalStyle,css,styled } from 'styled-components'
 import { MdOutlineLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 
 
-
 export const DarkModeIcon = styled(MdDarkMode)`
 `
+
 export const LightModeIcon = styled(MdOutlineLightMode)`
 `
+
 export const GlobalStyleApp=createGlobalStyle`
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    /* font-family: 'Karla', sans-serif; */
 }
 
 body{
     scroll-behavior: smooth;
 }
-
 `
 
-export const Container = styled.div`
-display: ${({$display})=>$display};
-justify-content: ${({$jc})=>$jc};
-align-items: ${({$ai})=>$ai};
-flex-direction: ${({$fd})=>$fd};
-flex: ${({$flex})=>$flex};
-flex-wrap: ${({$fr})=>$fr};
-width: ${({$width})=>$width};
-max-width: ${({$maxwidth})=>$maxwidth};
-height: ${({$height})=>$height};
-position: ${({$position})=>$position};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-color: ${({$color})=>$color};
-background-color: ${({$bg})=>$bg};
-border: ${({$border})=>$border};
-border-radius: ${({$br})=>$br};
-border-top: ${({$borderT})=>$borderT};
-border-bottom: ${({$borderB})=>$borderB};
-border-right: ${({$borderR})=>$borderR};
-border-left: ${({$borderL})=>$borderL};
-gap: ${({$gap})=>$gap};
-overflow: hidden;
-`
 
-export const Div = styled.div`
+
+
+
+const sharedProps = css`
 display: ${({$display})=>$display};
 justify-content: ${({$jc})=>$jc};
 align-items: ${({$ai})=>$ai};
@@ -58,6 +38,7 @@ flex-wrap: ${({$fw})=>$fw};
 width: ${({$width})=>$width};
 max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
+max-height: ${({$maxheight})=>$maxheight};
 position: ${({$position})=>$position};
 z-index: ${({$z})=>$z};
 top: ${({$top})=>$top};
@@ -67,245 +48,153 @@ bottom: ${({$bottom})=>$bottom};
 transform:${({$transform})=>$transform} ;
 padding: ${({$padding})=>$padding};
 margin: ${({$margin})=>$margin};
+text-align: ${({$ta})=>$ta};
+text-decoration: ${({$td})=>$td};
+font-size: ${({$fs})=>$fs};
+font-weight: ${({$fw})=>$fw};
 color: ${({$color})=>$color};
 background-color: ${({$bg})=>$bg};
+outline: ${({$outline})=>$outline};
 border: ${({$border})=>$border};
 border-top: ${({$borderT})=>$borderT};
 border-bottom: ${({$borderB})=>$borderB};
 border-right: ${({$borderR})=>$borderR};
 border-left: ${({$borderL})=>$borderL};
 border-radius: ${({$br})=>$br};
-gap: ${({$gap})=>$gap};
 box-shadow: ${({$boxShadow})=>$boxShadow};
-transition: ${({$transition})=>$transition};
-@media screen and (min-width : 768px) {
-    display: ${({$Lg})=>$Lg};
-    justify-content: ${({$jcLg})=>$jcLg};
-}
-@media screen and (max-width : 768px) {
-    display: ${({$Md})=>$Md};
-}
+gap: ${({$gap})=>$gap};
+object-fit: ${({$of})=>$of};
+resize: ${({$resize})=>$resize};
+transition:${({$transition})=>$transition};
+
 &:hover {
     background-color: ${({$bgh})=>$bgh};
     cursor: ${({$cursor})=>$cursor};
+    opacity: ${({$opacity})=>$opacity};
+    color: ${({$colorH})=>$colorH};
 }
+
+&:active{ 
+    color :${({$active})=>$active} ;
+}
+
+&:focus{  
+    border: ${({$borderF})=>$borderF};
+}
+
+&::placeholder{
+    color: ${({$colorPH})=>$colorPH};
+}
+
+@media screen and (min-width : 475px) {
+
+    display: ${({$XS_display})=>$XS_display};
+    justify-content: ${({$XS_jc})=>$XS_jc};
+    align-items: ${({$XS_ai})=>$XS_ai};
+    width: ${({$XS_width})=>$XS_width};
+    height: ${({$XS_height})=>$XS_height};
+    gap : ${({$XS_gap})=>$XS_gap} ;
+
+}
+
+
+@media screen and (min-width : 640px) {
+
+    display: ${({$SM_display})=>$SM_display};
+    justify-content: ${({$SM_jc})=>$SM_jc};
+    align-items: ${({$SM_ai})=>$SM_ai};
+    width: ${({$SM_width})=>$SM_width};
+    height: ${({$SM_height})=>$SM_height};
+    margin: ${({$SM_margin})=>$SM_margin};
+    gap : ${({$SM_gap})=>$SM_gap} ;
+    
+}
+
+@media screen and (min-width : 768px) {
+    
+    display: ${({$MD_display})=>$MD_display};
+    justify-content: ${({$MD_jc})=>$MD_jc};
+    align-items: ${({$MD_ai})=>$MD_ai};
+    width: ${({$MD_width})=>$MD_width};
+    height: ${({$MD_height})=>$MD_height};
+    margin: ${({$MD_margin})=>$MD_margin};
+    gap : ${({$MD_gap})=>$MD_gap} ;
+    
+}
+
+@media screen and (min-width : 1024px) {
+    display: ${({$LG_display})=>$LG_display};
+    justify-content: ${({$LG_jc})=>$LG_jc};
+    
+
+}
+
+@media screen and (min-width : 1280px) {
+    display: ${({$XL_display})=>$XL_display};
+}
+
+@media screen and (min-width : 1536px) {
+    display: ${({$2XL_display})=>$2XL_display};
+}
+
 `
+
+
+
+export const Container = styled.div`
+${sharedProps};
+`
+
+export const Div = styled.div`
+${sharedProps}
+`
+
+
 export const Section = styled.section`
-display: ${({$display})=>$display};
-justify-content: ${({$jc})=>$jc};
-align-items: ${({$ai})=>$ai};
-flex-direction: ${({$fd})=>$fd};
-flex: ${({$flex})=>$flex};
-flex-wrap: ${({$fr})=>$fr};
-width: ${({$width})=>$width};
-max-width: ${({$maxwidth})=>$maxwidth};
-height: ${({$height})=>$height};
-position: ${({$position})=>$position};
-z-index: ${({$z})=>$z};
-top: ${({$top})=>$top};
-left: ${({$left})=>$left};
-right: ${({$right})=>$right};
-bottom: ${({$bottom})=>$bottom};
-transform:${({$transform})=>$transform} ;
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-color: ${({$color})=>$color};
-background-color: ${({$bg})=>$bg};
-border: ${({$border})=>$border};
-border-top: ${({$borderT})=>$borderT};
-border-bottom: ${({$borderB})=>$borderB};
-border-right: ${({$borderR})=>$borderR};
-border-left: ${({$borderL})=>$borderL};
-border-radius: ${({$br})=>$br};
-gap: ${({$gap})=>$gap};
-box-shadow: ${({$boxShadow})=>$boxShadow};
-transition: ${({$transition})=>$transition};
-@media screen and (min-width : 768px) {
-    display: ${({$Lg})=>$Lg};
-}
-@media screen and (max-width : 768px) {
-    display: ${({$Md})=>$Md};
-}
-&:hover {
-    background-color: ${({$bgh})=>$bgh};
-    cursor: ${({$cursor})=>$cursor};
-}
+${sharedProps}
 `
 
 
 export const Button = styled.button`
-display: ${({$display})=>$display};
-justify-content: ${({$jc})=>$jc};
-align-items: ${({$ai})=>$ai};
-flex-wrap: ${({$fr})=>$fr};
-width: ${({$width})=>$width};
-height: ${({$height})=>$height};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-color: ${({$color})=>$color};
-background-color: ${({$bg})=>$bg};
-border: ${({$border})=>$border};
-border-radius: ${({$br})=>$br};
-border-start-start-radius: ${({$bssr})=>$bssr};
-gap: ${({$gap})=>$gap};
-transition: all ease-in-out 0.3s;
+${sharedProps} ;
 cursor: pointer;
-&:hover{
-    opacity: ${({$opacity})=>$opacity};
-    color: ${({$colorH})=>$colorH};
-    background-color: ${({$backgorundH})=>$backgorundH};
-}
-@media screen and (min-width : 768px) {
-    display: ${({$Lg})=>$Lg};
-}
-@media screen and (max-width : 768px) {
-    display: ${({$Md})=>$Md};
-}
 `
 
 export const Form = styled.form`
-display: ${({$display})=>$display};
-justify-content: ${({$jc})=>$jc};
-align-items: ${({$ai})=>$ai};
-flex-direction: ${({$fd})=>$fd};
-flex: ${({$flex})=>$flex};
-flex-wrap: ${({$fr})=>$fr};
-max-width: ${({$maxwidth})=>$maxwidth};
-width: ${({$width})=>$width};
-height: ${({$height})=>$height};
-position: ${({$position})=>$position};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-color: ${({$color})=>$color};
-background-color: ${({$bg})=>$bg};
-border: ${({$border})=>$border};
-border-top: ${({$borderT})=>$borderT};
-border-bottom: ${({$borderB})=>$borderB};
-border-right: ${({$borderR})=>$borderR};
-border-left: ${({$borderL})=>$borderL};
-gap: ${({$gap})=>$gap};
+${sharedProps};
 `
 
 export const Input = styled.input`
-display: ${({$display})=>$display};
-justify-content: ${({$jc})=>$jc};
-align-items: ${({$ai})=>$ai};
-flex-direction: ${({$fd})=>$fd};
-flex: ${({$flex})=>$flex};
-flex-wrap: ${({$fr})=>$fr};
-width: ${({$width})=>$width};
-max-width: ${({$maxwidth})=>$maxwidth};
-height: ${({$height})=>$height};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-outline: ${({$outline})=>$outline};
-border: ${({$border})=>$border};
-font-size: ${({$fs})=>$fs};
-border-radius: ${({$br})=>$br};
-border-start-start-radius: ${({$bssr})=>$bssr};
-background-color: ${({$bg})=>$bg};
-transition: all ease-in-out 0.5s;
-position: ${({$position})=>$position};  
-&:focus{  
-    border: ${({$borderF})=>$borderF};
-}
-&::placeholder{
-    color: ${({$colorPH})=>$colorPH};
-}
+${sharedProps};
 `
 
 export const TextArea = styled.textarea`
-width: ${({$width})=>$width};
-height: ${({$height})=>$height};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-outline: ${({$outline})=>$outline};
-border: ${({$border})=>$border};
-font-size: ${({$fs})=>$fs};
-border-radius: ${({$br})=>$br};
-border-start-start-radius: ${({$bssr})=>$bssr};
-background-color: ${({$bg})=>$bg};
-transition: all ease-in-out 0.5s;
-position: ${({$position})=>$position};  
-resize: ${({$resize})=>$resize};
-text-transform: ${({$tt})=>$tt};
-&:focus{  
-    border: ${({$borderF})=>$borderF};
-}
-&::placeholder{
-    color: ${({$colorPH})=>$colorPH};
-}
+${sharedProps} ;
 `
 
 export const Title = styled.h2`
-text-align: ${({$ta})=>$ta};
-font-size: ${({$fs})=>$fs};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-font-weight: ${({$fw})=>$fw};
-color: ${({$color})=>$color};
-border: ${({$border})=>$border};
+${sharedProps};
 `
 
 export const Text = styled.p`
-text-align: ${({$ta})=>$ta};
-font-size: ${({$fs})=>$fs};
-font-weight: ${({$fw})=>$fw};
-color: ${({$color})=>$color};
-text-transform: ${({$tt})=>$tt};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-border: ${({$border})=>$border};
-transition: ${({$transition})=>$transition};
-outline: ${({$outline})=>$outline};
-&:hover {
-    background-color: ${({$bgh})=>$bgh};
-}
-&:focus {
-    background-color: ${({$bgf})=>$bgf};
-}
+${sharedProps} ;
 `
 
 export const Image = styled.img`
-width: ${({$width})=>$width};
-height: ${({$height})=>$height};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-object-fit: ${({$of})=>$of};
-border-radius: ${({$br})=>$br};
-position: ${({$position})=>$position};
-z-index: ${({$z})=>$z};
-cursor: pointer;
+${sharedProps};
 `
+
+
 export const Span = styled.span`
-width: ${({$width})=>$width};
-height: ${({$height})=>$height};
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-text-align: ${({$ta})=>$ta};
-font-size: ${({$fs})=>$fs};
-font-weight: ${({$fw})=>$fw};
-color: ${({$color})=>$color};
-border: ${({$border})=>$border};
-border-radius: ${({$br})=>$br};
+${sharedProps};
 `
+
 export const Navlink = styled(Link)`
-text-align: ${({$ta})=>$ta};
-font-size: ${({$fs})=>$fs};
-font-weight: ${({$fw})=>$fw};
-color: ${({$color})=>$color};
-text-decoration: ${({$td})=>$td};
-text-underline-offset: 8px;
-padding: ${({$padding})=>$padding};
-margin: ${({$margin})=>$margin};
-transition: all ease-in-out 0.3s;
-border-bottom: ${({$borderB})=>$borderB};
-&:hover{
-    text-decoration: ${({$tdh})=>$tdh};
-    text-underline-offset: 8px;
-}
-&:active{ 
-    color :${({$active})=>$active} ;
-}
+${sharedProps};
 `
+
+// export const Blue = '#818cf8'
+
+
+
 

@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.route('/create_blog').post(verifytoken,createBlogPost)
 router.route('/latest_blog').get(verifytoken,latestBlog)
-router.route('/trending_blogs').get(verifytoken,trendingBlogs)
+router.route('/trending_blogs').get(trendingBlogs)
 
 
 

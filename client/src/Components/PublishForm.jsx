@@ -117,7 +117,7 @@ const handleKeyDown =(e)=> {
          {/* <Title $fs='1rem' $fw='500'>Blog Title</Title> */}
 
          <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center'  >
-              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $padding='1rem' $br='7px' value={title} onChange={e=>setTitle(e.target.value)} ></TextArea>
+              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'  $padding='1rem' $br='7px' value={title} onChange={e=>setTitle(e.target.value)} ></TextArea>
           </Div> 
 
           <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />
@@ -148,7 +148,7 @@ const handleKeyDown =(e)=> {
         <Div $margin='2rem 0 0 0' $height='100%'  $bg='#f3f5f9'  $border='none'  $padding='1.5rem' $br='7px'  >
 
             <Input onSelect={()=>setError('')}  $width='100%' $height='3rem'  $outline='none' $bg='#fff' $br='7px' $padding='8px' $margin='1rem 0'
-             $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Add Tag' onKeyDown={handleKeyDown} 
+             $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.3s' type='text' placeholder='Add Tag' onKeyDown={handleKeyDown} 
              value={tag} onChange={e=>setTag(e.target.value)} />
 
                 <Div $width='100%' $display='flex'$gap='1rem' $fw='wrap'>
