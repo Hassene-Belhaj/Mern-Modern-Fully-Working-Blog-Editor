@@ -32,15 +32,15 @@ const TrendingBlogs = () => {
     <>
        {trendingBlogs?.map(({publishedAt, title, desc, author : {personal_info : {fullname , profile_img}}} , i)=> {
         return (
-              <Container key={i}  $padding='2rem 0' $width='90%' $display='flex' $jc='center' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
+              <Container key={i} $padding='2rem'  $width='90%' $display='flex' $gap='2rem'  $margin='auto'  $borderB='.5px solid rgba(0,0,0,0.2)'>
 
-                    <Div $flex='1' $margin='0 2rem 0 0 ' $display='flex' $ai='center' >
-                            <Title $fs='5rem' $fw='100' $color='rgba(0,0,0,0.3)'>0{i+1}</Title>
+                    <Div  $display='flex' $ai='center' >
+                            <Title $fs='4rem' $fw='100' $color='rgba(0,0,0,0.3)'>0{i+1}</Title>
                     </Div>
 
-                    <Div>
+              <Div>
 
-                    <Div $display='flex'  $gap='1rem' $margin='0 auto'>
+                    <Div $display='flex'   $gap='1rem' $margin='0 auto'>
                             <Div $width='1.5rem' $height='1.5rem' $display='flex' $ai='center' >
                                 <Image $width='1.5rem' $heigth='1.5rem' $of='cover' $br='25px' src={profile_img} />
                             </Div>
@@ -51,18 +51,15 @@ const TrendingBlogs = () => {
                     </Div>
 
 
-                    <Div $flex='1' $display='flex' $jc='space-between' $fd='column' $margin='auto'>
+                    <Div $display='flex' $jc='space-between' $fd='column' $margin='auto'>
 
                         <Div $height='100%' $display='flex' $fd='column'  $padding='1rem 0' >
                             <Title $fs='1.3rem'>{title}</Title>
-                                <Div $Md='none'>
-                                <Text $padding='.5rem 0' $fs='.9rem'>{desc}</Text>
-                                </Div>
                         </Div>
 
                     </Div>   
 
-                        </Div>  
+              </Div>  
                         
 
         </Container> 

@@ -73,11 +73,17 @@
    })
 
 
-   const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) =>{
+   const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) => {
 
-    const resp = await blogModel.find()
+    const {tag} = req.body
+    const resp = await blogModel.find({tags : tag , draft : false}).populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id").sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} ).limit(5)
+    if(!resp) {
+       return next(createCustomError('somethig went wrong please try later' , 500))
+    }
+    return res.status(200).json({success :true , resp})
+
    })
 
     module.exports = {  
-        createBlogPost , latestBlog , trendingBlogs
+        createBlogPost , latestBlog , trendingBlogs , loadingBlogByTagCategory
     };

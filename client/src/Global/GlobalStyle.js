@@ -25,9 +25,6 @@ body{
 `
 
 
-
-
-
 const sharedProps = css`
 display: ${({$display})=>$display};
 justify-content: ${({$jc})=>$jc};
@@ -66,6 +63,7 @@ gap: ${({$gap})=>$gap};
 object-fit: ${({$of})=>$of};
 resize: ${({$resize})=>$resize};
 transition:${({$transition})=>$transition};
+text-transform: ${({$tt})=>$tt};
 
 &:hover {
     background-color: ${({$bgh})=>$bgh};
@@ -88,6 +86,7 @@ transition:${({$transition})=>$transition};
 
 @media screen and (min-width : 475px) {
 
+    width : ${({$XS_width})=>$XS_width} ;
     display: ${({$XS_display})=>$XS_display};
     justify-content: ${({$XS_jc})=>$XS_jc};
     align-items: ${({$XS_ai})=>$XS_ai};
@@ -96,7 +95,6 @@ transition:${({$transition})=>$transition};
     gap : ${({$XS_gap})=>$XS_gap} ;
 
 }
-
 
 @media screen and (min-width : 640px) {
 
@@ -107,6 +105,8 @@ transition:${({$transition})=>$transition};
     height: ${({$SM_height})=>$SM_height};
     margin: ${({$SM_margin})=>$SM_margin};
     gap : ${({$SM_gap})=>$SM_gap} ;
+    width : ${({$SM_width})=>$SM_width} ;
+    flex: ${({$SM_flex})=>$SM_flex};
     
 }
 
@@ -119,29 +119,62 @@ transition:${({$transition})=>$transition};
     height: ${({$MD_height})=>$MD_height};
     margin: ${({$MD_margin})=>$MD_margin};
     gap : ${({$MD_gap})=>$MD_gap} ;
+    width : ${({$MD_width})=>$MD_width} ;
+    flex: ${({$MD_flex})=>$MD_flex};
     
 }
+
 
 @media screen and (min-width : 1024px) {
     display: ${({$LG_display})=>$LG_display};
     justify-content: ${({$LG_jc})=>$LG_jc};
+    align-items: ${({$LG_ai})=>$LG_ai};
+    width: ${({$LG_width})=>$LG_width};
+    height: ${({$LG_height})=>$LG_height};
+    margin: ${({$LG_margin})=>$LG_margin};
+    gap : ${({$LG_gap})=>$LG_gap} ;
+    width : ${({$LG_width})=>$LG_width} ;
+    flex: ${({$LG_flex})=>$LG_flex};
     
 
 }
 
 @media screen and (min-width : 1280px) {
     display: ${({$XL_display})=>$XL_display};
+    justify-content: ${({$XL_jc})=>$XL_jc};
+    align-items: ${({$XL_ai})=>$XL_ai};
+    width: ${({$XL_width})=>$XL_width};
+    height: ${({$XL_height})=>$XL_height};
+    margin: ${({$XL_margin})=>$XL_margin};
+    gap : ${({$XL_gap})=>$XL_gap} ;
+    width : ${({$XL_width})=>$XL_width} ;
+    flex: ${({$XL_flex})=>$XL_flex};
 }
 
 @media screen and (min-width : 1536px) {
     display: ${({$2XL_display})=>$2XL_display};
+    justify-content: ${({$2XL_jc})=>$2XL_jc};
+    align-items: ${({$2XL_ai})=>$2XL_ai};
+    width: ${({$2XL_width})=>$2XL_width};
+    height: ${({$2XL_height})=>$2XL_height};
+    margin: ${({$2XL_margin})=>$2XL_margin};
+    gap : ${({$2XL_gap})=>$2XL_gap} ;
+    width : ${({$2XL_width})=>$2XL_width} ;
+    flex: ${({$2XL_flex})=>$2XL_flex};
+
 }
 
 `
 
 
 
+
+
 export const Container = styled.div`
+${sharedProps};
+`
+
+export const Header = styled.div`
 ${sharedProps};
 `
 
