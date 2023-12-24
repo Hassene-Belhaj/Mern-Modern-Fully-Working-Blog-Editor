@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Container, Div, Image, Text, Title } from '../Global/GlobalStyle'
 import { CiHeart } from "react-icons/ci";
 import styled from 'styled-components';
+import LoadingSpinner from '../Utils/LoadingSpinner';
 
 
 
@@ -13,9 +14,12 @@ const BlogPostCard = ({data , author}) => {
 
     const {publishedAt, title , banner , desc, tags , activity } = data
     const {fullname,email,username,profile_img} = author
-  return (
- 
-   <Container  $padding='2rem' $display='flex'  $jc='space-between'  $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
+
+
+
+    return (
+        
+        <Container  $padding='1rem' $display='flex'  $jc='space-between'  $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
 
             <Div  >
                     <Div $display='flex'  $gap='1rem' $margin='auto'>
@@ -32,8 +36,8 @@ const BlogPostCard = ({data , author}) => {
 
                 <Div $display='flex' $jc='space-between' $fd='column' $margin='auto'>
 
-                    <Div $height='100%' $display='flex' $fd='column'  $padding='1rem 0' >
-                        <Title $fs='1.3rem'>{title}</Title>
+                    <Div   $height='100%' $display='flex' $fd='column'  $padding='1rem 0' >
+                        <Title $fs='1.3rem' $tt='capitalize'>{title}</Title>
                         <Div $display='none' $MD_display='flex  '>
                         <Text $width='80%' $padding='.5rem 0' $fs='1rem'>{desc}</Text>
                         </Div>

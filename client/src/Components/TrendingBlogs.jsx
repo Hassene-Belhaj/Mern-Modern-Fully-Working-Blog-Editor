@@ -3,6 +3,7 @@ import { Container, Div, Image, Text, Title } from '../Global/GlobalStyle'
 import { useEffect } from 'react';
 import axios from 'axios';
 import { UrlBlog } from '../Utils/Url';
+import LoadingSpinner from '../Utils/LoadingSpinner';
 
 
 
@@ -27,20 +28,22 @@ const TrendingBlogs = () => {
       },[])
 
       
+  if(!trendingBlogs) return <Div $padding='2rem 0'><LoadingSpinner /></Div> 
+  else {
 
-  return (
-    <>
+    return (
+      <>
        {trendingBlogs?.map(({publishedAt, title, desc, author : {personal_info : {fullname , profile_img}}} , i)=> {
-        return (
-              <Container key={i} $padding='2rem'  $width='90%' $display='flex' $gap='2rem'  $margin='auto'  $borderB='.5px solid rgba(0,0,0,0.2)'>
+         return (
+           <Container key={i} $padding='2rem'  $width='90%' $display='flex' $gap='2rem'  $margin='auto'  $borderB='.5px solid rgba(0,0,0,0.2)'>
 
                     <Div  $display='flex' $ai='center' >
-                            <Title $fs='4rem' $fw='100' $color='rgba(0,0,0,0.3)'>0{i+1}</Title>
+                            <Title $fs='4rem' $fw='100'  $color='rgba(0,0,0,0.1)'>0{i+1}</Title>
                     </Div>
 
               <Div>
 
-                    <Div $display='flex'   $gap='1rem' $margin='0 auto'>
+                    <Div $display='flex' $gap='1rem' $margin='0 auto'>
                             <Div $width='1.5rem' $height='1.5rem' $display='flex' $ai='center' >
                                 <Image $width='1.5rem' $heigth='1.5rem' $of='cover' $br='25px' src={profile_img} />
                             </Div>
@@ -54,7 +57,7 @@ const TrendingBlogs = () => {
                     <Div $display='flex' $jc='space-between' $fd='column' $margin='auto'>
 
                         <Div $height='100%' $display='flex' $fd='column'  $padding='1rem 0' >
-                            <Title $fs='1.3rem'>{title}</Title>
+                            <Title $fs='1.3rem' $tt='capitalize'>{title}</Title>
                         </Div>
 
                     </Div>   
@@ -69,6 +72,7 @@ const TrendingBlogs = () => {
        
     </>
     )
+  }
 }
 
 export default TrendingBlogs

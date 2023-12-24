@@ -56,16 +56,39 @@
     })
 
    const latestBlog = AsyncWrapper(async(req,res,next)=> {
-    const resp = await blogModel.find({draft : false}).populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id").sort({"publishedAt" : -1}).limit(5)
+       const maxLimit = 5 ;
+       
+    const countDocument =   await blogModel.countDocuments({draft : false})
+    const count = Math.ceil(countDocument /maxLimit)
+    const {page} = req.body
+    // pagination 
+    const resp = await blogModel.find({draft : false})
+    .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
+    .sort({"publishedAt" : -1})
+    .skip( (page - 1) * maxLimit )
+    .limit(maxLimit)
     if(!resp) {
        return next(createCustomError('somethig went wrong please try later' , 500))
     }
-    return res.status(200).json({blogNbr : resp.length,success : true ,  resp})
+    return res.status(200).json({blogNbr : resp.length,success : true ,  resp , count :count})
    })
 
+ // pagination
+   const allBlogsCount = AsyncWrapper(async(req,res)=> {
+       const count = await blogModel.countDocuments({draft : false})
+       if(!count) {
+        return next(createCustomError('somethig went wrong please try later' , 500))
+     }
+       return res.status(200).json({success : true , count})
+   }) 
 
-   const trendingBlogs = AsyncWrapper(async(req,res)=> {  
-     const resp = await blogModel.find({draft : false}).populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id").sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} ).limit(5)
+    
+   const trendingBlogs = AsyncWrapper(async(req,res)=> { 
+    const maxLimit = 5;
+     const resp = await blogModel.find({draft : false})
+     .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
+     .sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} )
+     .limit(maxLimit)
      if(!resp) {
         return next(createCustomError('somethig went wrong please try later' , 500))
      }
@@ -74,9 +97,12 @@
 
 
    const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) => {
-
+    const maxLimit = 5 ;
     const {tag} = req.body
-    const resp = await blogModel.find({tags : tag , draft : false}).populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id").sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} ).limit(5)
+    const resp = await blogModel.find({tags : tag , draft : false})
+    .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
+    .sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} )
+    .limit(maxLimit)
     if(!resp) {
        return next(createCustomError('somethig went wrong please try later' , 500))
     }
@@ -85,5 +111,5 @@
    })
 
     module.exports = {  
-        createBlogPost , latestBlog , trendingBlogs , loadingBlogByTagCategory
+        createBlogPost , latestBlog , trendingBlogs , loadingBlogByTagCategory , allBlogsCount
     };

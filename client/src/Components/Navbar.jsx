@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
-import { Button, Container, Div, Image, Input, Navlink, Span, Text} from '../Global/GlobalStyle'
+import { Button, Container, Div, Image, Input, Nav, Navlink, Span, Text} from '../Global/GlobalStyle'
 import { AiOutlineEdit, AiOutlineSearch } from "react-icons/ai";
 import { FaRegEdit , FaRegBell } from "react-icons/fa";
 import styled from 'styled-components';
@@ -11,12 +11,12 @@ import DropDownPanel from './DropDownPanel';
 import { useNavigate } from 'react-router';
 import toast, { Toaster } from 'react-hot-toast';
 
-const Nav = styled.nav`
-width: 100%;
-height: 80px;
-border-bottom: .5px solid rgba(0,0,0,0.1);
-position: relative;
-`
+// const Nav = styled.nav`
+// width: 100%;
+// height: 80px;
+// border-bottom: .5px solid rgba(0,0,0,0.1);
+// position: relative;
+// `
 
 const SearchIcon = styled(AiOutlineSearch)`
 position: absolute;
@@ -87,7 +87,7 @@ const Navbar = () => {
 
 
   return (
-    <Nav>
+    <Nav $width='100vw' $height='80px' $position='relative' $borderB='.5px solid rgba(0,0,0,0.2)'>
        <Toaster />
       <DropDownPanel showPannel={showPannel} userInfo={userInfo} handleLogoutApi={handleLogoutApi} />
       

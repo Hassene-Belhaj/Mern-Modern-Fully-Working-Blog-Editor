@@ -1,5 +1,5 @@
 const express = require('express');
-const { createBlogPost, latestBlog, trendingBlogs, loadingBlogByTagCategory } = require('../controller/blogsController');
+const { createBlogPost, latestBlog, trendingBlogs, loadingBlogByTagCategory, allBlogsCount } = require('../controller/blogsController');
 const { verifytoken } = require('../JWT/verfiyToken');
 const router = express.Router()
 
@@ -7,10 +7,10 @@ const router = express.Router()
 
 router.route('/create_blog').post(verifytoken,createBlogPost)
 router.route('/search_blog').post(verifytoken,loadingBlogByTagCategory)
-router.route('/latest_blog').get(verifytoken,latestBlog)
+router.route('/latest_blog').post(verifytoken,latestBlog)
+router.route('/all_latest_blogs_count').post(verifytoken,allBlogsCount)
 router.route('/trending_blogs').get(trendingBlogs)
 
 
 
 module.exports = router
-loadingBlogByTagCategory

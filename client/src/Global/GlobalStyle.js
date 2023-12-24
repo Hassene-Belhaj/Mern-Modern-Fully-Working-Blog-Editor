@@ -17,10 +17,12 @@ export const GlobalStyleApp=createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     /* font-family: 'Karla', sans-serif; */
+
 }
 
 body{
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 `
 
@@ -174,7 +176,11 @@ export const Container = styled.div`
 ${sharedProps};
 `
 
-export const Header = styled.div`
+export const Nav = styled.nav`
+${sharedProps};
+`
+
+export const Header = styled.header`
 ${sharedProps};
 `
 

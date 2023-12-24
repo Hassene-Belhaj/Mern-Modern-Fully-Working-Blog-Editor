@@ -88,6 +88,11 @@ const Blog_Editor = () => {
     const ToasterId = toast.loading('Loading')  
     const Data = new FormData()
     Data.append('image' , e.target.files[0])
+    if (!e.target.files[0].name.includes( 'jpg' || 'png' || 'jpeg')) {
+       toast.dismiss(ToasterId)
+       toast.error('please upload a valid file format you can upload jpg , jpeg or png')
+       return ;
+    }
     try {
     const resp = await axios.post(UploadImageUrl+'/upload_image',Data,{withCredentials:true})
         console.log(resp?.data?.data.url);
@@ -134,6 +139,7 @@ const Blog_Editor = () => {
         navigate('/') 
         setTitle('')
         setBanner('')
+        setEditorState('editor') 
       }, 1000)
     }
 
@@ -144,6 +150,8 @@ const Blog_Editor = () => {
   toast.dismiss(ToastLoading)
   toast.success('Saved')
   }
+
+
 
   
   return (

@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req,file,cb) => {
-if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
     cb(null , true)
 } else {
     cb({msg : 'unsupported file format'})
@@ -63,8 +63,11 @@ const CloudinaryUpload = async(req,res,next)=>{
 router.post('/upload_image', upload.single('image'),resize, CloudinaryUpload, async (req,res) => {
     const image = req.file
     if(!image) {
-       return res.status(500).json({msg : "please select image"})
     } 
+    if (!image.includes( 'jpg' || 'png' || 'jpeg')) {
+        
+        return res.status(500).json({msg : "please upload  a valid file format"})
+    }
    return res.status(200).json({msg : 'image uploaded successfully',image})
 })
 
