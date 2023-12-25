@@ -28,6 +28,7 @@ const App = () => {
 
   return (
   <>
+     {/* <Test/> */}
     <GlobalStyleApp/>
         {location.pathname === '/editor' ? null : <Navbar />}
  

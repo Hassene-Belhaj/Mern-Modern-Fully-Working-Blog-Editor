@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, DarkModeIcon, Div, Form, LightModeIcon } from '../Global/GlobalStyle'
+import { useState } from 'react'
 
 
 
@@ -12,6 +13,10 @@ const handleForm =(e) => {
  e.preventDefault()   
 }
 
+// const [pageNbr , setPageNbr] = useState(2)
+
+// const result = new Array(pageNbr).fill(null).map((item , i)=>i)
+// console.log(result);
 
 
 

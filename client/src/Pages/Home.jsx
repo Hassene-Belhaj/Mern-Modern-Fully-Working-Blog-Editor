@@ -10,35 +10,33 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 import styled from 'styled-components'
 import HomeHeader from '../Components/HomeHeader'
 import NoDataMessage from '../Utils/NoDataMessage'
-import { Filter_Pagination_Data } from '../Utils/Filter_pagination'
+import { Filter_Pagination_Data} from '../Utils/Filter_pagination'
+import LoadMoreDataBtn from '../Utils/LoadMoreDataBtn'
 
 
 const ArrowIcon = styled(FaArrowTrendUp)`
 `
 
-
 const Home = () => {
+
+  const Categories =['Programming' , 'Hoolywood' , 'Film making' , 'Social media' , 'Cooking' , 'Tech' ,'Test', 'Finance' , 'Travel'] 
   
   const [toggle ,setToggle] = useState(true)
   
   const [blogs , setBlogs] = useState(null)
 
+  const [spinner , setSpinner] = useState(false)
+
   const [pageState , setPageState] = useState(null)
 
-  const [spinner , setSpinner] = useState(false)
   const [page , setPage] = useState(1)
-  const [pageCount , setPageCount] = useState(null)
 
-  
-   
-const Categories =['Programming' , 'Hoolywood' , 'Film making' , 'Social media' , 'Cooking' , 'Tech' , 'Finance' , 'Travel'] 
+
 
   useEffect(()=>{
-
     const WindowResize = () => {
      if(window.innerWidth > 720) {
        setToggle(true)
-    
      }
     //  if(window.innerWidth <= 720) {
     //   setPageState(null)
@@ -46,45 +44,48 @@ const Categories =['Programming' , 'Hoolywood' , 'Film making' , 'Social media' 
     } 
         
     window.addEventListener('resize' , WindowResize) ;
-      
-    
     return ()=> window.removeEventListener('resize' , WindowResize) 
-    
     
   },[])
   
     
-    
-    const handleLatestBlogApi =async(page) => {
-      try {
-        const resp = await axios.post(UrlBlog+'/latest_blog',{page},{withCredentials:true})
-        // console.log(resp.data);
-        console.log(resp.data.count);
-        setPageCount(resp.data.count);
-        setBlogs(resp.data.resp)
-        // setBlogs(Filter_Pagination_Data({
-        //   state : blogs ,
-        //   resp : data.blogs ,
-        //   blogs,
-        //   countRoute : '/all-latests-blogs-count'
-        // }))
-      } catch (error) {
-        console.log(error);
-       
-      }
+//
+const handleLatestBlogApi =async() => {
+  try {
+   const {data} = await axios.post(UrlBlog+'/latest_blog',{page},{withCredentials:true})
+      console.log(data);
+      const formateData = await Filter_Pagination_Data({
+        state : blogs ,
+        data : data.resp,
+        page : page ,
+        countRoute : '/all_latest_blogs_count'
+      })
+      console.log(formateData);
+      setBlogs(formateData)
+
+    } catch(error) {
+      console.log(error);
+    } 
+  
 }
 
-const handleSearchBlogApi =async () => {
+//
+const handleSearchBlogApiByTag =async () => {
   try {
-    const resp = await axios.post(UrlBlog+'/search_blog', {tag : pageState},{withCredentials:true})
-    setBlogs(resp.data.resp)
-    if (resp.data.resp.length === 0) {
-      setTimeout(() => { 
-        setSpinner(false)
-       }, 1000)
-       setSpinner(true)
-       setBlogs(null)
-    }
+    const {data} = await axios.post(UrlBlog+'/search_blog', {tag : pageState },{page} ,{withCredentials:true})
+
+    const formateData = await Filter_Pagination_Data({
+      state : blogs ,
+      data : data.resp,
+      page,
+      data_to_send : {tag  : pageState} , 
+      countRoute : '/search_blog_count'
+    })
+    console.log(formateData);
+
+    setBlogs(formateData)
+    
+  
   } catch (error) {
     console.log(error);
    
@@ -95,7 +96,7 @@ useEffect(()=>{
   if(pageState === null) {
     handleLatestBlogApi()
   } else {
-    handleSearchBlogApi()
+    handleSearchBlogApiByTag()
   }
 },[pageState])
 
@@ -112,44 +113,28 @@ const loadingBlogByTagCategory = (e) => {
 }
 
 
-const prevPage = () => {
-  setPage(()=>{
-    return page  - 1 
-   })
- }
+console.log(blogs);
 
-const nextPage = () => {
- setPage(()=>{
-  return page + 1 
- })
-}
-
-useEffect(()=>{
-  handleLatestBlogApi(page)
-  },[page])
-  
-
-console.log(page);
 
 return ( 
     
 <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
   
-   <Container $display='flex' $width='100vw'  $margin='auto'>
+   <Container $display='flex' $width='100vw'>
                 {toggle === true ?
 
             //  {/* left columm */}
-    <Section $flex='2' $SM_width='100%'>
+    <Section $flex='2' $SM_width='100%' >
 
            <Div $SM_width='100%'>
                 <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} />
             </Div>
  
-            <Div $padding='1rem' >
+            <Div>
                 <>
                 {blogs ? 
                   <Div >
-                      {blogs?.map((blogData,i)=>{
+                      {blogs?.results?.map((blogData,i)=>{
                         return (
                       <Navlink key={i} $color='#000' $td='none' to={`/blog/${blogData.blog_id}`} >
                             <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {toggle}> 
@@ -163,7 +148,10 @@ return (
                 <Div>
                
                   <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {blogs}> 
-                        <NoDataMessage message="No Blogs Published" />
+                       {spinner ? <LoadingSpinner $padding='4rem 0' /> : <NoDataMessage message="No Blogs Published" /> }
+                      
+                        
+
                    </AnimationWrapper>   
                   
                  
@@ -172,38 +160,35 @@ return (
                 }
                 </>
                   </Div>
-                  {pageCount.map((item,i)=> {
-                    return (
-                      <Button onClick={prevPage} $border='.5px solid rgba(0,0,0,0.1) '  $padding='12px' $br='5px' $outline='none' $bg='#f3f5f9'>{i+1}</Button>
-
-                    )
-                  })}
-                  {/* <Div $width='100%' $display='flex' $jc='center' $gap='1rem'>
-                    <Button onClick={nextPage} $border='.5px solid rgba(0,0,0,0.1) '  $padding='12px' $br='5px' $outline='none' $bg='#f3f5f9'>next</Button>
-                  </Div> */}
-          </Section>
+            
+                  <LoadMoreDataBtn state={blogs} handleLatestBlogApi={handleLatestBlogApi} />
+                
+                </Section>
              
              :
-             
-             <Section>
+              // mobile trendingblogs
+             <Section $width='100%' $margin='auto'>
               <Div>
                    <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} />
               </Div>
               
-                  <Div> 
+                  <Div $width='80%' $margin='auto'>  
                         <Navlink $color='#000' $td='none' to={``} >
                                <TrendingBlogs />
                         </Navlink>
                   </Div>  
+
+                     
             </Section> 
 
 }
                     {/* right column */}
-                  <Section $flex='1' $height='100%'  $SM_width='90%' $display='none' $LG_display='flex' $fd='column' $padding='1rem' $borderL='solid 1px rgba(0,0,0,0.2)'>
+                  <Section $flex='1' $height='auto' $SM_width='90%' $display='none' $LG_display='flex' $fd='column' $padding='1rem' $borderL='solid 1px rgba(0,0,0,0.2)'>
               <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
                         <Title $fs='1rem'>Stories From  All interest </Title>
                       
                         <Div $display='flex' $width='70%' $gap='1rem' $fw='wrap' $padding='2rem 0 0 0' >
+                          
                             {Categories.map((cat , i)=> {
                               return (
                                 <Button key={i} onClick={loadingBlogByTagCategory} $width='auto' $padding='10px' $br='25px' $display='flex' $jc='center' $ai='center' $bg={cat.toLowerCase() === pageState ? '#000' : '#f3f5f9'} $color={cat.toLowerCase() === pageState ? '#fff' : '#000'} $border='none' $opacity='0.9' $transition='all ease-in-out 0.3s'>
@@ -219,8 +204,8 @@ return (
                           <ArrowIcon />
                         </Span>
 
-                        {blogs ?
-                              <Div $width='80%' $margin='auto'>
+                        {blogs?
+                              <Div $width='90%' $margin='auto'>
                                     <Navlink  $color='#000' $td='none' to={``} > 
                                     <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {toggle}> 
                                         <TrendingBlogs />
@@ -231,7 +216,8 @@ return (
                           <>
                      
                             <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {blogs}> 
-                                 <NoDataMessage message="No Trending Blogs " />
+                            {spinner ? <LoadingSpinner $padding='4rem 0' /> : <NoDataMessage message="No Blogs Published" /> }
+
                             </AnimationWrapper>   
                            
                        
