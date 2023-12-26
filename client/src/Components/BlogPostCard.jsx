@@ -19,17 +19,17 @@ const BlogPostCard = ({data , author}) => {
 
     return (
         
-        <Container  $padding='2rem' $display='flex'  $jc='space-between'  $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
+        <Container  $padding='1rem' $display='flex'  $jc='space-between' $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
 
             <Div  >
-                    <Div $display='flex'  $gap='.5rem' $margin='auto'>
-                            <Div $width='1.5rem' $height='1.5rem' $display='flex' $ai='center' >
-                                <Image $width='1.5rem' $heigth='1.5rem' $of='cover' $br='25px' src={profile_img} />
+                    <Div $display='flex' $ai='center'  $gap='1rem' $margin='auto'>
+                            <Div $width='1rem' $height='1rem' $display='flex' $ai='center' >
+                                <Image $width='1rem' $heigth='1rem' $of='cover' $br='25px' src={profile_img} />
                             </Div>
                                     {/* <Text $fs='0.7rem'>{email}</Text> */}
                             <Div $display='flex' $gap='1rem' $ai='center'>
-                                    <Text $fs='0.9rem'>@{fullname}</Text>
-                                    <Text $fs='0.9rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
+                                    <Text $fs='0.8rem'>@{fullname}</Text>
+                                    <Text $fs='0.8rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
                             </Div>  
                     </Div>
 
@@ -37,9 +37,9 @@ const BlogPostCard = ({data , author}) => {
                 <Div $display='flex' $jc='space-between' $fd='column' $margin='auto'>
 
                     <Div   $height='100%' $display='flex' $fd='column'  $padding='1rem 0' >
-                        <Title $fs='1rem' $tt='capitalize'>{title}</Title>
+                        <Title $fs='1rem' $tt='capitalize' >{title}</Title>
                         <Div $display='none' $MD_display='flex  '>
-                        <Text $width='80%' $padding='.2rem 0' $fs='1rem'>{desc}</Text>
+                        <Text $width='80%' $margin='.5rem 0' $padding='.2rem 0' $fs='0.8rem' $display='none' $XL_display='flex'>{desc}</Text>
                         </Div>
                     </Div>
 

@@ -13,7 +13,6 @@ const { NotFound } = require('./Middleware/NotFound');
 // firebase auth
 const admin = require('firebase-admin');
 const serviceAccountGoogleKey = require('./ServiceAccountGoogle/serviceAccount.json');
-
 const jwt = require('jsonwebtoken');
 const path = require('path');
 app.use(express())

@@ -1,24 +1,27 @@
 import axios from "axios";
 import { UrlBlog } from "./Url";
-import { Button } from "../Global/GlobalStyle";
 
 
 
 
-export const Filter_Pagination_Data = async({create_new_array = false  , state , data , page , countRoute, data_to_send = {}   }) => {
- 
-   let object ; 
+export const Filter_Pagination_Data = async ({create_new_array = false , state,data,page,countRoute,data_to_send = {}}) => {
 
-   if(state !== null && !create_new_array){
-      object = {...state , results : [...state.results, ...data ] , page}
+   let obj ; 
+   //  console.log(state);
 
-   } else {
-    const {data : {totalDocs}} = await axios.post(UrlBlog + countRoute , data_to_send)
-    object = {results : data , page ,totalDocs}
-     }
+   try {
+    if(state !== null && !create_new_array ){
+       obj = {...state , results : [...state.results, ...data ] , page }
+      } else {
+         const {data :{totalDocs}} = await axios.post(UrlBlog + countRoute , data_to_send)
+         obj = {results : data , page : 1 ,totalDocs}
+      }
    
- 
-   return object ;
+   } catch (error) {
+      console.log(error);
+   }  
+   
+   return obj ;
 }
-
+ 
 

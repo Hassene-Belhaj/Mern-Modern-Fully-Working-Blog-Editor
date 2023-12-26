@@ -47,7 +47,7 @@ const LoadingSpinner = ({$padding}) => {
     <Container $padding={$padding}>
          <Spinner />
           <Div $position='absolute' $width='20px' $height='20px'>
-             <Image $width='100%' $height='100%' src='logo.png' />
+             <Image $width='100%' $height='100%' src='/logo.png' />
           </Div>
          {/* {type === true ? <Text>Uploading</Text> :  <Text>Loading</Text>} */}
 

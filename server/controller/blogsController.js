@@ -24,6 +24,7 @@
     const blog_id = title.replace(/[^a-zA-Z0-9]/g,' ').replace(/\s+/g,"-").trim()+`${Date.now()}` ;
     
     const postBlog = await blogModel.create({
+
         blog_id,
         title ,
         banner ,
@@ -32,6 +33,7 @@
         tags ,
         author : userId,
         draft : Boolean(draft)
+
     })
 
     if(!postBlog) return next(createCustomError('can not create a new Blog Post' , 500)) 
@@ -53,22 +55,27 @@
         res.status(200).json({msg: 'added successfullly'})
     })
 
-   const latestBlog = AsyncWrapper(async(req,res,next)=> {
+
+
+   const latest_Blog = AsyncWrapper(async(req,res,next)=> {
+
+    const {page} = req.body ;
+
     const maxLimit = 5 ;
-    const {page} = req.body 
     const resp = await blogModel.find({draft : false})
-    .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
+    .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username -_id")
     .sort({"publishedAt" : -1})
+    .select("blog_id title desc banner activity tags publishedAt -_id")
     .skip( (page - 1) * maxLimit )
     .limit(maxLimit)
     if(!resp) {
        return next(createCustomError('somethig went wrong please try later' , 500))
     }
-    return res.status(200).json({blogNbr : resp.length,success : true ,  resp })
+    return res.status(200).json({success : true ,  resp })
    })
 
- // pagination
-   const allBlogsCount = AsyncWrapper(async(req,res,next)=> {
+ // pagination send countdocuments
+   const all_latest_Blogs_Count = AsyncWrapper(async(req,res,next)=> {
        const totalDocs = await blogModel.countDocuments({draft : false})
        if(!totalDocs) {
         return next(createCustomError('somethig went wrong please try later' , 500))
@@ -77,9 +84,10 @@
    }) 
 
 
-    
    const trendingBlogs = AsyncWrapper(async(req,res,next)=> { 
+
     const maxLimit = 5;
+
      const resp = await blogModel.find({draft : false})
      .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
      .sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} )
@@ -90,11 +98,19 @@
      return res.status(200).json({success :true , resp})
    })
 
-
+   // blogs by tags or query    
    const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) => {
+
     const maxLimit = 2 ;
-    const {tag , page} = req.body
-    const resp = await blogModel.find({tags : tag , draft : false})
+    const {tag , page , query} = req.body
+    let findQuery ;
+    if(tag) {
+        findQuery = {tags : tag , draft : false}
+    } else if(query) {
+        findQuery = { draft : false ,  title : new RegExp(query , 'i')}
+    }
+
+    const resp = await blogModel.find(findQuery)
     .populate("author","personal_info.fullname personal_info.email  personal_info.profile_img  personal_info.username  -_id")
     .sort( {"activity.total_reads" : -1, "activity.total_likes" : -1 , "publishedAt" : -1} )
     .select("blog_id title desc banner activity tags publishedAt -_id")
@@ -109,11 +125,14 @@
 
 
 const loadingBlogByTagCategoryCount = AsyncWrapper(async(req,res) => {
-    const {tag} = req.body
-    const totalDocs = await blogModel.countDocuments({draft : false , tags :tag})
-    if(!totalDocs) {
-     return next(createCustomError('somethig went wrong please try later' , 500))
-  }
+    const { tag , query } = req.body
+    let findQuery ;
+    if(tag) {
+        findQuery={draft : false , tags: tag}
+    } else if(query) {
+        findQuery={draft : false , title : new RegExp(query , 'i')}
+    }
+    const totalDocs = await blogModel.countDocuments(findQuery)
     return res.status(200).json({totalDocs})
    })
 
@@ -129,5 +148,5 @@ const loadingBlogByTagCategoryCount = AsyncWrapper(async(req,res) => {
 
 
     module.exports = {  
-        createBlogPost , latestBlog , trendingBlogs , loadingBlogByTagCategory , allBlogsCount ,loadingBlogByTagCategoryCount
+        createBlogPost , latest_Blog , trendingBlogs , loadingBlogByTagCategory , all_latest_Blogs_Count ,loadingBlogByTagCategoryCount
     };

@@ -8,6 +8,7 @@ import Editor from './Pages/Editor'
 import Test from './Components/Test'
 import Home from './Pages/home'
 import BlogPage from './Pages/BlogPage'
+import SearchPage from './Pages/SearchPage'
 
 const App = () => {
   const location = useLocation()
@@ -31,7 +32,6 @@ const App = () => {
      {/* <Test/> */}
     <GlobalStyleApp/>
         {location.pathname === '/editor' ? null : <Navbar />}
- 
      <Routes> 
         {isLoggedIn !== undefined ? null 
         :
@@ -43,6 +43,7 @@ const App = () => {
         <Route path='/' element={< Home />} />  
         <Route path='/blog/:id' element={< BlogPage />} />  
         <Route path='/editor' element={< Editor/>} />
+        <Route path='/search/:query' element={< SearchPage/>} />
      </Routes> 
   </>
     )

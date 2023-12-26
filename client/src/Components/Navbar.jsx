@@ -37,6 +37,9 @@ const BellIcon = styled(FaRegBell)`
 
 
 const Navbar = () => {
+    
+   const navigate = useNavigate()
+
    const {isLoggedIn , CheckUserApi} = useAuthContext()
 
 
@@ -84,7 +87,15 @@ const Navbar = () => {
       UserInfoApi()
     },[isLoggedIn])
 
-
+   
+    const handleSearch = (e) => {
+       
+       let query = e.target.value
+       
+       if(e.keyCode === 13 ) {
+          navigate(`/search/${query}`)
+      } 
+    } 
 
   return (
     <Nav $width='100vw' $height='80px' $position='relative' $borderB='.5px solid rgba(0,0,0,0.2)'>
@@ -100,8 +111,8 @@ const Navbar = () => {
                  </Navlink>
 
                  <Div $Md='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 
-                       <Input $width='100%' $height='100%' $br='25px'  $bg='#f3f4f6' $outline='none' $padding='0 0 0 16px' $colorPH='#000' placeholder='Search' 
-                        $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'/>
+                       <Input onKeyDown={handleSearch} $width='100%' $height='100%' $br='25px'  $bg='#f3f4f6' $outline='none' $padding='0 0 0 16px' $colorPH='#000' placeholder='Search' 
+                        $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' />
                        <SearchIcon $right='1rem' size={20}  />  
                 </Div>
           
