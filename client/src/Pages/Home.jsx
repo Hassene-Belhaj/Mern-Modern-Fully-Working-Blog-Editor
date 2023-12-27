@@ -12,6 +12,7 @@ import NoDataMessage from '../Utils/NoDataMessage'
 import { Filter_Pagination_Data} from '../Utils/Filter_pagination'
 import LoadMoreDataBtn from '../Utils/LoadMoreDataBtn'
 import axios from 'axios'
+import Categories from '../Components/Categories'
 
 
 const ArrowIcon = styled(FaArrowTrendUp)`
@@ -19,7 +20,7 @@ const ArrowIcon = styled(FaArrowTrendUp)`
 
 const Home = () => {
 
-  const Categories =['Programming' , 'Hoolywood' , 'Film making' , 'Social media' , 'Cooking' , 'Tech' ,'Test', 'Finance' , 'Travel'] 
+ 
   
   const [toggle ,setToggle] = useState(true)
   
@@ -56,13 +57,18 @@ const Home = () => {
   const handleLatestBlogApi = async ({page=1}) => {
     try { 
       const {data} = await axios.post(UrlBlog+'/latest_blog',{page})
+           
+    if(!data.resp.length) {
+      setTimeout(() => { setSpinner(false) }, 500)
+      setSpinner(true)
+    }
+
       const formateData = await Filter_Pagination_Data({
       state : blogs ,
       data : data.resp,
       page,
       countRoute : '/all_blogs_count'
     })
-    // console.log(formateData);
     setBlogs(formateData)    
     } catch (error) {
       console.log(error);
@@ -74,6 +80,13 @@ const Home = () => {
 const handleSearchBlogApiByTag =async({page = 1}) => {
   try {
     const {data} = await axios.post(UrlBlog+'/search_blog', {tag : pageState , page})
+    
+         
+    if(!data.resp.length) {
+      setTimeout(() => { setSpinner(false) }, 500)
+      setSpinner(true)
+    }
+
 
     const formateData = await Filter_Pagination_Data({
       state : blogs ,
@@ -118,9 +131,9 @@ useEffect(()=>{
 
 const RefScroll =useRef(null)
 
-useEffect(()=>{
- RefScroll.current.scrollIntoView({block : 'end' , behavior : 'smooth'})
-},[blogs])
+// useEffect(()=>{
+//  RefScroll.current.scrollIntoView({block : 'end' , behavior : 'smooth'})
+// },[blogs])
 
 
 
@@ -128,78 +141,63 @@ useEffect(()=>{
 return ( 
     
 <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
-  
-   <Container $display='flex' $width='100vw'>
-                {toggle === true ?
 
-            //  {/* left columm */}
+
+   <Container $display='flex' $width='100vw' $padding='0 0 4rem 0'>
+                {toggle === true ?       
+
+
+// left columm
     <Section $flex='2' $SM_width='100%' ref={RefScroll}> 
-
-           <Div $SM_width='100%'>
-                <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} />
-            </Div>
- 
+       <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} title='TrendingBlogs'  />     
             <Div>
-                <>
-                {blogs?.results.length ? 
-                  <Div >
-                      {blogs?.results?.map((blogData,i)=>{
-                        return (
-                      <Navlink key={i} $color='#000' $td='none' to={`/blog/${blogData.blog_id}`} >
-                            <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {toggle}> 
-                                <BlogPostCard  data={blogData} author={blogData.author.personal_info} />
-                          </AnimationWrapper>   
-                      </Navlink>
-                        )
-                      })}
-                   </Div >
-                :  
-                <Div>
-               
-                  <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {blogs}> 
-                       {/* {spinner ?  */}
-                       <LoadingSpinner $padding='4rem 0' />
-                        : 
-                        {/* <NoDataMessage message="No Blogs Published" /> } */}
-                   </AnimationWrapper>   
+                  <>
+                    {blogs?.results.length ? 
 
-                </Div>
-                }
-                </>
-                  </Div>
-               
-                <LoadMoreDataBtn state={blogs} handleLatestBlogApi={ (pageState === null ? handleLatestBlogApi : handleSearchBlogApiByTag )} />
-                
-                </Section>
-             
+                    <Div >
+                        {blogs?.results?.map((blogData,i)=>{
+                          return (
+                        <Navlink key={i} $color='#000' $td='none' to={`/blog/${blogData.blog_id}`} >
+                              <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {toggle}> 
+                                  <BlogPostCard  data={blogData} author={blogData.author.personal_info} />
+                            </AnimationWrapper>   
+                        </Navlink>
+                          )
+                        })}
+                      </Div >  
+
+                    :  
+                    <Div>
+                    <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {blogs}> 
+                          {spinner ? 
+                          <LoadingSpinner $padding='4rem 0' />
+                          : 
+                          <NoDataMessage $margin='2rem auto' message="No Blogs Published" /> }
+                      </AnimationWrapper>   
+
+                    </Div>
+                    }
+                  </>
+            </Div>           
+                <LoadMoreDataBtn state={blogs} handleLatestBlogApi={ (pageState === null ? handleLatestBlogApi : handleSearchBlogApiByTag )} />              
+    </Section>         
              :
-              // mobile trendingblogs
-             <Section $width='100%' $margin='auto'>
-              <Div>
-                   <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} />
-              </Div>             
-                  <Div $width='80%' $margin='auto'>  
+        <Section $width='100%' $margin='auto'>
+                  <HomeHeader toggle={toggle} setToggle={setToggle} pageState={pageState} title='TrendingBlogs'  />     
+                  <Div  $width='90%' $margin='auto'>  
                         <Navlink $color='#000' $td='none' to={``} >
-                               <TrendingBlogs />
+                               <TrendingBlogs  />
                         </Navlink>
                   </Div>     
-            </Section> 
+        </Section> 
           }     
-                    {/* right column */}
+          
+          {/* right column */}
+
                   <Section $flex='1' $height='auto' $SM_width='90%' $display='none' $LG_display='flex' $fd='column' $padding='1rem' $borderL='solid 1px rgba(0,0,0,0.2)'>
-              <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
-                        <Title $fs='1rem'>Stories From  All interest </Title>
-                      
-                        <Div $display='flex' $width='70%' $gap='1rem' $fw='wrap' $padding='2rem 0 0 0' >
-                          
-                            {Categories.map((cat , i)=> {
-                              return (
-                                <Button key={i} onClick={loadingBlogByTagCategory} $width='auto' $padding='10px' $br='25px' $display='flex' $jc='center' $ai='center' $bg={cat.toLowerCase() === pageState ? '#000' : '#f3f5f9'} $color={cat.toLowerCase() === pageState ? '#fff' : '#000'} $border='none' $opacity='0.9' $transition='all ease-in-out 0.3s'>
-                                  <Text $tt='capitalize' $outline='none' $fw='400'>{cat}</Text>
-                                </Button>
-                                )
-                              })}
-                        </Div>
+                    <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
+                        <Title $fs='1rem' $fw='400'>Stories From  All interest </Title>
+                        <Categories loadingBlogByTagCategory={loadingBlogByTagCategory} pageState={pageState}/>
                         
                        <Div>
                         <Span $display='flex' $jc='start' $ai='center' $gap='.5rem' $margin='1rem 0 0 0' >
@@ -208,32 +206,27 @@ return (
                         </Span>
 
                         {blogs?.results.length ?
+
                               <Div $width='90%' $margin='auto'>
-                                    <Navlink  $color='#000' $td='none' to={``} > 
                                     <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {toggle}> 
                                         <TrendingBlogs />
                                    </AnimationWrapper> 
-                                    </Navlink>                             
                               </Div>  
                           :
                           <>
                             <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key= {blogs}> 
-                            {/* {spinner ?  */}
+                            {spinner ? 
                             <LoadingSpinner $padding='4rem 0' /> 
-                            {/* :  */}
-                            {/* <NoDataMessage message="No Blogs Published" /> } */}
-
+                              : 
+                            <NoDataMessage message="No Blogs Published" /> } 
                             </AnimationWrapper>   
-                           
-                       
                           </>
  
                       }
 
                        </Div>
                         
-            </AnimationWrapper>
-             
+                    </AnimationWrapper>
                   </Section>
   </Container>
 </AnimationWrapper>

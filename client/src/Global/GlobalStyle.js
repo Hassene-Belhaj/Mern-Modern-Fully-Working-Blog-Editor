@@ -88,6 +88,7 @@ text-transform: ${({$tt})=>$tt};
 @media screen and (min-width : 475px) {
 
     width : ${({$XS_width})=>$XS_width} ;
+    flex-direction: ${({$XS_fd})=>$XS_fd};
     display: ${({$XS_display})=>$XS_display};
     justify-content: ${({$XS_jc})=>$XS_jc};
     align-items: ${({$XS_ai})=>$XS_ai};
@@ -100,6 +101,7 @@ text-transform: ${({$tt})=>$tt};
 @media screen and (min-width : 640px) {
 
     display: ${({$SM_display})=>$SM_display};
+    flex-direction: ${({$SM_fd})=>$SM_fd};
     justify-content: ${({$SM_jc})=>$SM_jc};
     align-items: ${({$SM_ai})=>$SM_ai};
     width: ${({$SM_width})=>$SM_width};
@@ -114,6 +116,7 @@ text-transform: ${({$tt})=>$tt};
 @media screen and (min-width : 768px) {
     
     display: ${({$MD_display})=>$MD_display};
+    flex-direction: ${({$MD_fd})=>$MD_fd};
     justify-content: ${({$MD_jc})=>$MD_jc};
     align-items: ${({$MD_ai})=>$MD_ai};
     width: ${({$MD_width})=>$MD_width};
@@ -128,6 +131,7 @@ text-transform: ${({$tt})=>$tt};
 
 @media screen and (min-width : 1024px) {
     display: ${({$LG_display})=>$LG_display};
+    flex-direction: ${({$LG_fd})=>$LG_fd};
     justify-content: ${({$LG_jc})=>$LG_jc};
     align-items: ${({$LG_ai})=>$LG_ai};
     width: ${({$LG_width})=>$LG_width};
@@ -142,6 +146,7 @@ text-transform: ${({$tt})=>$tt};
 
 @media screen and (min-width : 1280px) {
     display: ${({$XL_display})=>$XL_display};
+    flex-direction: ${({$XL_fd})=>$XL_fd};
     justify-content: ${({$XL_jc})=>$XL_jc};
     align-items: ${({$XL_ai})=>$XL_ai};
     width: ${({$XL_width})=>$XL_width};
@@ -154,6 +159,7 @@ text-transform: ${({$tt})=>$tt};
 
 @media screen and (min-width : 1536px) {
     display: ${({$2XL_display})=>$2XL_display};
+    flex-direction: ${({$2XL_fd})=>$2XL_fd};
     justify-content: ${({$2XL_jc})=>$2XL_jc};
     align-items: ${({$2XL_ai})=>$2XL_ai};
     width: ${({$2XL_width})=>$2XL_width};

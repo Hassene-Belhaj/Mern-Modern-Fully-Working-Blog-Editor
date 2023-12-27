@@ -107,7 +107,7 @@ const Navbar = () => {
             <Div $display='flex'  $ai='center'>
 
                  <Navlink to='/'>
-                         <Image  $width='40px' $height='40px' src='logo.png' />    
+                         <Image  $width='40px' $height='40px' src='/logo.png' />    
                  </Navlink>
 
                  <Div $Md='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 

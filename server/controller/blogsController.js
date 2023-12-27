@@ -138,7 +138,13 @@ const loadingBlogByTagCategoryCount = AsyncWrapper(async(req,res) => {
 
 
 
-
+const SearchUsersBlog = AsyncWrapper(async(req,res) => {
+   const {query} = req.body
+   const resp = await userModel.find( {"personal_info.username" : new RegExp(query , 'i') })
+   .limit(50)
+   .select("personal_info.username personal_info.fullname personal_info.profile_img -_id")
+   res.status(200).json({resp})
+})
 
 
 
@@ -148,5 +154,5 @@ const loadingBlogByTagCategoryCount = AsyncWrapper(async(req,res) => {
 
 
     module.exports = {  
-        createBlogPost , latest_Blog , trendingBlogs , loadingBlogByTagCategory , all_latest_Blogs_Count ,loadingBlogByTagCategoryCount
+        createBlogPost , latest_Blog , trendingBlogs , loadingBlogByTagCategory , all_latest_Blogs_Count ,loadingBlogByTagCategoryCount , SearchUsersBlog
     };

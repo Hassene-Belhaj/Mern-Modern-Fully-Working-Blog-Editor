@@ -1,5 +1,5 @@
 import React from 'react'
-import {DarkModeIcon, GlobalStyleApp, LightModeIcon } from './Global/GlobalStyle'
+import {DarkModeIcon, GlobalStyleApp, LightModeIcon, Title } from './Global/GlobalStyle'
 import Navbar from './Components/Navbar'
 import { Routes , Route, Outlet, useLocation } from 'react-router-dom'
 import { useAuthContext } from './Context/AuthContext'
@@ -9,6 +9,8 @@ import Test from './Components/Test'
 import Home from './Pages/home'
 import BlogPage from './Pages/BlogPage'
 import SearchPage from './Pages/SearchPage'
+import PageNotFound from './Components/PageNotFound'
+import UserPage from './Pages/UserPage'
 
 const App = () => {
   const location = useLocation()
@@ -44,6 +46,8 @@ const App = () => {
         <Route path='/blog/:id' element={< BlogPage />} />  
         <Route path='/editor' element={< Editor/>} />
         <Route path='/search/:query' element={< SearchPage/>} />
+        <Route path='user/:id' element={<UserPage/>} />
+        <Route path='*' element={<PageNotFound />} />
      </Routes> 
   </>
     )
