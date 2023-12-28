@@ -1,8 +1,10 @@
 import React from 'react'
 import { Div, Image, Nav, Navlink, Section, Text, Title } from '../Global/GlobalStyle'
+import AnimationWrapper from '../Utils/AnimationWrapper'
 
 const PageNotFound = () => {
   return (
+     <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} exit={{opacity : 0}} transition={{duration: 0.8}}>
         <Section $padding='2rem 0' $width='90%' $height='800px'  $display='flex' $fd='column' $jc='space-between' $margin='auto' $gap='1rem' > 
 
         <Div>
@@ -22,6 +24,7 @@ const PageNotFound = () => {
                      <Text $fs='1.1rem'>Blog Space</Text>
             </Div> 
         </Section>
+     </AnimationWrapper>
   )
 }
 

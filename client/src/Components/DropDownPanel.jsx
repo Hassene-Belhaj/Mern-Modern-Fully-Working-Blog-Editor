@@ -1,11 +1,13 @@
 import React from 'react'
 import AnimationWrapper from '../Utils/AnimationWrapper'
-import { Button, Div, Text, Title } from '../Global/GlobalStyle'
-
+import { Button, Div, Navlink, Text, Title} from '../Global/GlobalStyle'
+import { CiVolumeHigh } from 'react-icons/ci'
 
 
 
 const DropDownPanel = ({showPannel,userInfo , handleLogoutApi}) => {
+
+    
      
     return (
 
@@ -24,7 +26,12 @@ const DropDownPanel = ({showPannel,userInfo , handleLogoutApi}) => {
                  </Div> */}
 
                  <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem'  $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 
-                 <Text $ta='center'>Profile</Text>
+
+                  <Navlink to={`/user/${userInfo?.username}`} $color='#000' $td='none'>
+                   <Text $ta='center'>Profile</Text>
+                    
+                  </Navlink>
+
                  </Div>
 
                  <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 

@@ -16,18 +16,6 @@ const App = () => {
   const location = useLocation()
   const {isLoggedIn} = useAuthContext()
    
-  const dark = {
-    background : '#000' ,
-    // color : '#fff'
-  }
-
-  const light = {
-    background : '#fff',
-    // color : '#000'
-  }
-   
-
-
 
   return (
   <>

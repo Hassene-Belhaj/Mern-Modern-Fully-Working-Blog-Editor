@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, DarkModeIcon, Div, Form, LightModeIcon } from '../Global/GlobalStyle'
+import { Button, Container, DarkModeIcon, Div, Form, LightModeIcon } from '../Global/GlobalStyle'
 import { useState } from 'react'
 
 
@@ -7,7 +7,8 @@ import { useState } from 'react'
 
 const Test = () => {
 
-    
+  const TestBtn = [ 'cooking' , 'high Tech' , 'test' , 'yoyo' ]
+    const [btn , setBtn] =useState()
 
 const handleForm =(e) => {
  e.preventDefault()   
@@ -18,7 +19,11 @@ const handleForm =(e) => {
 // const result = new Array(pageNbr).fill(null).map((item , i)=>i)
 // console.log(result);
 
+const handleClick = (e) => {
+  setBtn(e.target.innerText)
+}
 
+console.log(btn);
 
   return (
     <>
@@ -27,7 +32,15 @@ const handleForm =(e) => {
      <input name='password' placeholder='password'/>
         <button>submit</button>
     </Form> */}
-    <Container $display='flex'>
+    <Container $display='flex' $gap='1rem'>
+      {TestBtn.map((item , i)=>{
+        return (
+          <Div>
+              <Button onClick={handleClick} $bg={item === btn ? 'yellow' : 'transparent'} $transition='all ease-in-out 0.3s' $br='25px' $padding='4px'>{item}</Button>
+
+          </Div>
+        )
+      })}
       {/* <Div $width='900px'  $bg='yellow'>s</Div>
       <Div $width='900px'  $bg='indigo'>ss </Div> */}
     </Container>

@@ -100,7 +100,18 @@ const logOut = AsyncWrapper(async(req,res) => {
 
 
 
+const get_Profile = AsyncWrapper(async(req ,res) => {
+
+    const {username} = req.body;
+    
+    const resp = await userModel.findOne({"personal_info.username": username })
+    .select("-personal_info.password -updatedAt -google_auth -access_token")
+    res.status(200).json({resp})
+  
+ 
+})
+
 
 module.exports = {
-    register , login , logOut ,singleUser , userFormatData
+    register , login , logOut ,singleUser , userFormatData , get_Profile
 };

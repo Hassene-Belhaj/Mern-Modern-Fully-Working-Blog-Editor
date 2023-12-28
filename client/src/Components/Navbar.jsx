@@ -70,6 +70,7 @@ const Navbar = () => {
             console.log(error);
          }
          
+         navigate('/')
       }
      
      const UserInfoApi = async() => {
