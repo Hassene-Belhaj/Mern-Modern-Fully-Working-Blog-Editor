@@ -7,7 +7,7 @@ import { UrlBlog } from "./Url";
 export const Filter_Pagination_Data = async ({create_new_array = false , state,data,page,countRoute,data_to_send = {}}) => {
 
    let obj ; 
-   //  console.log(state);
+    console.log(state);
 
    try {
     if(state !== null && !create_new_array ){

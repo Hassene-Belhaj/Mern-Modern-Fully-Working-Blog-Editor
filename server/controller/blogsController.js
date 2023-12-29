@@ -102,12 +102,14 @@
    const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) => {
 
     const maxLimit = 2 ;
-    const {tag , page , query} = req.body
+    const {tag , page , query , author} = req.body
     let findQuery ;
     if(tag) {
         findQuery = {tags : tag , draft : false}
     } else if(query) {
         findQuery = { draft : false ,  title : new RegExp(query , 'i')}
+    } else if(author) {
+        findQuery = {draft : false , author }
     }
 
     const resp = await blogModel.find(findQuery)
@@ -125,12 +127,14 @@
 
 
 const loadingBlogByTagCategoryCount = AsyncWrapper(async(req,res) => {
-    const { tag , query } = req.body
+    const { tag , query , author } = req.body
     let findQuery ;
     if(tag) {
         findQuery={draft : false , tags: tag}
     } else if(query) {
         findQuery={draft : false , title : new RegExp(query , 'i')}
+    } else if (author){
+        findQuery ={draft : false , author}
     }
     const totalDocs = await blogModel.countDocuments(findQuery)
     return res.status(200).json({totalDocs})

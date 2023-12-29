@@ -59,7 +59,7 @@ const SearchPage = () => {
   const [pageState , setPageState] = useState(null)
 
 
-  axios.defaults.withCredentials = true
+  axios.defaults.withCredentials = true ;
 
   const handleSearchBlogApiBy_query=async({page = 1 , create_new_array}) => {
     try {
@@ -82,8 +82,7 @@ const SearchPage = () => {
       setBlogs(formateData)
   
     } catch (error) {
-      console.log(error);
-     
+      console.log(error);    
     }
   }
 

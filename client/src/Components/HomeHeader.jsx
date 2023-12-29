@@ -6,6 +6,8 @@ import { Button, Div, Header } from '../Global/GlobalStyle'
 
 
 const HomeHeader = ({toggle,setToggle,pageState , title }) => {
+   
+
   return (
 <Header $display='flex' width='50%' $gap=' 0 2rem' $jc='center' $MD_jc='start'  $ai='center' $width='90%'  $height='80px'    $borderB='solid 1px rgba(0,0,0,0.2)' $margin='auto'>  
     <Div onClick={()=>setToggle(true)}  $borderB={toggle ? 'solid 2px rgba(0,0,0,1)' : null} $height='80px'   $cursor='pointer' >

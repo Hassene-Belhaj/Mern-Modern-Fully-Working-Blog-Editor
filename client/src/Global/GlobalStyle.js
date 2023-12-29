@@ -33,6 +33,7 @@ align-items: ${({$ai})=>$ai};
 flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
 flex-wrap: ${({$fw})=>$fw};
+order: ${({$order})=>$order};
 width: ${({$width})=>$width};
 max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
