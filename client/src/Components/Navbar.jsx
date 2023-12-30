@@ -111,7 +111,7 @@ const Navbar = () => {
                          <Image  $width='40px' $height='40px' src='/logo.png' />    
                  </Navlink>
 
-                 <Div $Md='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 
+                 <Div $2XL_display='block' $SM_display='block'  $display='none' $width='250px'$height='40px' $position='relative' $margin='0 0 0 2rem'> 
                        <Input onKeyDown={handleSearch} $width='100%' $height='100%' $br='25px'  $bg='#f3f4f6' $outline='none' $padding='0 0 0 16px' $colorPH='#000' placeholder='Search' 
                         $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' />
                        <SearchIcon $right='1rem' size={20}  />  
@@ -155,7 +155,7 @@ const Navbar = () => {
                   </Div>
      </Div>
 
-            <Div $Lg='none'  $width='90%' $hight='auto' $display={show ? 'flex' : 'none'} $jc='center' $margin='auto' $padding='7rem 0' $position='relative' > 
+            <Div $Lg='none'  $width='90%' $hight='auto' $display={show ? 'flex' : 'none'} $jc='center' $margin='auto' $padding='5.8rem 0' $position='relative' > 
                <Input  $width='100%' $height='3rem' $br='25px' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'$bg='#f3f4f6' $outline='none' $padding='0 0 0 25px' $colorPH='#000' placeholder='Search' />
                <SearchIcon $right='1rem' size={30}  />  
             </Div> 

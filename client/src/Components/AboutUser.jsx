@@ -2,22 +2,15 @@ import React from 'react'
 import { Div, Navlink } from '../Global/GlobalStyle';
 // import { FaYoutube , FaInstagram , FaGithub , FaFacebook ,FaTwitter } from "react-icons/fa"
 import  * as FontAwesome from "react-icons/fa"
-import DateFormat from '../Utils/DateFormat';
 
 
 
 
 const AboutUser = ({social_links,joinedAt}) => {
-   //  console.log(social_links  , joinedAt);
-
-
-  
-
 
     const TransformKey = (key) => {
         const SliceFirstLetter = key.slice(1)   
         const TransformString = key.charAt(0).toUpperCase() + SliceFirstLetter
-        // console.log(TransformString);
         return TransformString
     }
 
@@ -25,8 +18,8 @@ const AboutUser = ({social_links,joinedAt}) => {
 
   return (
      <Div $display='flex' $jc='center'>
-        {Object.keys(social_links).map((key,i)=>{
 
+        {Object.keys(social_links).map((key,i)=>{
             let Nav_link = social_links[key]
             return Nav_link ? (
             <Navlink key={i} to={Nav_link} target='_blank' $color='#000' $td='none'>

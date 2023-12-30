@@ -25,25 +25,22 @@ const DropDownPanel = ({showPannel,userInfo , handleLogoutApi}) => {
                     <Text>Write</Text>
                  </Div> */}
 
-                 <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem'  $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 
-
-                  <Navlink to={`/user/${userInfo?.username}`} $color='#000' $td='none'>
-                   <Text $ta='center'>Profile</Text>
-                    
+                  <Navlink to={`/user/${userInfo?.username}`} $width='100%' $color='#000' $td='none'>
+                      <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem'  $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 
+                        <Text $ta='center'>Profile</Text>                 
+                      </Div>
                   </Navlink>
 
-                 </Div>
-
                  <Div $display='flex' $jc='center' $ai='center'  $width='100%' $height='3rem' $bgh='#f3f5f9' $cursor='pointer' $transition='all ease-in-out 0.3s'> 
-                 <Text >Dashboard</Text>
+                   <Text >Dashboard</Text>
                  </Div>
 
                  <Div $display='flex' $jc='center' $ai='center' $width='100%' $height='3rem' $bgh='#f3f5f9'  $cursor='pointer'$transition='all ease-in-out 0.3s'> 
-                 <Text $ta='center'>Settings</Text>
+                   <Text $ta='center'>Settings</Text>
                  </Div>
 
                  <Div $display='flex' $jc='center' $ai='center' $width='100%' $height='3rem' $cursor='pointer' $padding='2rem 0' > 
-                 <Button onClick={handleLogoutApi} $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.8'>Log Out</Button>
+                    <Button onClick={handleLogoutApi} $width='8rem' $height='40px' $br='25px' $bg='#000' $color='#fff' $border='none' $opacity='0.8'>Log Out</Button>
                  </Div>
 
 

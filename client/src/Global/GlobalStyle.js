@@ -1,14 +1,5 @@
 import {Link} from 'react-router-dom'
 import { createGlobalStyle,css,styled } from 'styled-components'
-import { MdOutlineLightMode } from "react-icons/md";
-import { MdDarkMode } from "react-icons/md";
-
-
-export const DarkModeIcon = styled(MdDarkMode)`
-`
-
-export const LightModeIcon = styled(MdOutlineLightMode)`
-`
 
 export const GlobalStyleApp=createGlobalStyle`
 *{
@@ -18,7 +9,6 @@ export const GlobalStyleApp=createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     /* font-family: 'Karla', sans-serif; */
 }
-
 body{
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -33,7 +23,7 @@ align-items: ${({$ai})=>$ai};
 flex-direction: ${({$fd})=>$fd};
 flex: ${({$flex})=>$flex};
 flex-wrap: ${({$fw})=>$fw};
-order: ${({$order})=>$order};
+order : ${({$order})=>$order};
 width: ${({$width})=>$width};
 max-width: ${({$maxwidth})=>$maxwidth};
 height: ${({$height})=>$height};
@@ -86,10 +76,13 @@ text-transform: ${({$tt})=>$tt};
     color: ${({$colorPH})=>$colorPH};
 }
 
-@media screen and (min-width : 475px) {
 
+@media screen and (min-width : 332px) {
+
+    display: ${({$XS_display})=>$XS_display};
     width : ${({$XS_width})=>$XS_width} ;
     flex-direction: ${({$XS_fd})=>$XS_fd};
+    order : ${({$XS_order})=>$XS_order} ;
     display: ${({$XS_display})=>$XS_display};
     justify-content: ${({$XS_jc})=>$XS_jc};
     align-items: ${({$XS_ai})=>$XS_ai};
@@ -100,9 +93,10 @@ text-transform: ${({$tt})=>$tt};
 }
 
 @media screen and (min-width : 640px) {
-
+    
     display: ${({$SM_display})=>$SM_display};
     flex-direction: ${({$SM_fd})=>$SM_fd};
+    order : ${({$SM_order})=>$SM_order} ;
     justify-content: ${({$SM_jc})=>$SM_jc};
     align-items: ${({$SM_ai})=>$SM_ai};
     width: ${({$SM_width})=>$SM_width};
@@ -119,6 +113,7 @@ text-transform: ${({$tt})=>$tt};
     display: ${({$MD_display})=>$MD_display};
     flex-direction: ${({$MD_fd})=>$MD_fd};
     justify-content: ${({$MD_jc})=>$MD_jc};
+    order : ${({$MD_order})=>$MD_order} ;
     align-items: ${({$MD_ai})=>$MD_ai};
     width: ${({$MD_width})=>$MD_width};
     height: ${({$MD_height})=>$MD_height};
@@ -134,6 +129,7 @@ text-transform: ${({$tt})=>$tt};
     display: ${({$LG_display})=>$LG_display};
     flex-direction: ${({$LG_fd})=>$LG_fd};
     justify-content: ${({$LG_jc})=>$LG_jc};
+    order : ${({$LG_order})=>$LG_order} ;
     align-items: ${({$LG_ai})=>$LG_ai};
     width: ${({$LG_width})=>$LG_width};
     height: ${({$LG_height})=>$LG_height};
@@ -141,14 +137,13 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$LG_gap})=>$LG_gap} ;
     width : ${({$LG_width})=>$LG_width} ;
     flex: ${({$LG_flex})=>$LG_flex};
-    
-
 }
 
 @media screen and (min-width : 1280px) {
     display: ${({$XL_display})=>$XL_display};
     flex-direction: ${({$XL_fd})=>$XL_fd};
     justify-content: ${({$XL_jc})=>$XL_jc};
+    order : ${({$XL_order})=>$XL_order} ;
     align-items: ${({$XL_ai})=>$XL_ai};
     width: ${({$XL_width})=>$XL_width};
     height: ${({$XL_height})=>$XL_height};
@@ -162,6 +157,7 @@ text-transform: ${({$tt})=>$tt};
     display: ${({$2XL_display})=>$2XL_display};
     flex-direction: ${({$2XL_fd})=>$2XL_fd};
     justify-content: ${({$2XL_jc})=>$2XL_jc};
+    order : ${({$2XL_order})=>$2XL_order} ;
     align-items: ${({$2XL_ai})=>$2XL_ai};
     width: ${({$2XL_width})=>$2XL_width};
     height: ${({$2XL_height})=>$2XL_height};
@@ -173,8 +169,6 @@ text-transform: ${({$tt})=>$tt};
 }
 
 `
-
-
 
 
 

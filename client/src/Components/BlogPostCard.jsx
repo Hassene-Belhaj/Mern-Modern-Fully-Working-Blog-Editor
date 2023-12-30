@@ -19,7 +19,7 @@ const BlogPostCard = ({data , author}) => {
 
     return (
         
-        <Container  $padding='1rem' $display='flex'  $jc='space-between' $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
+        <Container  $padding='1rem' $display='flex'  $jc='space-between'  $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
 
             <Div  >
                     <Div $display='flex' $ai='center'  $gap='1rem' $margin='auto'>

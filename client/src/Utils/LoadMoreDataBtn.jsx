@@ -9,7 +9,7 @@ const LoadMoreDataBtn = ({state , handleLatestBlogApi }) => {
         if(state !== null && state?.totalDocs > state?.results?.length) {
      
            return (
-             <Div $width='90%' $margin='auto'  $padding='2rem 0 0 1rem' >
+             <Div $width='90%' $margin='0 auto 2rem auto'  $padding='2rem 0 0 1rem' >
                  <Button onClick={()=>handleLatestBlogApi({page : state.page + 1})}  $width='7rem' $height='40px'
                  $br='25px' $bg='transparent' $color='#000' $border='2px solid rgba(0,0,0,0.6)' $opacity='0.9' $fw="500" >Load More</Button>
              </Div>
