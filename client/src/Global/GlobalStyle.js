@@ -26,8 +26,8 @@ flex-wrap: ${({$fw})=>$fw};
 order : ${({$order})=>$order};
 width: ${({$width})=>$width};
 max-width: ${({$maxwidth})=>$maxwidth};
-height: ${({$height})=>$height};
 max-height: ${({$maxheight})=>$maxheight};
+height: ${({$height})=>$height};
 position: ${({$position})=>$position};
 z-index: ${({$z})=>$z};
 top: ${({$top})=>$top};
@@ -77,7 +77,7 @@ text-transform: ${({$tt})=>$tt};
 }
 
 
-@media screen and (min-width : 332px) {
+@media screen and (min-width : 250px) {
 
     display: ${({$XS_display})=>$XS_display};
     width : ${({$XS_width})=>$XS_width} ;

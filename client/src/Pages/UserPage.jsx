@@ -39,8 +39,6 @@ const UserPage = () => {
 
           const {id : profileID } = useParams()
         
-
-
         const [profile , setProfile] = useState(profile_data_structure)
         const [loading ,setLoading] = useState(true)
         const [blogs ,setBlogs] = useState(null)
@@ -52,9 +50,20 @@ const UserPage = () => {
 
         const {personal_info : {fullname , username , profile_img , bio } , account_info : {total_posts , total_reads} , social_links  , joinedAt} = profile     
 
-        const navigate = useNavigate()
        
-        console.log(profile?.personal_info?.username);
+        // console.log(profile?.personal_info?.username);
+        
+    useEffect(()=>{
+        const WindowResize =() => {
+          if(window.innerWidth > 720) {
+              setToggle(true)
+          }
+        }
+        window.addEventListener('resize' , WindowResize)
+        return () => window.removeEventListener('resize' , WindowResize)
+          
+        },[])
+
   
     axios.defaults.withCredentials = true
 
@@ -73,7 +82,6 @@ const UserPage = () => {
         }
     } 
     
-    
     const handleSearchBlogApiByAuthor=async({page = 1 , user_id}) => {
         try {
             const  {data} = await axios.post(UrlBlog+'/search_blog', {author : user_id , page})  
@@ -82,8 +90,7 @@ const UserPage = () => {
                 setTimeout(() => { setSpinner(false) }, 500)
                 setSpinner(true)
               }
-           
-            
+   
         const formateData = await Filter_Pagination_Data({
         state : blogs ,
         data : data.resp,
@@ -110,22 +117,7 @@ const UserPage = () => {
             setDataBlogsState(false)   
             fetch_Profile_user()
         }
-
     },[profileID , dataBlogsState])
-
-
-
-
-    useEffect(()=>{
-      const WindowResize =() => {
-        if(window.innerWidth > 720) {
-            setToggle(true)
-        }
-      }
-      window.addEventListener('resize' , WindowResize)
-      return () => window.removeEventListener('resize' , WindowResize)
-        
-      },[])
 
 
 //   console.log(blogs);
@@ -134,12 +126,10 @@ const UserPage = () => {
 
         if(!loading) return <Div $padding='5rem 0'><LoadingSpinner /></Div>
         else {
-
             return (
                 <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={loading}  >
-                    {loading ?
-                       profile.username.length ?
-                        
+                    {
+                       username ?       
                         <Container $display='flex' $width='100%' $fd='column'  $LG_fd='row' >
 
                         
@@ -206,10 +196,9 @@ const UserPage = () => {
                         
                         </Container>
                         : 
-                        <LoadingSpinner />
-                        
-                    
-        }
+                        <PageNotFound />
+
+                    }
 
                 </AnimationWrapper>
         
