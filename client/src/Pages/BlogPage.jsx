@@ -4,77 +4,140 @@ import { useParams } from 'react-router'
 import { UrlBlog } from '../Utils/Url';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Container, Div, Image, Text, Title } from '../Global/GlobalStyle';
+import { Button, Container, Div, Image, Navlink, Text, Title } from '../Global/GlobalStyle';
 import AnimationWrapper from '../Utils/AnimationWrapper';
 import LoadingSpinner from '../Utils/LoadingSpinner';
+import { CiHeart } from "react-icons/ci";
+import { LiaCommentDots } from "react-icons/lia";
+import { FaTwitter } from "react-icons/fa";
 
+import styled from 'styled-components';
+import { useAuthContext } from '../Context/AuthContext';
+
+
+const IconHeart = styled(CiHeart)``
+const IconComment = styled(LiaCommentDots)``
+const IconTwitter= styled(FaTwitter)`
+cursor: pointer;
+transition: all ease-in-out 0.3s;
+&:hover {
+  color : #1DA1F2;
+}
+`
 
 export const blogStructure = {
-  title : "" ,
-  desc : "" ,
+  activity : {total_likes : "" , total_comments : "" , total_reads : ""} ,
+  author : {personal_info : {fullname:"", email:"", username:"" , profile_img: "" ,  }  , _id : ""} ,
   banner : "" ,
   content : [] ,
-  tags : [] ,
+  desc : "" ,
+  title : "" ,
   publishedAt : "" ,
-  author : {personal_info : {fullname:"", email:"", username:"" , profile_img: ""} } ,
-  activity : {total_likes : "" , total_comments : "" , total_reads : ""}
+ 
 }
 
 
 const BlogPage = () => {
+
+  
+  
+  const {isLoggedIn} =  useAuthContext()
+  // console.log(isLoggedIn?.data.user.id);
+  
   const {id :  blog_id} = useParams()
   // console.log( blog_id );
   const [blog , setBlog] = useState(blogStructure)
   const [spinner , setSpinner ] = useState(true)
-
-  const {title , desc , banner , content , tags , publishedAt , author : {personal_info : {fullname , email, username, profile_img} } , activity : {total_likes , total_comments , total_reads }} = blog
-
-
-console.log(blog);
-axios.defaults.withCredentials = true
-
-const get_single_blog_api = async () => {
-  try {
-    const {data} = await axios.post(UrlBlog + '/blog' , {blog_id})
-    console.log(data.resp);
-    setBlog(data.resp)
-    setSpinner(false)
-  } catch (error) {
-    console.log(error);
-    setSpinner(false)
+  const [similarBlogs , setSimilarBlogs ] = useState(null)
+  
+  
+  const {title , desc , banner , content , publishedAt , author : {personal_info : {fullname , email, username, profile_img  } , _id  }
+   , activity : {total_likes , total_comments , total_reads }} = blog
+  
+  // console.log(isLoggedIn?.data.user.id);
+  // console.log(_id);
+    // console.log(tags[0]);
+    
+    
+    axios.defaults.withCredentials = true
+    
+    const get_single_blog_api = async () => {
+      try {
+        const {data} = await axios.post(UrlBlog + '/blog' , {blog_id})
+        setBlog(data.resp)
+        setSpinner(false)
+        // console.log(data.resp.tags[0]);
+        try {
+          console.log(data.resp.tags[0]);
+          const resp_similar_blogs = await axios.post(UrlBlog+'/search_blog', {tag : data.resp.tags[0]})
+          setSimilarBlogs(resp_similar_blogs)  ;
+          console.log(resp_similar_blogs.data) ;
+      } catch (error) {
+        console.log(error);
+      }
+      
+      
+    } catch (error) {
+      console.log(error);
+      setSpinner(false)
+    }
   }
-}
-
-
-
-useEffect(()=>{
-  get_single_blog_api()
-},[])
-
-
-  return (
-  <AnimationWrapper>
+  
+  useEffect(()=>{
+    get_single_blog_api()
+  },[]) 
+  
+  
+  
+    return (
+      <AnimationWrapper>
     {spinner ?
      <LoadingSpinner $padding='8rem 0'  />
      :
-    <Container $width='80%' $margin='auto' >
+     <Container $width='80%' $margin='auto' >
 
-      <Div $display='flex' $maxwidth='800px' $height='400px'  $margin='auto'>
-        <Image $width='100%' $height='100%' $of='cover' src={banner} />
+      <Div  $display='flex' $maxwidth='800px' $height='400px'  $margin='1px auto' $br='5px'>
+        <Image $width='100%' $height='100%' $of='cover' src={banner}  $br='5px' />
       </Div>
       <Title $padding='4rem' $ta='center'>{title}</Title>
 
-     <Div $display='flex' $ai='center'  $gap='1rem' >
-        <Div  $width='1.5rem' $height='1.5rem'  $br='25px'>
-          <Image $width='100%' $height='100%' src={profile_img} $br='25px' />
-        </Div>
-          <Title $fs='0.8rem'>{fullname}</Title>
-          <Title $fs='0.8rem'>@{fullname}</Title>
-          <Text $width='auto' $fs='0.8rem'><strong> Published on</strong> {new Date(publishedAt).toString().slice(0,15)}</Text>
-          <Div>
-            
+    <Div $width='100%' $display='flex' $jc='space-between' $ai='center'>
+      <Div $padding='2rem 0' $display='flex' $ai='center'  $gap='1rem' >
+          <Div  $width='1.5rem' $height='1.5rem'  $br='25px'>
+            <Image $width='100%' $height='100%' src={profile_img} $br='25px' />
           </Div>
+            <Title $fs='0.8rem'>@{fullname}</Title>
+            <Title $fs='0.8rem'>{fullname}</Title>
+      </Div>
+
+          <Div>
+              <Text $width='auto' $fs='0.8rem'><strong> Published on</strong> {new Date(publishedAt).toString().slice(0,15)}</Text>
+        </Div> 
+    </Div>
+
+    
+     <Div $display='flex' $jc='space-between' $ai='center' $borderT='.5px solid rgba(0,0,0,0.1)' $borderB='.5px solid rgba(0,0,0,0.1)'>
+      <Div $padding='1rem 0' $display='flex' $gap='2rem'  >
+        <Button $display='flex' $jc='center' $ai='center' $padding='4px' $bg='#f3f5f9' $border='none' $outline='none' $br='5px'>
+           <IconHeart size={20}/>
+        </Button>
+        <Text>{total_likes}</Text>
+        <Button $display='flex' $jc='center' $ai='center' $padding='4px' $bg='#f3f5f9' $border='none' $outline='none' $br='5px'>
+           <IconComment size={20}/>
+        </Button>
+        <Text>{total_comments}</Text>
+      </Div>
+       <Div $display='flex' $ai='center' $gap='2rem'>
+           {isLoggedIn?.data.user.id === _id ? 
+           <Button $display='flex' $jc='center' $margin='2rem auto' $padding='.5rem 2rem' $bg='transparent' $br='25px' >Edit</Button> : '' }
+        <Navlink to={`https://www.twitter.com/intent/tweet?text=Read${title}&url=${location.href}`} target='_blank' $td='none' $color='#000'>
+           <IconTwitter size={20} />
+        </Navlink>
+       </Div>
+
      </Div>
+
+
         
     </Container>
     }

@@ -30,6 +30,7 @@ export const profile_data_structure = {
     },
     social_links : {} ,
     joinedAt : "" ,
+    _id : ""
 }
 
 const UserPage = () => {
@@ -38,6 +39,8 @@ const UserPage = () => {
         //   console.log(isLoggedIn?.data?.user.id); // _id from checkuser
 
           const {id : profileID } = useParams()
+          // get _id
+          console.log(isLoggedIn?.data?.user.id);
         
         const [profile , setProfile] = useState(profile_data_structure)
         const [loading ,setLoading] = useState(true)
@@ -48,10 +51,10 @@ const UserPage = () => {
         const [profileLoaded , setProfileLoaded] = useState(null)  
         const [dataBlogsState , setDataBlogsState] = useState(false)    
 
-        const {personal_info : {fullname , username , profile_img , bio } , account_info : {total_posts , total_reads} , social_links  , joinedAt} = profile     
+        const {personal_info : {fullname , username , profile_img , bio } , account_info : {total_posts , total_reads} , social_links  , joinedAt , _id } = profile     
 
        
-        // console.log(profile?.personal_info?.username);
+        console.log(profile);
         
     useEffect(()=>{
         const WindowResize =() => {
@@ -184,7 +187,7 @@ const UserPage = () => {
                             <Div $margin='auto'>
                                 <Text $ta='center' $margin='1rem'>{total_posts.toLocaleString()} Posts - {total_reads.toLocaleString()} Reads</Text>
                                 <Navlink to='/setting/edit_profile' $color='#000' $td='none'>
-                                {isLoggedIn?.data?.user?.id === profileID ?  <Button $display='flex' $jc='center' $margin='2rem auto' $padding='.5rem 1rem' $bg='transparent' $br='25px' >Edit Profile</Button>
+                                {isLoggedIn?.data?.user?.id === _id ?  <Button $display='flex' $jc='center' $margin='2rem auto' $padding='.5rem 1rem' $bg='transparent' $br='25px' >Edit Profile</Button>
                                 :
                                 null   
                                 }    
