@@ -122,7 +122,7 @@ const Navbar = () => {
             <Div $display='flex' $jc='center' $ai='center' $gap='1rem' >
                 
                  <Div $Lg='none' $width='auto' $position='relative'>
-                    <Button $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'>
+                    <Button $2XL_display='none' $XL_display='none' $LG_display='none' $MD_display='none' $SM_display='none'  $padding='6px' $br='25px' $display='flex' $jc='center' $bg='#e5e7eb' $border='none' $opacity='0.9'>
                        <AiOutlineSearch onClick={()=>setShow(!show)} size={20} />
                     </Button>
                      </Div>

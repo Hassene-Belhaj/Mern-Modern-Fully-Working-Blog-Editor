@@ -49,8 +49,8 @@ const TrendingBlogs = () => {
                                 </Div>
 
                                 <Div $height='auto' $display='flex' $gap='1rem' $ai='center' $fr='wrap'>
-                                        <Text $fs='0.8rem'>@{fullname}</Text>
-                                        <Text $fs='0.8rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
+                                        <Text $fw='600' $fs='0.8rem'>@{fullname}</Text>
+                                        <Text $fw='600' $fs='0.8rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
                                 </Div>  
                           </Div>
 

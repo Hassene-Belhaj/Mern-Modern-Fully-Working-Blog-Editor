@@ -10,7 +10,7 @@ const LikeIcon = styled(CiHeart)`
 cursor: pointer;
 `
 
-const BlogPostCard = ({data , author}) => {
+const BlogPostCard = ({data , author , paddingCss , widthCss}) => {
 
     const {publishedAt, title , banner , desc, tags , activity } = data
     const {fullname,email,username,profile_img} = author
@@ -19,7 +19,7 @@ const BlogPostCard = ({data , author}) => {
 
     return (
         
-        <Container  $padding='1rem' $display='flex'  $jc='space-between'  $width='90%' $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
+        <Container  $padding={paddingCss ? paddingCss : '1rem'} $display='flex'  $jc='space-between'  $width={widthCss ? widthCss : '90%' } $margin='auto' $borderB='.5px solid rgba(0,0,0,0.2)'>
 
             <Div  >
                     <Div $display='flex' $ai='center'  $gap='1rem' $margin='auto'>
@@ -28,8 +28,8 @@ const BlogPostCard = ({data , author}) => {
                             </Div>
                                     {/* <Text $fs='0.7rem'>{email}</Text> */}
                             <Div $display='flex' $gap='1rem' $ai='center'>
-                                    <Text $fs='0.8rem'>@{fullname}</Text>
-                                    <Text $fs='0.8rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
+                                    <Text $fw='600' $fs='0.8rem'>@{fullname}</Text>
+                                    <Text $fw='600' $fs='0.8rem'>{new Date(publishedAt).toString().slice(0,10)}</Text>
                             </Div>  
                     </Div>
 

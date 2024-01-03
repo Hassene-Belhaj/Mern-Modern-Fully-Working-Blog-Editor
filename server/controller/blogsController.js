@@ -101,11 +101,13 @@
    // blogs by tags or query    
    const loadingBlogByTagCategory = AsyncWrapper(async(req,res,next) => {
 
-       const {tag , page , query , author, limit} = req.body
-       const maxLimit = 2 ;
+       const {tag , page , query , author, limit , eliminate_blog} = req.body
+
+       const maxLimit = limit ? limit : 2
+
     let findQuery ;
     if(tag) {
-        findQuery = {tags : tag , draft : false}
+        findQuery = {tags : tag , draft : false , blog_id : {$ne : eliminate_blog}}
     } else if(query) {
         findQuery = { draft : false ,  title : new RegExp(query , 'i')}
     } else if(author) {

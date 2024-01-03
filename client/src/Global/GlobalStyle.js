@@ -89,6 +89,8 @@ text-transform: ${({$tt})=>$tt};
     width: ${({$XS_width})=>$XS_width};
     height: ${({$XS_height})=>$XS_height};
     gap : ${({$XS_gap})=>$XS_gap} ;
+    font-size: ${({$XS_fs})=>$XS_fs};
+
 
 }
 
@@ -105,7 +107,7 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$SM_gap})=>$SM_gap} ;
     width : ${({$SM_width})=>$SM_width} ;
     flex: ${({$SM_flex})=>$SM_flex};
-    
+    font-size: ${({$SM_fs})=>$SM_fs};
 }
 
 @media screen and (min-width : 768px) {
@@ -121,6 +123,7 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$MD_gap})=>$MD_gap} ;
     width : ${({$MD_width})=>$MD_width} ;
     flex: ${({$MD_flex})=>$MD_flex};
+    font-size: ${({$MD_fs})=>$MD_fs};
     
 }
 
@@ -137,6 +140,7 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$LG_gap})=>$LG_gap} ;
     width : ${({$LG_width})=>$LG_width} ;
     flex: ${({$LG_flex})=>$LG_flex};
+    font-size: ${({$LG_fs})=>$LG_fs};
 }
 
 @media screen and (min-width : 1280px) {
@@ -151,6 +155,7 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$XL_gap})=>$XL_gap} ;
     width : ${({$XL_width})=>$XL_width} ;
     flex: ${({$XL_flex})=>$XL_flex};
+    font-size: ${({$XL_fs})=>$XL_fs};
 }
 
 @media screen and (min-width : 1536px) {
@@ -165,6 +170,7 @@ text-transform: ${({$tt})=>$tt};
     gap : ${({$2XL_gap})=>$2XL_gap} ;
     width : ${({$2XL_width})=>$2XL_width} ;
     flex: ${({$2XL_flex})=>$2XL_flex};
+    font-size: ${({$2XL_fs})=>$2XL_fs};
 
 }
 

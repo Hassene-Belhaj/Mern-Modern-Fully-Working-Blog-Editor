@@ -13,7 +13,9 @@ import UserPage from './Pages/UserPage'
 import Home from './Pages/Home'
 
 const App = () => {
+  
   const location = useLocation()
+
   const {isLoggedIn} = useAuthContext()
    
 
@@ -33,6 +35,7 @@ const App = () => {
         <Route path='/' element={< Home />} />  
         <Route path='/blog/:id' element={< BlogPage />} />  
         <Route path='/editor' element={< Editor/>} />
+        <Route path='/editor/:blog_id' element={< Editor/>} />
         <Route path='/search/:query' element={< SearchPage/>} />
         <Route path='user/:id' element={<UserPage/>} />
         <Route path='*' element={<PageNotFound />} />

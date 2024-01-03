@@ -24,14 +24,15 @@ const PublishForm = () => {
    
   console.log(isLoggedIn.data.user.id);
 
-  const {beditorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
-    setContent , desc , setDesc , tags , setTags , author , setAuthor , error , setError } = useEditorContext()
+  const {editorState , setEditorState , blog , blog : {title , desc , banner , content , tags , author } , setBlog , error , setError } = useEditorContext()
+
   const [tag , setTag] = useState('')
 
 
   let textLength = 200
   let DescLength = 200
 
+console.log(tags);
 
 
 
@@ -44,6 +45,7 @@ const PublishForm = () => {
    if(!content.length) return toast.error('there must be some blog content to publish it')
    if(!tags.length) return toast.error('Enter at least 1 tag to help us rank your blog')
    if(tags.length >= 10) return toast.error('provide tags to publish the blog , maximum 10')
+
     
    const Data = {
     title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : false,
@@ -56,11 +58,7 @@ const PublishForm = () => {
     if(resp.status === 200) {
       setTimeout(() => {
          navigate('/')
-         setTitle('')
-         setBanner('') 
-         setContent('')
-         setDesc('')
-         setTags([])
+         setBlog('')   
         }, 1000)
     }
 
@@ -85,15 +83,14 @@ const handleKeyDown =(e)=> {
   if(e.keyCode === 13 || e.keyCode === 188 ) {
     e.preventDefault()
     if(tag.length > 1) {
-      setTags([...tags , tag])
+      setBlog({...blog  , tags :  [...tags , tag ] })
       setTag('')
-
     }
   }
   if(tags.length >= 11) {
     e.preventDefault()
     setError('You can add max 10 tags')
-    setTags([...tags])
+    setBlog({...blog  , tags : [...tags] })
   }
 }
 
@@ -117,7 +114,7 @@ const handleKeyDown =(e)=> {
          {/* <Title $fs='1rem' $fw='500'>Blog Title</Title> */}
 
          <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center'  >
-              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'  $padding='1rem' $br='7px' value={title} onChange={e=>setTitle(e.target.value)} ></TextArea>
+              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'  $padding='1rem' $br='7px' value={title} onChange={e=>setBlog({...blog , title : e.target.value})} ></TextArea>
           </Div> 
 
           <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />
@@ -134,7 +131,7 @@ const handleKeyDown =(e)=> {
 
       <Div>
           <TextArea  $width='100%' $height='10rem' $resize='none' $padding='1rem' $outline='none'  $br='7px' value={desc}  $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'
-          textLength={DescLength} onChange={e=>setDesc(e.target.value)} $bg='#f3f5f9' > </TextArea>
+          textLength={DescLength} onChange={e=>setBlog({...blog , desc : e.target.value})} $bg='#f3f5f9' /> 
       </Div> 
 
       <Div $display='flex' $jc='end'>
@@ -163,7 +160,7 @@ const handleKeyDown =(e)=> {
                     <Text  $fs='0.9rem' $color='red' $margin='2rem 0' $ta='center'>{error? error : null}</Text>
 
        </Div>
-                    <Text $fs='0.8rem' $color='#000' $margin='.5rem 0' $ta='right'>{10 - tags.length} Tags left</Text>
+                    <Text $fs='0.8rem' $color='#000' $margin='.5rem 0' $ta='right'>{10 - tags?.length} Tags left</Text>
       </Div>
         <Button onClick={handleCreateBlogPostApi} $width='100%' $height='40px' $margin='2rem 0' $br='7px' $bg='#000' $color='#fff' $border='none' $opacity='0.8'>Post</Button>
 

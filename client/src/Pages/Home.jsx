@@ -75,8 +75,6 @@ const Home = () => {
     }
   }
   
-
-
 const handleSearchBlogApiByTag =async({page = 1}) => {
   try {
     const {data} = await axios.post(UrlBlog+'/search_blog', {tag : pageState , page})
@@ -103,9 +101,6 @@ const handleSearchBlogApiByTag =async({page = 1}) => {
    
   }
 }
-
-
-
 
 const loadingBlogByTagCategory = (e) => {
   let category = e.target.innerText.toLowerCase()
@@ -199,7 +194,7 @@ return (
           
           {/* right column */}
 
-              <Section $flex='1' $height='auto' $SM_width='90%' $display='none' $LG_display='flex' 
+              <Section $flex='1' $height='auto' $SM_width='90%' $display='none' $MD_display='flex' 
               $fd='column' $padding='1rem' $borderL='solid 1px rgba(0,0,0,0.2)'>
                 <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
                     <Title $fs='1rem' $fw='400'>Stories From  All interest </Title>

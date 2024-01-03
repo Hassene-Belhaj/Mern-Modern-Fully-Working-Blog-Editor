@@ -15,6 +15,7 @@ import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from 'react-hot-toast';
 import AnimationWrapper from '../Utils/AnimationWrapper';
+import { modules } from '../Utils/React_quill_module';
 
 
 const CloudUpload = styled(MdCloudUpload)`
@@ -28,42 +29,22 @@ const Blog_Editor = () => {
   
   const {isLoggedIn , CheckUserApi} = useAuthContext()
 
-  
-    const {editorState , setEditorState , title , setTitle ,banner , setBanner ,content ,
-    setContent , desc , setDesc , tags , setTags , author , setAuthor} = useEditorContext()
+  const {editorState , setEditorState , blog , blog : { title , desc , banner , content , tags , author} , setBlog , error , setError} = useEditorContext()
 
-    
-    let textLength = 150
-    
+  console.log(content);
 
-    let  toolbarOptions = [
-      ['bold', 'italic', 'underline', 'strike'],            // toggled buttons
-      ['blockquote', 'code-block'],
-      [{ 'header': 1 }, { 'header': 2 }],                  // custom button values
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      // [{ 'script': 'sub'}, { 'script': 'super' }],         // superscript/subscript
-      [{ 'indent': '-1'}, { 'indent': '+1' }],             // outdent/indent
-      [{ 'direction': 'rtl' }],                            // text direction
-      // [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      [{ 'color': [] }, { 'background': [] }],             // dropdown with defaults from theme
-      // [{ 'font': [] }],
-      [{ 'align': [] }],
-      ['clean'],
-      ['link', 'image']                                    // remove formatting button
-    ];
+  // for react-quill 
 
-    const modules= {
-      toolbar : toolbarOptions
-    }
-      
-       
 
-    
+  let textLength = 150
+
+  // useEffect(()=>{
+  //     setBlog({...blog , content : contentQuill})
+  // },[contentQuill])   
+
     const inputRef = useRef()
     
     const navigate = useNavigate()
-
     // hidden input & event click
     const handleBannerUpload = (e) => {
        if(banner) {
@@ -73,10 +54,9 @@ const Blog_Editor = () => {
        }
     }
 
-
     const handleTitleChange = (e) => {
       e.preventDefault()
-      setTitle(e.target.value)
+      setBlog({...blog , title : e.target.value})
     }
 
     const handlePublishEvent = () => {
@@ -84,6 +64,7 @@ const Blog_Editor = () => {
     }
 
 
+  //image
     const UploadImageApi = async(e) => {
     const ToasterId = toast.loading('Loading')  
     const Data = new FormData()
@@ -94,9 +75,9 @@ const Blog_Editor = () => {
        return ;
     }
     try {
-    const resp = await axios.post(UploadImageUrl+'/upload_image',Data,{withCredentials:true})
+    const resp = await axios.post(UploadImageUrl+'/upload_image', Data ,{withCredentials:true})
         console.log(resp?.data?.data.url);
-        setBanner(resp?.data?.data.url)
+        setBlog({...blog , banner : resp?.data?.data.url})
     } catch (error) {
     toast.error(error)
     console.log(error);
@@ -106,30 +87,27 @@ const Blog_Editor = () => {
     }
 
 
+
    const handleClickDeleteImage = async () => {
      try {
        const resp = await axios.post(UploadImageUrl+'/delete_image',{image: banner.public_id },{ withCredentials:true })
        console.log(banner.public_id);
        console.log(resp);
-       setBanner('')
+       setBlog({...blog , banner : ''})
      } catch (error) {
       console.log(error);
      }
-  }
+    }
+    
 
 
   // draft
-
   const handleCreateBlogDraft = async (e) => {
-
     e.preventDefault()
-    
     if(!title.length) return toast.error('you must provide a Title to saving this Post')
-    
    const Data = {
     title , banner , desc , tags , content ,  author : isLoggedIn?.data?.user.id, draft : true ,
    }
-  
    const ToastLoading = toast.loading('Loading')
   try {
     const resp = await axios.post(UrlBlog+'/create_blog' , Data , {withCredentials : true} )
@@ -137,12 +115,9 @@ const Blog_Editor = () => {
     if(resp.status === 200) {
       setTimeout(() => { 
         navigate('/') 
-        setTitle('')
-        setBanner('')
         setEditorState('editor') 
       }, 1000)
     }
-
   } catch (error) {
     console.log(error);
     toast.error(error)
@@ -151,11 +126,18 @@ const Blog_Editor = () => {
   toast.success('Saved')
   }
 
+  console.log(content);
 
 
-  
+ const handleReactQuill = (value) => {
+  setBlog({...blog , content : value})
+ }
+
+
+
   return (
     <>
+ 
     <Blog_Editor_Nav  handlePublishEvent={handlePublishEvent}  handleCreateBlogDraft={handleCreateBlogDraft}/>
     <Container $padding='2rem' >
         <Form $maxwidth='900px' $margin='2rem auto' $position='relative'  >
@@ -167,9 +149,7 @@ const Blog_Editor = () => {
             : null}
 
           <Div $margin='1rem 0' $height='400px'  $display='flex' $jc='center'  $ai='center'    onClick={handleBannerUpload} $border='.5px solid rgba(0,0,0,0.1)' >
-                <Input ref={inputRef}  onChange={UploadImageApi} $width='100%' $outline='none' type="file" name='file' accept='.png , .jpg , .jpeg'  hidden />
-            
-              
+              <Input ref={inputRef}  onChange={UploadImageApi} $width='100%' $outline='none' type="file" name='file' accept='.png , .jpg , .jpeg'  hidden />
                 {banner ? 
                 <Image src={banner} $width="100%" $height='100%' $of='cover'/> 
                 : 
@@ -179,12 +159,9 @@ const Blog_Editor = () => {
                   <Text $color='#818cf8'>upload banner</Text>
                  </Div>
                 </>
-                // <Image src='blog_banner.png'  $width="100%" $height='100%' $of='center'/> 
                 } 
-
            </Div>
 
-             
            <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center' >
               <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none" $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $padding='1rem' $br='7px'  placeholder='Blog Title'  name='title' $outline='none'  value={title} onChange={handleTitleChange} ></TextArea>
           </Div> 
@@ -196,16 +173,16 @@ const Blog_Editor = () => {
              <Text $fs='0.9rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length || 0 } characters left </Text>
            </Div>
            
-        
-            
+
            <Div $margin='3rem 0'>
-             <ReactQuill theme='snow' placeholder='Compose an epic' modules={modules}  value={content} onChange={setContent} />
+               <ReactQuill theme='snow' placeholder='Compose an epic'  modules={modules} value={blog.content} onChange={handleReactQuill}  />
           </Div> 
                  
                     
         </Form>
     </Container>
-    </>
+   </>
+ 
   )
 }
 

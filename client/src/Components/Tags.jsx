@@ -13,11 +13,11 @@ margin-left: 1rem;
 
 const Tags = ({tag,index}) => {
 
-  const {tags , setTags , error , setError } = useEditorContext()
+  const {blog , blog :{ tags }, error , setError  , setBlog} = useEditorContext()
   
   const handleClose = (index) => {
-    const FindTag = tags.filter((_item,i)=>i !== index)
-    setTags(FindTag)
+    const FindTag = blog.tags.filter((_item,i)=>i !== index)
+    setBlog({blog , tags : FindTag })
   }
 
 
@@ -25,7 +25,6 @@ const Tags = ({tag,index}) => {
     e.preventDefault()
     e.target.setAttribute('contentEditable' , true)
     e.target.focus()
-
   } 
 
   const handleTagEdit = (e) => {
@@ -33,7 +32,7 @@ const Tags = ({tag,index}) => {
       e.preventDefault()
       let currentTag = e.target.innerText
       tags[index] = currentTag
-      setTags([...tags])
+      setBlog({...blog , tags : [...tags]})
       e.target.setAttribute('contentEditable' , false)
     }
   }
