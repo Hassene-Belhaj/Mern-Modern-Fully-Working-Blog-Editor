@@ -16,10 +16,9 @@ export const blogStructure = {
   desc : "" ,
   author: "" ,
   banner : "" ,
-  tags : [] ,
+  tags : [] || null ,
   content : [] ,
   publishedAt : "" ,
- 
 }
 
 

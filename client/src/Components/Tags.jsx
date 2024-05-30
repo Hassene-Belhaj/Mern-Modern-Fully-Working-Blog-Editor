@@ -13,7 +13,7 @@ margin-left: 1rem;
 
 const Tags = ({tag,index}) => {
 
-  const {blog , blog :{ tags }, error , setError  , setBlog} = useEditorContext()
+  const {blog , blog :{tags}, error , setError  , setBlog} = useEditorContext()
   
   const handleClose = (index) => {
     const FindTag = blog.tags.filter((_item,i)=>i !== index)
@@ -21,12 +21,7 @@ const Tags = ({tag,index}) => {
   }
 
 
-  const addEditable=(e)=> {
-    e.preventDefault()
-    e.target.setAttribute('contentEditable' , true)
-    e.target.focus()
-  } 
-
+  
   const handleTagEdit = (e) => {
     if (e.keyCode === 13 || e.keyCode === 188) {
       e.preventDefault()
@@ -36,6 +31,12 @@ const Tags = ({tag,index}) => {
       e.target.setAttribute('contentEditable' , false)
     }
   }
+  
+  const addEditable=(e)=> {
+    e.preventDefault()
+    e.target.setAttribute('contentEditable' , true)
+    e.target.focus()
+  } 
 
   return (
        <Button $fw='700' $width='auto' $padding='4px' $br='25px' $display='flex' $jc='center' $ai='center'  $bg='#fff' $border='none' $opacity='0.9'  

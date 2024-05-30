@@ -107,8 +107,6 @@ const UserAuthForm = ({type}) => {
             access_token : resp.accessToken
           }
 
-        
-          
           await userAuthApiServer(serverRoute ,formData)
         
       } catch (error) {
@@ -131,6 +129,7 @@ const UserAuthForm = ({type}) => {
 
 
     let form = new FormData(authForm.current)
+    
     let formData = {}
     for(let[key , value] of form.entries()){
       formData[key] = value ;
@@ -176,15 +175,15 @@ const UserAuthForm = ({type}) => {
 
             <>
               <Div $position='relative'>
-              <Input name='fullname' $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Full Name'/>
+              <Input name='fullname' $width='100%' $padding='0 0 0 3rem' $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' type='text' placeholder='Full Name'/>
                 <UserIcon />
               </Div>
               <Div $position='relative'>
-                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
+                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' type='text' placeholder='Email'/>
                 <EmailIcon />
               </Div>
               <Div $position='relative'>
-                <Input  name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
+                <Input  name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
                 <PwdIcon />
                 {EyeToggle ? <EyeInvisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20} /> : <EyeVisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20}/>}
               </Div>
@@ -215,12 +214,12 @@ const UserAuthForm = ({type}) => {
             <>
 
               <Div $position='relative'>
-                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type='text' placeholder='Email'/>
+                  <Input name='email' $width='100%' $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none'  $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' type='text' placeholder='Email'/>
                 <EmailIcon />
               </Div>
 
               <Div $position='relative'>
-                  <Input name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
+                  <Input name='password' $width='100%'  $padding='0 0 0 3rem'  $height='3rem' $br='5px'  $bg='#f3f4f6' $outline='none' $colorPH='#000' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' type={EyeToggle ? 'text' : 'password'} placeholder='Password'/>
                     <PwdIcon />
                     {EyeToggle ? <EyeInvisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20} /> : <EyeVisibleIcon onClick={()=>setEyeToggle(!EyeToggle)} size={20}/>}
                 </Div>

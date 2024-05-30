@@ -8,9 +8,63 @@ import Header from '@editorjs/header'
 import Quote from '@editorjs/quote'
 import Marker from '@editorjs/marker'
 import InlineCode from '@editorjs/inline-code'
+import axios from 'axios'
+import { UploadImageUrl } from './Url'
 
 
-export const Tools = {
+
+const UploadImageApi = async(e) => {
+    // const ToasterId = toast.loading('Loading')  
+    const Data = new FormData()
+    Data.append('image' , e.target.files[0])
+    if (!e.target.files[0].name.includes( 'jpg' || 'png' || 'jpeg')) {
+    //    toast.dismiss(ToasterId)
+    //    toast.error('please upload a valid file format you can upload jpg , jpeg or png')
+       return ;
+    }
+    try {
+    const resp = await axios.post(UploadImageUrl+'/upload_image', Data ,{withCredentials:true})
+        console.log(resp?.data?.data.url);
+        setBlog({...blog , banner : resp?.data?.data.url})
+    } catch (error) {
+    // toast.error(error)
+    console.log(error);
+    }
+    // toast.dismiss(ToasterId)
+    // toast.success('image uploaded successfully')
+    }
+
+
+const editorUploadByUrl = (e) => {
+ const Link = new Promise ((resolve , reject)=>{
+    try {
+        resolve(e)
+    } catch (error) {
+        reject(error)
+    }
+ })
+ return Link.then(url => {
+    return {
+        success : 1 ,
+        file : {url}
+    }
+ })
+}
+
+const editorUploadByFile = async (e) => {
+        try {
+        const resp = await axios.post(UploadImageUrl+'/upload_image', e ,{withCredentials:true})
+            console.log(resp?.data?.data.url);
+        } catch (error) {
+        console.log(error);
+        }
+  
+        }
+    
+
+
+
+export const Tools = {  
     embed : Embed ,
     list : {
         class : List ,
@@ -20,7 +74,8 @@ export const Tools = {
         class : Image ,
         config : {
             uploader : {
-                uploadByUrl : ,
+                uploadByUrl : editorUploadByUrl,
+                uploadByFile : editorUploadByFile , 
             }
         }
     } ,

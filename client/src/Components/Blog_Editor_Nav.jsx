@@ -21,7 +21,7 @@ const Blog_Editor_Nav = ({handlePublishEvent,handleCreateBlogDraft}) => {
 
             <Div $display='flex' $jc='center' $ai='center'>
                 <Navlink to='/'>
-                        <Image  $width='40px' $height='40px' src='logo.png' />    
+                        <Image  $width='40px' $height='40px' src='/logo.png' />    
                 </Navlink>
 
                     <Text $margin='0 0 0 2rem' style={{textTransform:'capitalize'}}>New Blog</Text>

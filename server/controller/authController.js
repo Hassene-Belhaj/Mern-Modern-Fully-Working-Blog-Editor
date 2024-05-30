@@ -70,8 +70,8 @@ const login = AsyncWrapper(async(req,res,next) => {
             new : true ,
          })
   
-          res.cookie('access_token' , token ,{httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
-          res.status(200).json({success : true , msg :'sign in successfully'})
+        res.cookie('access_token' , token , {httpOnly: true , sameSite :'none' , secure: true , maxAge : 72*60*60*1000})
+        res.status(200).json({success : true , msg :'sign in successfully'})
 
     } else {
         return next(createCustomError('Account was creating using Google , Try logging in with Google ',403))
@@ -94,7 +94,7 @@ const singleUser = AsyncWrapper(async(req,res,next) => {
 
 const logOut = AsyncWrapper(async(req,res) => {
     res.clearCookie('access_token' , {httpOnly : true , sameSite :'none' , secure: 'true'})
-    res.status(200).json({success: true , msg:'loug out succesfully'})
+    res.status(200).json({success: true , msg:'log out succesfully'})
 
 })
 

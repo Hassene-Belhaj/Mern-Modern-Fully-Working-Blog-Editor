@@ -39,10 +39,12 @@ const UserPage = () => {
         //   console.log(isLoggedIn?.data?.user.id); // _id from checkuser
 
           const {id : profileID } = useParams()
+          console.log(profileID);
           // get _id
-          console.log(isLoggedIn?.data?.user.id);
+        //   console.log(isLoggedIn?.data?.user.id);
         
         const [profile , setProfile] = useState(profile_data_structure)
+
         const [loading ,setLoading] = useState(true)
         const [blogs ,setBlogs] = useState(null)
         const [spinner ,setSpinner] = useState(false)
@@ -53,8 +55,8 @@ const UserPage = () => {
 
         const {personal_info : {fullname , username , profile_img , bio } , account_info : {total_posts , total_reads} , social_links  , joinedAt , _id } = profile     
 
-       
-        console.log(profile);
+
+        // console.log(user_id);
         
     useEffect(()=>{
         const WindowResize =() => {
@@ -77,6 +79,7 @@ const UserPage = () => {
                 setProfile(data?.resp)
             }
             setProfileLoaded(data?.resp?._id)
+            console.log(data.resp._id);
             handleSearchBlogApiByAuthor({user_id : data?.resp?._id})
             setLoading(true)
         } catch (error) {
@@ -88,11 +91,13 @@ const UserPage = () => {
     const handleSearchBlogApiByAuthor=async({page = 1 , user_id}) => {
         try {
             const  {data} = await axios.post(UrlBlog+'/search_blog', {author : user_id , page})  
+            console.log(user_id);
             setBlogs(data.resp)
             if(!data.resp.length) {
                 setTimeout(() => { setSpinner(false) }, 500)
                 setSpinner(true)
               }
+              console.log(data.resp);
    
         const formateData = await Filter_Pagination_Data({
         state : blogs ,
@@ -112,7 +117,7 @@ const UserPage = () => {
 }
 
     useEffect(()=>{  
-        if(profileID !== profile) {
+        if(profileID !== profileLoaded) {
             setDataBlogsState(true)   
             setBlogs(null)
         }

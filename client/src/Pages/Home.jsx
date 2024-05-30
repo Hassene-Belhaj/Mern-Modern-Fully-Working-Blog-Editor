@@ -13,14 +13,13 @@ import { Filter_Pagination_Data} from '../Utils/Filter_pagination'
 import LoadMoreDataBtn from '../Utils/LoadMoreDataBtn'
 import axios from 'axios'
 import Categories from '../Components/Categories'
+import { useAuthContext } from '../Context/AuthContext'
 
 
 const ArrowIcon = styled(FaArrowTrendUp)`
 `
 
 const Home = () => {
-
- 
   
   const [toggle ,setToggle] = useState(true)
   
@@ -29,8 +28,6 @@ const Home = () => {
   const [spinner , setSpinner] = useState(false)
 
   const [pageState , setPageState] = useState(null)
-
-
 
 
   useEffect(()=>{
@@ -48,11 +45,9 @@ const Home = () => {
     
   },[])
   
-     
   //
 
   axios.defaults.withCredentials = true
-
 
   const handleLatestBlogApi = async ({page=1}) => {
     try { 
@@ -98,7 +93,6 @@ const handleSearchBlogApiByTag =async({page = 1}) => {
 
   } catch (error) {
     console.log(error);
-   
   }
 }
 
@@ -114,6 +108,7 @@ const loadingBlogByTagCategory = (e) => {
 }
 
 
+
 useEffect(()=>{
   if(pageState === null) {
     handleLatestBlogApi({page:1})
@@ -124,13 +119,11 @@ useEffect(()=>{
 
 
 
-const RefScroll =useRef(null)
+const RefScroll = useRef(null)
 
 // useEffect(()=>{
 //  RefScroll.current.scrollIntoView({block : 'end' , behavior : 'smooth'})
 // },[blogs])
-
-
 
 
 return ( 
@@ -197,7 +190,7 @@ return (
               <Section $flex='1' $height='auto' $SM_width='90%' $display='none' $MD_display='flex' 
               $fd='column' $padding='1rem' $borderL='solid 1px rgba(0,0,0,0.2)'>
                 <AnimationWrapper initial={{opacity : 0}} animate={{opacity : 1}} transition={{duration : 0.8}} exit={{opacity : 0}} key={toggle}> 
-                    <Title $fs='1rem' $fw='400'>Stories From  All interest </Title>
+                    <Title $fs='1rem' $fw='400' $padding='1rem 0 0 0'>Stories From  All interest </Title>
                     <Categories loadingBlogByTagCategory={loadingBlogByTagCategory} pageState={pageState}/>
                     
                   <Div>

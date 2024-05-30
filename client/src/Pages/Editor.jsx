@@ -9,6 +9,8 @@ import AnimationWrapper from '../Utils/AnimationWrapper';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { UrlBlog } from '../Utils/Url';
+import { blogStructure } from './BlogPage';
+import LoadingSpinner from '../Utils/LoadingSpinner';
 
 const Editor = () => {
   
@@ -17,38 +19,46 @@ const Editor = () => {
 
     const {isLoggedIn,CheckUserApi} =  useAuthContext()
 
-    const {editorState , setEditorState , blog , setBlog} = useEditorContext()
+    const {editorState , setEditorState , blog , setBlog } = useEditorContext()
 
+    const [loading , setLoading] = useState(true)
+
+    
+
+
+
+    
     axios.defaults.withCredentials = true
     
     const get_single_blog_api = async () => {
       try {
         const {data} = await axios.post(UrlBlog + '/blog' , {blog_id})
         setBlog(data.resp)
+        setLoading(false)
     } catch (error) {
       console.log(error);
     }
   }
 
-
   useEffect(()=>{
   if(!blog_id) {
-    setBlog('')
+    return setLoading(false)
   } else {
     get_single_blog_api()
-  }  
+  } 
   },[])
 
 
-  // console.log(blog);
 
 
 return (
     <Container>
       <AnimationWrapper initial={{ opacity : 0 }} animate={{ opacity : 1 }} exit={{opacity : 0}} 
       transition={{duration : 0.5}} key={editorState}>
-           {editorState === 'editor' ? <Blog_Editor /> : < PublishForm />}
+           {loading ? <LoadingSpinner /> : <>  {editorState === 'editor' ? <Blog_Editor /> : < PublishForm />} </>}
+          
       </AnimationWrapper>
+ 
     </Container>
   )
 }

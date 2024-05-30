@@ -6,8 +6,8 @@ import { MdCloudUpload } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 import { useState } from 'react';
 import LoadingSpinner from '../Utils/LoadingSpinner';
-import { useLocation, useNavigate } from 'react-router';
-import { useEditorContext } from '../Context/EditorContext';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { blogStructure, useEditorContext } from '../Context/EditorContext';
 import axios from 'axios';
 import { PUBLIC_IMAGES, UploadImageUrl, Url, UrlBlog } from '../Utils/Url';
 import { useAuthContext } from '../Context/AuthContext';
@@ -15,8 +15,7 @@ import ReactQuill, { Quill } from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import toast, { Toaster } from 'react-hot-toast';
 import AnimationWrapper from '../Utils/AnimationWrapper';
-import { modules } from '../Utils/React_quill_module';
-
+import { formats, modules } from '../Utils/React_quill_module';
 
 const CloudUpload = styled(MdCloudUpload)`
 `
@@ -26,25 +25,49 @@ cursor: pointer;
 `
 
 const Blog_Editor = () => {
+
+
   
   const {isLoggedIn , CheckUserApi} = useAuthContext()
 
-  const {editorState , setEditorState , blog , blog : { title , desc , banner , content , tags , author} , setBlog , error , setError} = useEditorContext()
+  const {editorState , setEditorState,  blog , blog : { title , desc , banner , content , tags , author} , setBlog , error , setError} = useEditorContext()
 
-  console.log(content);
+  const [quill , setQuill] = useState('')
 
-  // for react-quill 
+
+
+
+const {blog_id} = useParams()
+
+useEffect(()=>{
+setBlog({...blog , content : quill})  
+},[quill])
+
+useEffect(()=>{
+  if(blog_id) {
+    setQuill(content[0])
+  }
+},[blog_id])
+
+
+// edit blog && edit
+  useEffect(()=>{
+  if(blog_id === undefined || null ){
+    return (
+      setBlog(blogStructure)
+    )
+  }
+  },[blog_id])
 
 
   let textLength = 150
-
-  // useEffect(()=>{
-  //     setBlog({...blog , content : contentQuill})
-  // },[contentQuill])   
+ 
 
     const inputRef = useRef()
     
     const navigate = useNavigate()
+
+
     // hidden input & event click
     const handleBannerUpload = (e) => {
        if(banner) {
@@ -100,7 +123,6 @@ const Blog_Editor = () => {
     }
     
 
-
   // draft
   const handleCreateBlogDraft = async (e) => {
     e.preventDefault()
@@ -125,14 +147,6 @@ const Blog_Editor = () => {
   toast.dismiss(ToastLoading)
   toast.success('Saved')
   }
-
-  console.log(content);
-
-
- const handleReactQuill = (value) => {
-  setBlog({...blog , content : value})
- }
-
 
 
   return (
@@ -163,21 +177,22 @@ const Blog_Editor = () => {
            </Div>
 
            <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center' >
-              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none" $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $padding='1rem' $br='7px'  placeholder='Blog Title'  name='title' $outline='none'  value={title} onChange={handleTitleChange} ></TextArea>
+              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none" $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8' $transition='all ease-in-out 0.5s' $padding='1rem' $br='7px'  placeholder='Blog Title'  name='title' $outline='none'  value={title} onChange={handleTitleChange} ></TextArea>
           </Div> 
            
 
           <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />
 
-          <Div $display='flex' $jc='end'>
-             <Text $fs='0.9rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length || 0 } characters left </Text>
+            <Div $display='flex' $jc='end'>
+              {title?.length ===  undefined | 0 ? <Text $fs='0.9rem'>150 characters</Text> :  <Text $fs='0.9rem' $color={textLength - title?.length >= 0 ? '#000' : 'red'} > {textLength - title?.length || 0} characters left </Text>  }
+              
            </Div>
+          
            
 
-           <Div $margin='3rem 0'>
-               <ReactQuill theme='snow' placeholder='Compose an epic'  modules={modules} value={blog.content} onChange={handleReactQuill}  />
+           <Div id='textEditor' $margin='3rem 0'>
+              <ReactQuill theme='snow' placeholder='Compose an epic' modules={modules} value={quill} onChange={setQuill}  />
           </Div> 
-                 
                     
         </Form>
     </Container>

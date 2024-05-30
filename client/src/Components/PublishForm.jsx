@@ -24,16 +24,14 @@ const PublishForm = () => {
    
   console.log(isLoggedIn.data.user.id);
 
-  const {editorState , setEditorState , blog , blog : {title , desc , banner , content , tags , author } , setBlog , error , setError } = useEditorContext()
+  const {editorState , setEditorState , blog , blog : {title , desc , banner , tags , content , author } , setBlog , error , setError } = useEditorContext()
 
   const [tag , setTag] = useState('')
 
+  console.log(tag?.length);
 
   let textLength = 200
   let DescLength = 200
-
-console.log(tags);
-
 
 
   const handleCreateBlogPostApi = async (e) => {
@@ -59,6 +57,7 @@ console.log(tags);
       setTimeout(() => {
          navigate('/')
          setBlog('')   
+         setEditorState('editor')
         }, 1000)
     }
 
@@ -82,20 +81,24 @@ const handleClose = () => {
 const handleKeyDown =(e)=> {
   if(e.keyCode === 13 || e.keyCode === 188 ) {
     e.preventDefault()
-    if(tag.length > 1) {
-      setBlog({...blog  , tags :  [...tags , tag ] })
+    if(tag?.length > 1 && !tags?.includes(tag)) {
+      // setTags([...tags , tag])
+      setBlog({...blog  , tags : [...tags , tag]})
       setTag('')
+
     }
   }
-  if(tags.length >= 11) {
+  if(tags?.length >= 11) {
     e.preventDefault()
     setError('You can add max 10 tags')
-    setBlog({...blog  , tags : [...tags] })
+    // setTags([...tags])
+    setBlog({...blog  , tags : [...tags]})
   }
 }
 
 
-
+// console.log(tags);
+// console.log(blog);
 
   return (
     <Container $padding='2rem' $position='relative' >
@@ -114,7 +117,7 @@ const handleKeyDown =(e)=> {
          {/* <Title $fs='1rem' $fw='500'>Blog Title</Title> */}
 
          <Div $margin='2rem 0 0 0' $width='100%' height='auto'  $border='none' $fs='3rem' $display='flex' $jc='center' $ai='center'  >
-              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'  $padding='1rem' $br='7px' value={title} onChange={e=>setBlog({...blog , title : e.target.value})} ></TextArea>
+              <TextArea  $width='100%' $height='100%'  $fs='1.2rem'  $tt='capitalize' $resize="none"  placeholder='Blog Title'  name='title' $outline='none' $border='2px solid rgba(0,0,0,0)'  $borderF='2px solid #818cf8'  $padding='1rem' $br='7px' value={title} onChange={e=>setBlog({...blog , title : e.target.value})} />
           </Div> 
 
           <hr style={{margin:'0 0 .5rem 0', border:'.5px solid rgba(0,0,0,0.05)'}} />

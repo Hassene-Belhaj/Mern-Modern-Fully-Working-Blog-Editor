@@ -1,7 +1,6 @@
 import React from 'react'
 import { Div, Navlink } from '../Global/GlobalStyle';
-// import { FaYoutube , FaInstagram , FaGithub , FaFacebook ,FaTwitter } from "react-icons/fa"
-import  * as FontAwesome from "react-icons/fa"
+import * as FontAwesome from "react-icons/fa"
 
 
 

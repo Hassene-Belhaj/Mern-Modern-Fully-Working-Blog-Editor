@@ -23,7 +23,7 @@ const App = () => {
   <>
     <GlobalStyleApp/>
      {/* <Test/> */}
-        {location.pathname === '/editor' ? null : <Navbar />}
+        {location.pathname.includes('/editor')  ? null : <Navbar />}
      <Routes> 
         {isLoggedIn !== undefined ? null 
         :

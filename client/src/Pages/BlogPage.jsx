@@ -80,7 +80,7 @@ const BlogPage = () => {
   // console.log(_id);
   // console.log(tags[0]);
   
-  console.log(similarBlogs);
+  // console.log(similarBlogs);
     
     axios.defaults.withCredentials = true
     
@@ -91,10 +91,10 @@ const BlogPage = () => {
         setSpinner(false)
         // console.log(data.resp.tags[0]);
         try {
-          console.log(data.resp.tags[0]);
+          // console.log(data.resp.tags[0]);
           const resp_similar_blogs = await axios.post(UrlBlog+'/search_blog', {tag : data.resp.tags[0] , limit : 6 , eliminate_blog : blog_id} )
           setSimilarBlogs(resp_similar_blogs.data.resp)  ;
-          console.log(resp_similar_blogs.data) ;
+          // console.log(resp_similar_blogs.data) ;
       } catch (error) {
         console.log(error);
       }
